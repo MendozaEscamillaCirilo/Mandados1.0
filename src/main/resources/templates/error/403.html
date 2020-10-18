@@ -3,13 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head th:replace="includes/head"></head>
     <title>Error</title>
 </head>
 <body>
     <center>
-        <h1>Usted no tiene acceso a esto.</h1>
-        <h2>Verifique</h2>
         <img src="imagenes/403.gif" alt="" srcset="">
+        <div class="row">
+            <div class="col col-md-4 col-lg-4 col-sm-4">
+                <form th:action="@{/logout}" method="post">
+                    <button class="btn peach-gradient" type="submit">
+                        CERRAR SESION
+                    </button>
+                </form>
+            </div>
+            <div class="col col-md-4 col-lg-4 col-sm-4">
+                <button class="btn blue-gradient">
+                    <a href="/">PRINCIPAL</a>
+                </button>
+            </div>
+            <div class="col col-md-4 col-lg-4 col-sm-4">
+                <button class="btn lime-gradient">
+                    <a href="/home">HOME</a>
+                </button>
+            </div>
+        </div>
     </center>
 </body>
 </html>

@@ -116,5 +116,43 @@
         <i class="fas fa-th-large"></i>
       </a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="dropdown" href="#">
+        <i class="far fa-user img-circle"></i>
+      </a>
+      <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+        <a class="dropdown-item">
+          <form method="post">
+            <button class="btn peach-gradient" type="submit">
+              <!-- Message Start -->
+              <div class="media">
+                <div class="media-body">
+                  <h3 class="dropdown-item-title">
+                    Mi cuenta
+                  </h3>
+                </div>
+              </div>
+              <!-- Message End -->
+            </button>
+          </form>
+        </a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item">
+          <form th:action="@{/logout}" method="post">
+            <button class="btn peach-gradient" type="submit">
+              <!-- Message Start -->
+              <div class="media">
+                <div class="media-body">
+                  <h3 class="dropdown-item-title">
+                    Cerrar sesion
+                  </h3>
+                </div>
+              </div>
+              <!-- Message End -->
+            </button>
+          </form>
+        </a>
+      </div>
+    </li>
   </ul>
 </nav>
