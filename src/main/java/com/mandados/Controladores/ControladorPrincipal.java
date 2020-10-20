@@ -17,7 +17,7 @@ import com.mandados.Restaurante.IRestauranteService;
 import com.mandados.User.IUserService;
 // import com.mandados.config.AuthorityRepository;
 import com.mandados.config.Passgenerator;
-import com.mandados.config.UserRepository;
+// import com.mandados.config.UserRepository;
 
 // import java.util.List;
 // import java.util.Set;
@@ -36,7 +36,7 @@ public class ControladorPrincipal {
     private IUserService serviceuser;
 
     @Autowired
-    UserRepository userRepository;
+	private EmailService emailService;
     
     @GetMapping("/resreg")
     public String principal(Model model){
@@ -53,54 +53,11 @@ public class ControladorPrincipal {
         Passgenerator ps = new Passgenerator();
         String password = ps.getPassword("password");
         newuserrestaurante.setPassword(password);
-        // List<Authority> nuevaLista = 
-        // AuthorityRepository ar = 
-
-        // List<GrantedAuthority> authorities = newuserrestaurante.getAuthority()
-        // .stream()
-        // .map(Authority -> new SimpleGrantedAuthority(Authority.getAuthority()))
-        // .collect(Collectors.toList());
-        // System.out.println(authorities);
-        // newuserrestaurante.setAuthority(authorities);
-
-        // Authority adminRole = userRepository.findByName("ROLE_ADMIN");
-        // Set<Authority> lista = AuthorityRepository.findByUsername("ROLE_ADMIN");
-        
-        // newuserrestaurante.setAuthority();
         String body = "Estimado usuario, \n  Gracias por contactarnos al correo \n " +
         "Los datos de acceso son: \n user: El correo que usó en el registro.\n " + 
         "contraseña: password";
         emailService.sendEmail(r.getCorreo(), body, "¡¡¡¡GRACIAS!!!!");
         serviceuser.save(newuserrestaurante);
-		return "login";
-	}
-    
-    @Autowired
-	private EmailService emailService;
-
-	@GetMapping("/prueba-email")
-	public String proveEmail(){
-		return "formulario";
-	}
-
-	@RequestMapping(value = "/sendemail")
-	public String sendEmail(String to, String body, String topic){
-		emailService.sendEmail(to, body, topic);
-		// String body = "Estimado usuario, \n  Gracias por contactarnos al correo";
-		// emailService.sendEmail("cirmenes@gmail.com", body, "¡¡¡¡GRACIAS!!!!");
-		// emailService.sendEmail("lilo2017c@gmail.com", body, "¡¡¡¡GRACIAS!!!!");
-		// emailService.sendEmail("contato@cirilomendoza.com", body, "¡¡¡¡GRACIAS!!!!");
 		return "redirect:/";
-	}
-
-	@RequestMapping(value = "/send")
-	public String sendEmailMime(){
-		// emailService.sendEmail(to, body, topic);
-		String body = "Estimado usuario, \n  Gracias por contactarnos al correo";
-		// emailService.sendEmail("cirmenes@gmail.com", body, "¡¡¡¡GRACIAS!!!!");
-		emailService.sendEmail("lilo2017c@gmail.com", body, "¡¡¡¡GRACIAS!!!!");
-		// emailService.sendEmail("contato@cirilomendoza.com", body, "¡¡¡¡GRACIAS!!!!");
-		return "redirect:/";
-	}
-    
+	} 
 }

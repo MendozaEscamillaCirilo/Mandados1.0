@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,34 +43,34 @@
                                                         <form class="form-signin" th:action="@{/register_restaurante}" th:object=${userrestaurante} method="post">
                                                             <div class="md-form">
                                                                 <i class="fas fa-signature prefix grey-text d-flex"></i>
-                                                                <input th:field="*{nombre}" type="text" id="nombre" name="nombre" class="form-control validate">
+                                                                <input th:field="*{nombre}" type="text" id="nombre" name="nombre" class="form-control validate"/>
                                                                 <label for="nombre" class="d-flex">Nombre del restaurante</label>
                                                             </div>
                                                             <div class="md-form">
                                                                 <i class="fas fa-at prefix grey-text d-flex"></i>
-                                                                <input th:field="*{correo}" type="email" id="email" name="email" class="form-control validate">
+                                                                <input th:field="*{correo}" type="email" id="email" name="email" class="form-control validate"/>
                                                                 <label for="email" class="d-flex">Correo electronico</label>
                                                             </div>
                                                             <div class="md-form">
                                                             	<div class="row">
                                                             		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto md-form">
                                                             			<i class="fas fa-street-view prefix grey-text d-flex"></i>
-		                                                                <input th:field="*{calle}" type="text" id="calle" name="calle" class="form-control validate">
+		                                                                <input th:field="*{calle}" type="text" id="calle" name="calle" class="form-control validate"/>
 		                                                                <label for="calle" class="d-flex">Calle</label>
                                                             		</div>
                                                             		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto md-form">
                                                             			<i class="fas fa-street-view prefix grey-text d-flex"></i>
-		                                                                <input th:field="*{colonia}" type="text" id="colonia" name="colonia" class="form-control validate">
+		                                                                <input th:field="*{colonia}" type="text" id="colonia" name="colonia" class="form-control validate"/>
 		                                                                <label for="colonia" class="d-flex">Colonia</label>
                                                             		</div>
                                                             		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto md-form">
 	                                                            		<i class="fas fa-street-view prefix grey-text d-flex"></i>
-		                                                                <input th:field="*{numero_casa}" type="number" id="numerocasa" name="numerocasa" class="form-control validate">
+		                                                                <input th:field="*{numero_casa}" type="number" id="numerocasa" name="numerocasa" class="form-control validate"/>
 		                                                                <label for="numerocasa" class="d-flex">Numero de casa</label>
 	                                                            	</div>
 	                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto md-form">
 	                                                            		<i class="fas fa-street-view prefix grey-text d-flex"></i>
-		                                                                <input th:field="*{referencia_domicilio}" type="text" id="referencia" name="referencia" class="form-control validate">
+		                                                                <input th:field="*{referencia_domicilio}" type="text" id="referencia" name="referencia" class="form-control validate"/>
 		                                                                <label for="referencia" class="d-flex">Referencia del domicilio</label>
 	                                                            	</div>
                                                             	</div>
