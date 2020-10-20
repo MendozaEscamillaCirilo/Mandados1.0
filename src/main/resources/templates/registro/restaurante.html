@@ -26,7 +26,7 @@
                         <div class="mask rgba-black-strong h-100">
                             <div class="container py-5">
                                 <div class="row">
-                                    <div class="col-xl-5 col-lg-6 col-md-10 col-sm-12 mx-auto">
+                                    <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12 mx-auto">
                                         <!-- Rotating card -->
                                         <div class="card-wrapper">
                                             <div id="my-card" class="card card-rotating text-center">
@@ -40,21 +40,40 @@
                                                                 <img src="imagenes/logo.png" alt="Girl in a jacket" height="70">
                                                             </center>
                                                         </div>
-                                                        <form class="form-signin" th:action="@{/register}" method="post">
+                                                        <form class="form-signin" th:action="@{/register_restaurante}" th:object=${userrestaurante} method="post">
+                                                            <div class="md-form">
+                                                                <i class="fas fa-signature prefix grey-text d-flex"></i>
+                                                                <input th:field="*{nombre}" type="text" id="nombre" name="nombre" class="form-control validate">
+                                                                <label for="nombre" class="d-flex">Nombre del restaurante</label>
+                                                            </div>
                                                             <div class="md-form">
                                                                 <i class="fas fa-at prefix grey-text d-flex"></i>
-                                                                <input type="email" id="email" name="email" class="form-control validate">
-                                                                <label for="email" class="d-flex">Correo</label>
+                                                                <input th:field="*{correo}" type="email" id="email" name="email" class="form-control validate">
+                                                                <label for="email" class="d-flex">Correo electronico</label>
                                                             </div>
                                                             <div class="md-form">
-                                                                <i class="fas fa-user prefix grey-text d-flex"></i>
-                                                                <input type="text" id="username" name="username" class="form-control validate">
-                                                                <label for="user" class="d-flex">Crea tu usuario</label>
-                                                            </div>
-                                                            <div class="md-form">
-                                                                <i class="fas fa-lock prefix grey-text d-flex"></i>
-                                                                <input type="password" id="password" name="password" class="form-control validate">
-                                                                <label for="password" class="d-flex">Crea tu contraseña</label>
+                                                            	<div class="row">
+                                                            		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto md-form">
+                                                            			<i class="fas fa-street-view prefix grey-text d-flex"></i>
+		                                                                <input th:field="*{calle}" type="text" id="calle" name="calle" class="form-control validate">
+		                                                                <label for="calle" class="d-flex">Calle</label>
+                                                            		</div>
+                                                            		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto md-form">
+                                                            			<i class="fas fa-street-view prefix grey-text d-flex"></i>
+		                                                                <input th:field="*{colonia}" type="text" id="colonia" name="colonia" class="form-control validate">
+		                                                                <label for="colonia" class="d-flex">Colonia</label>
+                                                            		</div>
+                                                            		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto md-form">
+	                                                            		<i class="fas fa-street-view prefix grey-text d-flex"></i>
+		                                                                <input th:field="*{numero_casa}" type="number" id="numerocasa" name="numerocasa" class="form-control validate">
+		                                                                <label for="numerocasa" class="d-flex">Numero de casa</label>
+	                                                            	</div>
+	                                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto md-form">
+	                                                            		<i class="fas fa-street-view prefix grey-text d-flex"></i>
+		                                                                <input th:field="*{referencia_domicilio}" type="text" id="referencia" name="referencia" class="form-control validate">
+		                                                                <label for="referencia" class="d-flex">Referencia del domicilio</label>
+	                                                            	</div>
+                                                            	</div>
                                                             </div>
                                                             <div class="text-center">
                                                                 <button type="submit" class="btn btn-outline-light">Registrar</button>
@@ -75,15 +94,6 @@
 		<!--/.Mask-->
 	</header>
 	<!--Main Navigation-->
-	<!-- Footer -->
-	<footer class="page-footer font-small unique-color-dark">
-    	<!-- Copyright -->
-		<div class="footer-copyright text-center py-3">© 2020 Copyright:
-			<a href="https://cirilomendoza.com/"> cirilomendoza.com</a>
-		</div>
-		<!-- Copyright -->
-
-	</footer>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<!-- Bootstrap tooltips -->
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
