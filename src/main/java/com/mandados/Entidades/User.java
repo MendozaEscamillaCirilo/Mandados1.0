@@ -9,7 +9,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
-import java.util.Set;
+
+import java.util.List;
+// import java.util.Set;
 
 @Entity
 public class User {
@@ -29,7 +31,7 @@ public class User {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "authorities_users", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "authority_id"))
-    private Set<Authority> authority;
+    private List<Authority> authority;
 
     // Getters y Setters
 
@@ -95,11 +97,11 @@ public class User {
         this.enabled = enabled;
     }
 
-    public Set<Authority> getAuthority() {
+    public List<Authority> getAuthority() {
         return authority;
     }
 
-    public void setAuthority(Set<Authority> authority) {
+    public void setAuthority(List<Authority> authority) {
         this.authority = authority;
     }
     

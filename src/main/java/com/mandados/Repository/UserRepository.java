@@ -1,4 +1,4 @@
-package com.mandados.config;
+package com.mandados.Repository;
 
 import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;

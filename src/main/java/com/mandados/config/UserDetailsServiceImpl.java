@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.mandados.Entidades.Authority;
+import com.mandados.Repository.UserRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
