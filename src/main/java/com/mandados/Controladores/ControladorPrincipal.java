@@ -113,7 +113,7 @@ public class ControladorPrincipal {
     }
     
     private String aleatorio(){
-        char [] chars = "0123456789abcdefghijklmnopqrstuvwxyz".toCharArray();
+        char [] chars = "0123456789ABCDEFGHJKMNPQRSTUVWXYZ".toCharArray();
         int charsLength = chars.length;
         Random random = new Random();
         StringBuffer buffer = new StringBuffer();
