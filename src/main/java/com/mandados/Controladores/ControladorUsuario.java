@@ -18,7 +18,7 @@ public class ControladorUsuario {
     @GetMapping("/resrep")
     public String registroRepartidor(Model model){
     	// model.addAttribute("userrepartidor", new Repartidor());
-        return "/registro/repartidor";
+        return "registro/repartidor";
     }
 
     @PostMapping("/register_repartidor")

@@ -52,7 +52,7 @@ public class ControladorPrincipal {
     @GetMapping("/resreg")
     public String principal(Model model){
     	model.addAttribute("userrestaurante", new Restaurante());
-        return "/registro/restaurante";
+        return "registro/restaurante";
     }
 
     @PostMapping("/register_restaurante")
