@@ -6,31 +6,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.security.core.GrantedAuthority;
-// import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.ui.Model;
 
 import com.mandados.Entidades.Authority;
 import com.mandados.Entidades.Restaurante;
 import com.mandados.Entidades.User;
-// import com.mandados.Repository.AuthorityRepository;
+import com.mandados.Entidades.Repartidor;
 import com.mandados.Repository.AuthorityRepository;
 import com.mandados.Restaurante.IRestauranteService;
+import com.mandados.Repartidor.IRepartidorService;
 import com.mandados.User.IUserService;
-// import com.mandados.Repository.AuthorityRepository;
 import com.mandados.config.Passgenerator;
-// import com.mandados.ReposithoUserRepository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import  java.util.Random;
-
-// import java.util.List;
-// import java.util.Set;
-// import java.util.stream.Collector;
-// import java.util.stream.Collectors;
 import com.mandados.Email.EmailService;
 
 @Controller
@@ -48,6 +38,9 @@ public class ControladorPrincipal {
     
     @Autowired
     private AuthorityRepository authorityRepository;
+
+    @Autowired
+    private IRepartidorService servicerepartidor;
     
     @GetMapping("/resreg")
     public String principal(Model model){
@@ -81,6 +74,41 @@ public class ControladorPrincipal {
         "contraseña: " + generada;
         emailService.sendEmail(r.getCorreo(), body, "¡¡¡¡GRACIAS!!!!");
         serviceuser.save(newuserrestaurante);
+		return "redirect:/";
+    }
+
+    @GetMapping("/resrep")
+    public String registroRepartidor(Model model){
+    	model.addAttribute("userrepartidor", new Repartidor());
+        return "registro/repartidor";
+    }
+
+    @PostMapping("/register_repartidor")
+	public String save(@Validated Repartidor r, Model model){
+        servicerepartidor.save(r);
+        User newuserrepartidor = new User();
+        newuserrepartidor.setUsername(r.getCorreo());
+        newuserrepartidor.setEnabled(true);
+        Passgenerator ps = new Passgenerator();
+        String generada = aleatorio();
+        String password = ps.getPassword(generada);
+        newuserrepartidor.setPassword(password);
+
+        List<Authority> lista = authorityRepository.findAll();
+        ArrayList<Authority> list = new ArrayList<Authority>();
+        for(int i=0;i<lista.size();i++){
+            if(lista.get(i).getAuthority().equals("ROL_REPARTIDOR")){
+                list.add(lista.get(i));
+                // System.out.println("Respuesta => " + lista.get(i).getAuthority());
+            }
+        }
+        newuserrepartidor.setAuthority(list);
+        // // System.out.println("List => " + list);
+        String body = "Estimado usuario, \n  Gracias por contactarnos al correo \n " +
+        "Los datos de acceso son: \n user: El correo que usó en el registro.\n " + 
+        "contraseña: " + generada;
+        emailService.sendEmail(r.getCorreo(), body, "¡¡¡¡GRACIAS!!!!");
+        serviceuser.save(newuserrepartidor);
 		return "redirect:/";
     }
     

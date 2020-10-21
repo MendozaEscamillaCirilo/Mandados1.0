@@ -47,7 +47,15 @@ public class Repartidor {
 		return correo;
 	}
 
-	public void setCorreo(String telefono) {
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
+
+	public String getTelefono() {
+		return correo;
+	}
+
+	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
 
