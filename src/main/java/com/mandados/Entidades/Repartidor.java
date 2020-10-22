@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Repartidor {
@@ -13,18 +14,21 @@ public class Repartidor {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column
+	@Column
+	@NotNull(message = "Debes especificar el nombre")
     private String nombre;
     
-    @Column
+	@Column
+	@NotNull(message = "Debes especificar un correo electronico")
     private String correo;
     
-    @Column
+	@Column
+	@NotNull(message = "Debes especificar el telefono")
     private String telefono;
 
 	@Override
 	public String toString() {
-		return "Restaurante [id=" + id + ", nombre=" + nombre + ", correo=" + correo + ", colonia=" + "]";
+		return "Repartidor [id=" + id + ", nombre=" + nombre + ", correo=" + correo + ", telefono=" + telefono + "]";
 	}
 
 	public Long getId() {
@@ -52,7 +56,7 @@ public class Repartidor {
 	}
 
 	public String getTelefono() {
-		return correo;
+		return telefono;
 	}
 
 	public void setTelefono(String telefono) {

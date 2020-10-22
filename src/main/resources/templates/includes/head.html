@@ -12,6 +12,19 @@
   <link rel="stylesheet" th:href="@{../plugins/daterangepicker/daterangepicker.css}">
   <link rel="stylesheet" th:href="@{../plugins/summernote/summernote-bs4.css}">
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <style>
+    input:invalid {
+      border: 2px dashed red;
+    }
+
+    /* input:invalid:required {
+      background-image: linear-gradient(to right, pink, lightgreen);
+    } */
+
+    input:valid {
+      border: 2px solid black;
+    }
+  </style>
 </head>
 <head th:fragment="head">
   <meta charset="UTF-8">
