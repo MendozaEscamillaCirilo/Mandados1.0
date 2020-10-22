@@ -31,6 +31,7 @@
                                                             <input th:field="*{nombre}" type="text" id="nombre" name="nombre" class="form-control validate"/>
                                                             <label for="nombre" class="d-flex">Nombre</label>
                                                         </div>
+                                                        <div th:if="${correo}" class="alert alert-danger" role="alert">Correo electronico ya registrado</div>
                                                         <div class="md-form">
                                                             <i class="fas fa-at prefix grey-text d-flex"></i>
                                                             <input th:field="*{correo}" type="email" id="email" name="email" class="form-control validate"/>
