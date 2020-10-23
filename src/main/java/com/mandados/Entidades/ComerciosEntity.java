@@ -23,19 +23,18 @@ import javax.persistence.Transient;
 
 // import com.mandados.Entidades.Tipos_comerciosEntity;
 
-
 @Entity
 @Table(name = "Comercios")
 public class ComerciosEntity {
-    @Id
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column
 	private String nombre;
-	
-    @ManyToOne()
-    @JoinColumn(name = "tipo_id")
+
+	@ManyToOne()
+	@JoinColumn(name = "tipo_id")
 	private Tipos_comerciosEntity tipoComercio;
 
 	// @OneToMany(mappedBy = "comercio", fetch = FetchType.LAZY,
@@ -44,5 +43,5 @@ public class ComerciosEntity {
 
 	// @ManyToMany
 	// Set<CategoriasEntity> categoriasComercio;
-	
+
 }
