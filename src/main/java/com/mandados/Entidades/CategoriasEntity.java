@@ -1,6 +1,6 @@
 package com.mandados.Entidades;
 import javax.persistence.*;
-import java.util.Set;
+// import java.util.Set;
 
 
 @Entity
