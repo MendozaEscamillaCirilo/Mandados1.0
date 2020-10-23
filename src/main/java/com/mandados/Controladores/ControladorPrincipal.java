@@ -3,34 +3,41 @@ package com.mandados.Controladores;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 
-import com.mandados.Entidades.Authority;
-// import com.mandados.Entidades.Restaurante;
-import com.mandados.Entidades.User;
-// import com.mandados.Entidades.Repartidor;
-import com.mandados.Repository.AuthorityRepository;
-// import com.mandados.Restaurante.IRestauranteService;
-// import com.mandados.Repartidor.IRepartidorService;
-import com.mandados.User.IUserService;
-import com.mandados.config.Passgenerator;
-
-import java.util.ArrayList;
-import java.util.List;
-import  java.util.Random;
-
-import javax.validation.Valid;
+import com.mandados.Entidades.ComerciosEntity;
+import com.mandados.Entidades.Tipos_comerciosEntity;
+// import com.mandados.Servicios.Comercio.IComercioService;
+// import java.util.Random;
 
 import com.mandados.Email.EmailService;
 
 @Controller
 @RequestMapping
 public class ControladorPrincipal {
+    EmailService emailService;
+    // @Autowired
+    // private IComercioService servicecomercio;
+
+    @GetMapping("/registrocomercio")
+    public String principal(Model model){
+        model.addAttribute("comercio", new ComerciosEntity());
+        model.addAttribute("correo", false);
+        return "registro/comercio";
+    }
+
+    @PostMapping("/registrocomercio")
+	public String save(@Validated ComerciosEntity ce, Model model){
+        if (ce.getNombre().equals("")||(ce.getTipoComercio() instanceof Tipos_comerciosEntity)||ce.getEmail().equals("")){
+            ComerciosEntity co = new ComerciosEntity();
+            co.setNombre(ce.getNombre().equals("")? "" : ce.getNombre());
+            co.setEmail(ce.getEmail().equals("")? "" : ce.getEmail());
+        }
+        return "redirect:/";
+    }
 
     // @Autowired
     // private IRestauranteService servicerestaurante;
@@ -41,8 +48,8 @@ public class ControladorPrincipal {
     // @Autowired
     // private EmailService emailService;
     
-    @Autowired
-    private AuthorityRepository authorityRepository;
+    // @Autowired
+    // private AuthorityRepository authorityRepository;
 
     // @Autowired
     // private IRepartidorService servicerepartidor;
