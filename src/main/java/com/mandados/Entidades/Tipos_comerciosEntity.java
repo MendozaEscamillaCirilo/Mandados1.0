@@ -37,4 +37,5 @@ public class Tipos_comerciosEntity {
 	@OneToMany(mappedBy = "tipoComercio",cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<ComerciosEntity> comercios;
 	
+	
 }

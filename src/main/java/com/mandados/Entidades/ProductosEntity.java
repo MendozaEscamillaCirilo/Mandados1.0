@@ -17,5 +17,8 @@ public class ProductosEntity {
 	@Column
     private Double precio;
 	
+	@ManyToOne()
+	@JoinColumn(name = "categoria_id")
+	private CategoriasEntity categoria;
 	
 }

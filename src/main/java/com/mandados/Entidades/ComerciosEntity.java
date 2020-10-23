@@ -44,4 +44,5 @@ public class ComerciosEntity {
 	// @ManyToMany
 	// Set<CategoriasEntity> categoriasComercio;
 
+	
 }

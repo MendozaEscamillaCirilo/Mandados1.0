@@ -1,6 +1,6 @@
 package com.mandados.Entidades;
 import javax.persistence.*;
-// import java.util.Set;
+import java.util.Set;
 
 
 @Entity
@@ -19,5 +19,8 @@ public class CategoriasEntity {
 	
 	// @ManyToMany
 	// Set<ComerciosEntity> comercios;
-    
+
+	@OneToMany(mappedBy = "categoria",cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<ProductosEntity> productos;
+	
 }
