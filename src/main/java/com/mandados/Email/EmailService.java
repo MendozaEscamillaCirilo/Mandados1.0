@@ -8,7 +8,7 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.mail.SimpleMailMessage;
+// import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -20,16 +20,16 @@ public class EmailService {
 
     public void sendEmail(String to, String body, String topic){
         System.out.println("Sending message");
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        // String contacto = "contacto";
-        simpleMailMessage.setFrom("no-reply@mandados.com");// quien envía
-        // simpleMailMessage.setBcc("lilo2017c@gmail.com");//segundo email a enviar
-        // simpleMailMessage.setCc("lilo-cirilo@hotmail.com");//
-        simpleMailMessage.setTo(to);
-        simpleMailMessage.setSubject(topic);
-        simpleMailMessage.setText(body);
-        javaMailSender.send(simpleMailMessage);
-        System.out.println("Send message...");
+        // SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        // // String contacto = "contacto";
+        // simpleMailMessage.setFrom("no-reply@mandados.com");// quien envía
+        // // simpleMailMessage.setBcc("lilo2017c@gmail.com");//segundo email a enviar
+        // // simpleMailMessage.setCc("lilo-cirilo@hotmail.com");//
+        // simpleMailMessage.setTo(to);
+        // simpleMailMessage.setSubject(topic);
+        // simpleMailMessage.setText(body);
+        // javaMailSender.send(simpleMailMessage);
+        // System.out.println("Send message...");
     }
 	
 	public void sendEmailMime(String to, String body, String topic){

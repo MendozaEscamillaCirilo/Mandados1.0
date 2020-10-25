@@ -2,7 +2,7 @@
 xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="" class="brand-link">
+    <a href="/home" class="brand-link">
       <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
       <span class="brand-text font-weight-light">AdminLTE 3</span>
@@ -25,7 +25,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview menu-open" sec:authorize="hasAnyRole('ROL_ADMIN','ROL_USER')">
+          <li class="nav-item has-treeview menu-open" sec:authorize="hasAuthority('ROL_COMERCIO')">
             <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
@@ -63,7 +63,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
               </p>
             </a>
           </li>
-          <li class="nav-item has-treeview" sec:authorize="hasAnyRole('ROL_ADMIN','ROL_USER')">
+          <li class="nav-item has-treeview" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_USER')">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p>
@@ -117,7 +117,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
               </li>
             </ul>
           </li>
-          <li class="nav-item has-treeview" sec:authorize="hasAnyRole('ROL_ADMIN','ROL_USER')">
+          <li class="nav-item has-treeview" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_USER')">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>
               <p>
@@ -146,7 +146,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
               </li>
             </ul>
           </li>
-          <li class="nav-item has-treeview" sec:authorize="hasAnyRole('ROL_ADMIN','ROL_USER')">
+          <li class="nav-item has-treeview" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_USER')">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tree"></i>
               <p>
@@ -205,7 +205,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
               </li>
             </ul>
           </li>
-          <li class="nav-item has-treeview" sec:authorize="hasAnyRole('ROL_ADMIN','ROL_USER')">
+          <li class="nav-item has-treeview" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_USER')">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-edit"></i>
               <p>
@@ -240,7 +240,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
               </li>
             </ul>
           </li>
-          <li class="nav-item has-treeview" sec:authorize="hasAnyRole('ROL_REPARTIDOR','ROL_RESTAURANTE')">
+          <li class="nav-item has-treeview" sec:authorize="hasAnyAuthority('ROL_REPARTIDOR','ROL_RESTAURANTE')">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-table"></i>
               <p>
@@ -269,7 +269,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
               </li>
             </ul>
           </li>
-          <li class="nav-header" sec:authorize="hasAnyRole('ROL_ADMIN','ROL_USER')">EXAMPLES</li>
+          <li class="nav-header" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_USER')">EXAMPLES</li>
           <li class="nav-item">
             <a href="" class="nav-link">
               <i class="nav-icon far fa-calendar-alt"></i>
@@ -287,7 +287,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
               </p>
             </a>
           </li>
-          <li class="nav-item has-treeview" sec:authorize="hasAnyRole('ROL_ADMIN','ROL_USER')">
+          <li class="nav-item has-treeview" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_USER')">
             <a href="#" class="nav-link">
               <i class="nav-icon far fa-envelope"></i>
               <p>
@@ -316,7 +316,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
               </li>
             </ul>
           </li>
-          <li class="nav-item has-treeview" sec:authorize="hasAnyRole('ROL_ADMIN','ROL_USER')">
+          <li class="nav-item has-treeview" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_USER')">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
               <p>
@@ -375,7 +375,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
               </li>
             </ul>
           </li>
-          <li class="nav-item has-treeview" sec:authorize="hasAnyRole('ROL_ADMIN','ROL_USER')">
+          <li class="nav-item has-treeview" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_USER')">
             <a href="#" class="nav-link">
               <i class="nav-icon far fa-plus-square"></i>
               <p>
@@ -465,14 +465,14 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
               <p>Documentation</p>
             </a>
           </li>
-          <li class="nav-header" sec:authorize="hasAnyRole('ROL_ADMIN','ROL_USER')">MULTI LEVEL EXAMPLE</li>
-          <li class="nav-item" sec:authorize="hasAnyRole('ROL_ADMIN','ROL_USER')">
+          <li class="nav-header" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_USER')">MULTI LEVEL EXAMPLE</li>
+          <li class="nav-item" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_USER')">
             <a href="#" class="nav-link">
               <i class="fas fa-circle nav-icon"></i>
               <p>Level 1</p>
             </a>
           </li>
-          <li class="nav-item has-treeview" sec:authorize="hasAnyRole('ROL_ADMIN','ROL_USER')">
+          <li class="nav-item has-treeview" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_USER')">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-circle"></i>
               <p>
@@ -530,20 +530,20 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
               <p>Level 1</p>
             </a>
           </li>
-          <li class="nav-header" sec:authorize="hasAnyRole('ROL_ADMIN','ROL_USER')">LABELS</li>
-          <li class="nav-item" sec:authorize="hasAnyRole('ROL_ADMIN','ROL_USER')">
+          <li class="nav-header" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_USER')">LABELS</li>
+          <li class="nav-item" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_USER')">
             <a href="#" class="nav-link">
               <i class="nav-icon far fa-circle text-danger"></i>
               <p class="text">Important</p>
             </a>
           </li>
-          <li class="nav-item" sec:authorize="hasAnyRole('ROL_ADMIN','ROL_USER')">
+          <li class="nav-item" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_USER')">
             <a href="#" class="nav-link">
               <i class="nav-icon far fa-circle text-warning"></i>
               <p>Warning</p>
             </a>
           </li>
-          <li class="nav-item" sec:authorize="hasRole('ROL_RESTAURANTE')">
+          <li class="nav-item" sec:authorize="hasAuthority('ROL_RESTAURANTE')">
             <a href="#" class="nav-link">
               <i class="nav-icon far fa-circle text-info"></i>
               <p>Informational</p>

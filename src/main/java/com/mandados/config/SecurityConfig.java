@@ -14,9 +14,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {			
         http.authorizeRequests()
-        .antMatchers("/home").authenticated()
-        .antMatchers("/regrep").permitAll()
-        .antMatchers("/resres").permitAll()
+        .antMatchers("/home*").authenticated()
+        .antMatchers("/editarusuario*").authenticated()
         .antMatchers("/**", "/logout").permitAll()        
         .anyRequest().authenticated()
         .and()

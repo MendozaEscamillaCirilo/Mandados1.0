@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 public class Tipos_comerciosEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 
 	@Column 
 	private String nombre;
@@ -25,11 +25,11 @@ public class Tipos_comerciosEntity {
 	@OneToMany(mappedBy = "tipoComercio",cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<ComerciosEntity> comercios;
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -56,6 +56,10 @@ public class Tipos_comerciosEntity {
 	public void setComercios(Set<ComerciosEntity> comercios) {
 		this.comercios = comercios;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Tipos_comerciosEntity [descripcion=" + descripcion + ", id=" + id
+				+ ", nombre=" + nombre + "]";
+	}
 }

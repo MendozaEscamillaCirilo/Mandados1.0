@@ -1,4 +1,4 @@
-package com.mandados.User;
+package com.mandados.Servicios.User;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

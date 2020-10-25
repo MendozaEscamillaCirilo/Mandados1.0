@@ -58,5 +58,11 @@ public class ComerciosEntity {
 		this.email = email;
 	}
 
+	@Override
+	public String toString() {
+		return "ComerciosEntity [email=" + email + ", id=" + id + ", nombre=" + nombre + ", tipoComercio="
+				+ tipoComercio + "]";
+	}
+
 	
 }
