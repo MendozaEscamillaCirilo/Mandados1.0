@@ -1,5 +1,5 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<title>Roles</title>
+<title>Comercios</title>
 <div th:replace="includes/head::home"></div>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
@@ -8,26 +8,32 @@
         <div class="content-wrapper">
             <div class="card card-rotating bg-gradient-light">
                 <div class="card-header">
-                  <h3 class="card-title">ROLES(AUTHORITIES)</h3>
+                  <h3 class="card-title">COMERCIOS</h3>
                 </div>
                 <div class="card-body">
                   <table id="tabla1" class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                      <th>authority</th>
+                      <th>nombre</th>
+                      <th>email</th>
+                      <th>tipo comercio</th>
                     </tr>
                     </thead>
                     <tbody>
-                        <tr th:if="${roles.empty}">
-                            <td colspan="2"> No hay roles registrados </td>
+                        <tr th:if="${comercios.empty}">
+                            <td colspan="2"> No hay comercios registrados </td>
                         </tr>
-                        <tr th:each="rol :${roles}">
-                            <td><span th:text="${rol.authority}"> Authority </span></td>
+                        <tr th:each="comercio :${comercios}">
+                            <td><span th:text="${comercio.nombre}"> Authority </span></td>
+                            <td><span th:text="${comercio.email}"> Authority </span></td>
+                            <td><span th:text="${comercio.tipoComercio.nombre}"> Authority </span></td>
                         </tr>
                     </tbody>
                     <tfoot>
                     <tr>
-                      <th>authority</th>
+                        <th>nombre</th>
+                        <th>email</th>
+                        <th>tipo comercio</th>
                     </tr>
                     </tfoot>
                   </table>

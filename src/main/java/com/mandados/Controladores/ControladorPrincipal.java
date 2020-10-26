@@ -18,6 +18,9 @@ import com.mandados.Entidades.ComerciosEntity;
 import com.mandados.Entidades.User;
 import com.mandados.Repository.TipoComercioRepository;
 import com.mandados.Repository.AuthorityRepository;
+import com.mandados.Repository.PedidoRepository;
+import com.mandados.Repository.ProductoRepository;
+import com.mandados.Repository.RepartidorRepository;
 import com.mandados.Servicios.Comercio.IComercioService;
 import com.mandados.Servicios.User.IUserService;
 import com.mandados.config.Passgenerator;
@@ -35,6 +38,12 @@ public class ControladorPrincipal {
     private TipoComercioRepository tipocomerciorepository;
     @Autowired
     private AuthorityRepository authorityRepository;
+    @Autowired
+    private RepartidorRepository repartidorRepository;
+    @Autowired
+    private PedidoRepository pedidorepository;
+    @Autowired
+    private ProductoRepository productorepository;
     @Autowired
     private IUserService serviceuser;
 
@@ -119,5 +128,26 @@ public class ControladorPrincipal {
         simpleMailMessage.setText(body);
         javaMailSender.send(simpleMailMessage);
         System.out.println("Send message...");
+    }
+
+    @GetMapping("/listarepartidor")
+    public String listarrepartidor(Model model) {
+        model.addAttribute("repartidores", repartidorRepository.findAll());
+        return "listar/repartidor";	    
+    }
+    @GetMapping("/listaorden")
+    public String listarorden(Model model) {
+        model.addAttribute("pedidos", pedidorepository.findAll());
+        return "listar/orden";	    
+    }
+    @GetMapping("/listaproducto")
+    public String listarproducto(Model model) {
+        model.addAttribute("productos", productorepository.findAll());
+        return "listar/producto";	    
+    }
+    @GetMapping("/listacatalogo")
+    public String listarcatalogo(Model model) {
+        // model.addAttribute("comercios", comerciorepository.findAll());
+        return "listar/carta";	    
     }
 }

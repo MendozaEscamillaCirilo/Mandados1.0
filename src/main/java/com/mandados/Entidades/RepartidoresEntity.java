@@ -9,7 +9,7 @@ public class RepartidoresEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
     @Column
-	private String nombres;
+	private String nombre;
 	@Column
 	private String primer_apellido;
 	@Column

@@ -35,13 +35,19 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="" class="nav-link">
+                <a th:href="@{/listacomercio}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>TODOS</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a th:href="@{/listarestaurante}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>RESTAURANTE</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="" class="nav-link">
+                <a th:href="@{/listatienda}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>TIENDA</p>
                 </a>
@@ -49,15 +55,15 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
             </ul>
           </li>
           <li class="nav-item" sec:authorize="hasAuthority('ROL_ADMIN')">
-            <a href="" class="nav-link">
+            <a th:href="@{/listarepartidor}" class="nav-link">
               <i class="nav-icon fas fa-motorcycle"></i>
               <p>
                 REPARTIDOR
               </p>
             </a>
           </li>
-          <li class="nav-item" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_COMERCIO')">
-            <a href="" class="nav-link">
+          <li class="nav-item" sec:authorize="hasAuthority('ROL_ADMIN')">
+            <a th:href="@{/listaorden}" class="nav-link">
               <i class="nav-icon fas fa-shopify"></i>
               <p>
                 ORDEN
@@ -65,7 +71,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
             </a>
           </li>
           <li class="nav-item" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_COMERCIO')">
-            <a href="" class="nav-link">
+            <a th:href="@{/listaproducto}" class="nav-link">
               <i class="nav-icon fas fa-dice-one"></i>
               <p>
                 PRODUCTO
@@ -73,7 +79,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
             </a>
           </li>
           <li class="nav-item" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_COMERCIO')">
-            <a href="" class="nav-link">
+            <a th:href="@{/listacatalogo}" class="nav-link">
               <i class="nav-icon fas fa-object-group"></i>
               <p>
                 CARTA/CATALOGO
