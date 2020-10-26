@@ -25,7 +25,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview menu-open" sec:authorize="hasAnyAuthority('ROL_COMERCIO','ROL_ADMIN')">
+          <li class="nav-item has-treeview menu-open" sec:authorize="hasAuthority('ROL_ADMIN')">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-building"></i>
               <p>
@@ -56,7 +56,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
               </p>
             </a>
           </li>
-          <li class="nav-item" sec:authorize="hasAuthority('ROL_ADMIN')">
+          <li class="nav-item" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_COMERCIO')">
             <a href="" class="nav-link">
               <i class="nav-icon fas fa-shopify"></i>
               <p>
@@ -64,7 +64,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
               </p>
             </a>
           </li>
-          <li class="nav-item" sec:authorize="hasAuthority('ROL_ADMIN')">
+          <li class="nav-item" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_COMERCIO')">
             <a href="" class="nav-link">
               <i class="nav-icon fas fa-dice-one"></i>
               <p>
@@ -72,11 +72,27 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
               </p>
             </a>
           </li>
-          <li class="nav-item" sec:authorize="hasAuthority('ROL_ADMIN')">
+          <li class="nav-item" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_COMERCIO')">
             <a href="" class="nav-link">
               <i class="nav-icon fas fa-object-group"></i>
               <p>
                 CARTA/CATALOGO
+              </p>
+            </a>
+          </li>
+          <li class="nav-item" sec:authorize="hasAuthority('ROL_ADMIN')">
+            <a href="/usuarios" class="nav-link">
+              <i class="nav-icon fas fa-object-group"></i>
+              <p>
+                USUARIOS
+              </p>
+            </a>
+          </li>
+          <li class="nav-item" sec:authorize="hasAuthority('ROL_ADMIN')">
+            <a href="/roles" class="nav-link">
+              <i class="nav-icon fas fa-object-group"></i>
+              <p>
+                ROLES
               </p>
             </a>
           </li>

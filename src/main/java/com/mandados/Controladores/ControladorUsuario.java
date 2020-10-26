@@ -3,6 +3,7 @@ package com.mandados.Controladores;
 import java.util.Optional;
 
 import com.mandados.Entidades.User;
+import com.mandados.Repository.AuthorityRepository;
 import com.mandados.Repository.UserRepository;
 import com.mandados.Servicios.User.IUserService;
 import com.mandados.config.Passgenerator;
@@ -25,6 +26,8 @@ public class ControladorUsuario {
     private JavaMailSender javaMailSender;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private AuthorityRepository authorityRepository;
     @Autowired
     private IUserService serviceuser;
     @GetMapping("/editarusuario")
@@ -58,5 +61,16 @@ public class ControladorUsuario {
         simpleMailMessage.setText(body);
         javaMailSender.send(simpleMailMessage);
         System.out.println("Send message...");
+    }
+
+    @GetMapping("/usuarios")
+    public String listarusuario(Model model) {
+        model.addAttribute("usuarios", userRepository.findAll());
+        return "listar/usuario";	    
+    }
+    @GetMapping("/roles")
+    public String listarrol(Model model) {
+        model.addAttribute("roles", authorityRepository.findAll());
+        return "listar/authority";
     }
 }
