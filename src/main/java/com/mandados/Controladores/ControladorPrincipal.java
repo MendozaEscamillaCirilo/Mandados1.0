@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.mandados.Entidades.Authority;
 import com.mandados.Entidades.ComerciosEntity;
+import com.mandados.Entidades.SucursalesEntity;
 import com.mandados.Entidades.User;
 import com.mandados.Repository.TipoComercioRepository;
 import com.mandados.Repository.AuthorityRepository;
@@ -22,6 +23,7 @@ import com.mandados.Repository.PedidoRepository;
 import com.mandados.Repository.ProductoRepository;
 import com.mandados.Repository.RepartidorRepository;
 import com.mandados.Servicios.Comercio.IComercioService;
+import com.mandados.Servicios.Sucursal.ISucursalService;
 import com.mandados.Servicios.User.IUserService;
 import com.mandados.config.Passgenerator;
 
@@ -46,23 +48,34 @@ public class ControladorPrincipal {
     private ProductoRepository productorepository;
     @Autowired
     private IUserService serviceuser;
+    @Autowired
+    private ISucursalService sucursalservice;
 
     @GetMapping("/registrocomercio")
     public String principal(Model model){
         model.addAttribute("comercio", new ComerciosEntity());
-        System.out.println(tipocomerciorepository.findAll());
+        model.addAttribute("sucursal", new SucursalesEntity());
+        // System.out.println(tipocomerciorepository.findAll());
         model.addAttribute("tipocomercio",tipocomerciorepository.findAll());
         return "registro/comercios";
     }
 
     @PostMapping("/registrocomercio")
-    public String guardar(@Validated ComerciosEntity comercio, ModelMap model){
+    public String guardar(@Validated ComerciosEntity comercio,@Validated SucursalesEntity sucursalesEntity, ModelMap model){
         if (comercio.getNombre().equals("")||comercio.getEmail().equals("")){
             ComerciosEntity co = new ComerciosEntity();
             co.setNombre(comercio.getNombre().equals("")? "" : comercio.getNombre());
             co.setEmail(comercio.getEmail().equals("")? "" : comercio.getEmail());
             model.addAttribute("comercio", co);
             model.addAttribute("tipocomercio",tipocomerciorepository.findAll());
+            return "registro/comercios";
+        }
+        // System.out.println(sucursalesEntity);
+        if(!sucursalesEntity.getCodigopostal().equals("68050")){
+            model.addAttribute("comercio", comercio);
+            model.addAttribute("sucursal", sucursalesEntity);
+            model.addAttribute("tipocomercio",tipocomerciorepository.findAll());
+            model.addAttribute("codigopostalmal", true);
             return "registro/comercios";
         }
         try{
@@ -83,8 +96,22 @@ public class ControladorPrincipal {
             }
             newuser.setAuthority(list);
             comercio.setTipoComercio(comercio.getTipoComercio()==null?tipocomerciorepository.findByNombre("RESTAURANTE"):comercio.getTipoComercio());
-            serviceuser.save(newuser);
-            servicecomercio.save(comercio);
+            sucursalesEntity.setNombre(comercio.getNombre());
+            sucursalesEntity.setEmail(comercio.getEmail());
+            
+            
+            try {
+                sucursalservice.save(sucursalesEntity);
+                serviceuser.save(newuser);
+                servicecomercio.save(comercio);
+            } catch (Exception e) {
+                System.out.println("ERROR AL REGISTRAR LA SUCURSAL");
+                System.out.println(e);
+                model.addAttribute("comercio", new ComerciosEntity());
+                model.addAttribute("sucursal", new SucursalesEntity());
+                model.addAttribute("tipocomercio",tipocomerciorepository.findAll());
+                return "registro/comercios";
+            }
             try {
                 System.out.println(comercio.getEmail());
                 System.out.println(generada);
