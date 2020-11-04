@@ -21,7 +21,7 @@
                     </thead>
                     <tbody>
                         <tr th:if="${comercios.empty}">
-                            <td colspan="2"> No hay comercios registrados </td>
+                            <td colspan="3"> No hay comercios registrados </td>
                         </tr>
                         <tr th:each="comercio :${comercios}">
                             <td><span th:text="${comercio.nombre}"> Authority </span></td>

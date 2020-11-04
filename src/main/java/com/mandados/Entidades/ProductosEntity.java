@@ -20,5 +20,60 @@ public class ProductosEntity {
 	@ManyToOne()
 	@JoinColumn(name = "categoria_id")
 	private CategoriasEntity categoria;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getContenido() {
+		return contenido;
+	}
+
+	public void setContenido(String contenido) {
+		this.contenido = contenido;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public Double getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(Double precio) {
+		this.precio = precio;
+	}
+
+	public CategoriasEntity getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(CategoriasEntity categoria) {
+		this.categoria = categoria;
+	}
+
+	@Override
+	public String toString() {
+		return "ProductosEntity [categoria=" + categoria + ", contenido=" + contenido + ", descripcion=" + descripcion
+				+ ", id=" + id + ", nombre=" + nombre + ", precio=" + precio + "]";
+	}
+	
 	
 }

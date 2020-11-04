@@ -87,18 +87,18 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
             </a>
           </li>
           <li class="nav-item" sec:authorize="hasAuthority('ROL_ADMIN')">
-            <a href="/usuarios" class="nav-link">
-              <i class="nav-icon fas fa-object-group"></i>
-              <p>
-                USUARIOS
-              </p>
-            </a>
-          </li>
-          <li class="nav-item" sec:authorize="hasAuthority('ROL_ADMIN')">
             <a href="/roles" class="nav-link">
               <i class="nav-icon fas fa-object-group"></i>
               <p>
                 ROLES
+              </p>
+            </a>
+          </li>
+          <li class="nav-item" sec:authorize="hasAuthority('ROL_ADMIN')">
+            <a href="/usuarios" class="nav-link">
+              <i class="nav-icon fas fa-object-group"></i>
+              <p>
+                USUARIOS
               </p>
             </a>
           </li>

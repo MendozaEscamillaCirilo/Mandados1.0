@@ -30,7 +30,7 @@
                                                     <input th:field="*{email}" type="email" class="form-control validate" id="exampleInputEmail1" placeholder="Correo electronico del comercio" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <select th:field="*{tipoComercio}" class="form-control" >
+                                                    <select th:field="*{tipoComercio}" data-placeholder="Selecciona rol" class="form-control validate">
                                                         <option th:each="tipo :${tipocomercio}" th:value="${tipo.id}" th:text="${tipo.nombre}"></option>
                                                     </select>
                                                 </div>
@@ -58,7 +58,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input th:field="*{telefono}" type="tel" class="form-control validate" id="telefono" placeholder="Numero telefonico del comercio" required>
+                                                    <input th:field="*{telefono}" type="tel" class="form-control validate" data-inputmask='"mask": "(999) 999-9999"' data-mask placeholder="Numero telefonico del comercio" required>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -83,6 +83,7 @@
     </section>
 </div>
 <div th:replace="includes/footer::script2"></div>
+<script src="plugins/select2/js/select2.full.min.js"></script>
 <script>
     (function() {
     'use strict';
