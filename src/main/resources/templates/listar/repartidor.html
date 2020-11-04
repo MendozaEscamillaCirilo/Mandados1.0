@@ -17,36 +17,36 @@
                     </ul>
                   </div>
                 </div>
-                <div class="card-body">
-                  <table id="tabla1" class="table table-bordered table-striped">
+                <div class="card-body table-responsive p-0" style="height: 300px;">
+                  <table class="table table-bordered table-striped">
                     <thead>
-                    <tr>
+                      <tr>
                         <th>nombre</th>
-                        <th>primer_apellido</th>
-                        <th>segundo_apellido</th>
                         <th>calle</th>
                         <th>numero</th>
                         <th>colonia</th>
                         <th>municipio</th>
                         <th>telefono</th>
                         <th>email</th>
-                    </tr>
+                      </tr>
                     </thead>
                     <tbody>
-                        <tr th:if="${repartidores.empty}">
-                            <td colspan="9"> No hay repartidores registrados </td>
-                        </tr>
-                        <tr th:each="r :${repartidores}">
-                            <td><span th:text="${r.nombre}"> Authority </span></td>
-                            <td><span th:text="${r.primer_apellido}"> Authority </span></td>
-                            <td><span th:text="${r.segundo_apellido}"> Authority </span></td>
-                            <td><span th:text="${r.calle}"> Authority </span></td>
-                            <td><span th:text="${r.numero}"> Authority </span></td>
-                            <td><span th:text="${r.colonia}"> Authority </span></td>
-                            <td><span th:text="${r.municipio}"> Authority </span></td>
-                            <td><span th:text="${r.telefono}"> Authority </span></td>
-                            <td><span th:text="${r.email}"> Authority </span></td>
-                        </tr>
+                      <tr th:if="${repartidores.empty}">
+                        <td colspan="9"> No hay repartidores registrados </td>
+                      </tr>
+                      <tr th:each="r :${repartidores}">
+                        <td>
+                          <span th:text="${r.nombre}"> Authority </span>
+                          <span th:text="${r.primer_apellido}"> Authority </span>
+                          <span th:text="${r.segundo_apellido}"> Authority </span>
+                        </td>
+                        <td><span th:text="${r.calle}"> Authority </span></td>
+                        <td><span th:text="${r.numero}"> Authority </span></td>
+                        <td><span th:text="${r.colonia}"> Authority </span></td>
+                        <td><span th:text="${r.municipio}"> Authority </span></td>
+                        <td><span th:text="${r.telefono}"> Authority </span></td>
+                        <td><span th:text="${r.email}"> Authority </span></td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
@@ -112,46 +112,5 @@
         <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
         <div th:replace="includes/footer::home"></div>
     </div>
-    <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-    <script src="../../plugins/moment/moment.min.js"></script>
-    <script src="../../plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
-    <script>
-        $(function () {
-          $('[data-mask]').inputmask();
-          $("#tabla1").DataTable({
-            "responsive": true,
-            "autoWidth": false,
-          });
-          $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": falsae,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
-          });
-        });
-    </script>
-    <script>
-      (function() {
-      'use strict';
-      window.addEventListener('load', function() {
-      var forms = document.getElementsByClassName('form-signin');
-      var validation = Array.prototype.filter.call(forms, function(form) {
-      form.addEventListener('submit', function(event) {
-      if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-      }
-      form.classList.add('was-validated');
-      }, false);
-      });
-      }, false);
-      })();
-    </script>
 </body>
 </html>

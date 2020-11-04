@@ -25,7 +25,7 @@ import com.mandados.Repository.AuthorityRepository;
 // import com.mandados.Repository.CategoriaRepository;
 import com.mandados.Repository.ProductoRepository;
 import com.mandados.Repository.RepartidorRepository;
-import com.mandados.Servicios.Authorities.IAuthorityService;
+// import com.mandados.Servicios.Authorities.IAuthorityService;
 import com.mandados.Servicios.Comercio.IComercioService;
 import com.mandados.Servicios.Producto.IProductoService;
 import com.mandados.Servicios.Repartidor.IRepartidorService;
@@ -50,8 +50,8 @@ public class ControladorPrincipal {
     private RepartidorRepository repartidorRepository;
     @Autowired
     private TipoComercioRepository tipocomerciorepository;
-    @Autowired
-    private IAuthorityService authorityservice;
+    // @Autowired
+    // private IAuthorityService authorityservice;
     @Autowired
     private IComercioService servicecomercio;
     @Autowired
