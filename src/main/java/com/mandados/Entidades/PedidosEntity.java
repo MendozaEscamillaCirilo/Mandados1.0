@@ -1,5 +1,6 @@
 package com.mandados.Entidades;
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "Pedidos")
@@ -9,15 +10,36 @@ public class PedidosEntity {
     private Long id;
     
     @Column
-    private String fecha;
+    private java.sql.Date fecha;
     @Column
-    private String hora_pedido;
+    private java.sql.Time hora_pedido;
     @Column
-    private String hora_recoleeccion;
+    private java.sql.Time hora_recoleeccion;
     @Column
-    private String hora_entrega;
+    private java.sql.Time hora_entrega;
     @Column
     private Double total;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "Pedidos_Productos",
+            joinColumns = {@JoinColumn(name = "pedido_id")},
+            inverseJoinColumns = {@JoinColumn(name = "producto_id")}
+    )
+    private Set<ProductosEntity> productos;
+
+    @ManyToOne()
+	@JoinColumn(name = "destino_id")
+    private DestinosEntity destino;
+
+    @ManyToOne()
+	@JoinColumn(name = "repartidor_id")
+    private RepartidoresEntity repartidor;
+    
+    @ManyToOne()
+	@JoinColumn(name = "user_id")
+    private User operador;
+    
 
     public Long getId() {
         return id;
@@ -27,35 +49,35 @@ public class PedidosEntity {
         this.id = id;
     }
 
-    public String getFecha() {
+    public java.sql.Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(java.sql.Date fecha) {
         this.fecha = fecha;
     }
 
-    public String getHora_pedido() {
+    public java.sql.Time getHora_pedido() {
         return hora_pedido;
     }
 
-    public void setHora_pedido(String hora_pedido) {
+    public void setHora_pedido(java.sql.Time hora_pedido) {
         this.hora_pedido = hora_pedido;
     }
 
-    public String getHora_recoleeccion() {
+    public java.sql.Time getHora_recoleeccion() {
         return hora_recoleeccion;
     }
 
-    public void setHora_recoleeccion(String hora_recoleeccion) {
+    public void setHora_recoleeccion(java.sql.Time hora_recoleeccion) {
         this.hora_recoleeccion = hora_recoleeccion;
     }
 
-    public String getHora_entrega() {
+    public java.sql.Time getHora_entrega() {
         return hora_entrega;
     }
 
-    public void setHora_entrega(String hora_entrega) {
+    public void setHora_entrega(java.sql.Time hora_entrega) {
         this.hora_entrega = hora_entrega;
     }
 
@@ -67,10 +89,54 @@ public class PedidosEntity {
         this.total = total;
     }
 
-    @Override
-    public String toString() {
-        return "PedidosEntity [fecha=" + fecha + ", hora_entrega=" + hora_entrega + ", hora_pedido=" + hora_pedido
-                + ", hora_recoleeccion=" + hora_recoleeccion + ", id=" + id + ", total=" + total + "]";
+    public Set<ProductosEntity> getProductos() {
+        return productos;
     }
+
+    public void setProductos(Set<ProductosEntity> productos) {
+        this.productos = productos;
+    }
+
+    public DestinosEntity getDestino() {
+        return destino;
+    }
+
+    public void setDestino(DestinosEntity destino) {
+        this.destino = destino;
+    }
+
+    public RepartidoresEntity getRepartidores() {
+        return repartidor;
+    }
+
+    public void setRepartidores(RepartidoresEntity repartidor) {
+        this.repartidor = repartidor;
+    }
+
+
+	@Override
+	public String toString() {
+		return "PedidosEntity [destino=" + destino + ", fecha=" + fecha + ", hora_entrega=" + hora_entrega
+				+ ", hora_pedido=" + hora_pedido + ", hora_recoleeccion=" + hora_recoleeccion + ", id=" + id
+				+ ", operador=" + operador + ", productos=" + productos + ", repartidor=" + repartidor + ", total="
+				+ total + "]";
+	}
+
+    public RepartidoresEntity getRepartidor() {
+        return repartidor;
+    }
+
+    public void setRepartidor(RepartidoresEntity repartidor) {
+        this.repartidor = repartidor;
+    }
+
+    public User getOperador() {
+        return operador;
+    }
+
+    public void setOperador(User operador) {
+        this.operador = operador;
+    }
+
 
 }

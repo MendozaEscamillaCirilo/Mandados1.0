@@ -74,6 +74,7 @@ public class ProductosEntity {
 		return "ProductosEntity [categoria=" + categoria + ", contenido=" + contenido + ", descripcion=" + descripcion
 				+ ", id=" + id + ", nombre=" + nombre + ", precio=" + precio + "]";
 	}
-	
+
+
 	
 }

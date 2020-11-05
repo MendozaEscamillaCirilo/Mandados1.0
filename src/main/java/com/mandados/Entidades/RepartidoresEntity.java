@@ -1,6 +1,6 @@
 package com.mandados.Entidades;
 import javax.persistence.*;
-
+import java.util.Set;
 
 @Entity
 @Table(name = "Repartidores")
@@ -26,6 +26,9 @@ public class RepartidoresEntity {
     private String telefono;
     @Column
     private String email;
+
+    @OneToMany(mappedBy = "repartidor",cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<PedidosEntity> pedidos;
 
     public Long getId() {
         return id;
@@ -107,13 +110,20 @@ public class RepartidoresEntity {
         this.email = email;
     }
 
-    @Override
-    public String toString() {
-        return "RepartidoresEntity [calle=" + calle + ", colonia=" + colonia + ", email=" + email + ", id=" + id
-                + ", municipio=" + municipio + ", nombre=" + nombre + ", numero=" + numero + ", primer_apellido="
-                + primer_apellido + ", segundo_apellido=" + segundo_apellido + ", telefono=" + telefono + "]";
+    public Set<PedidosEntity> getPedidos() {
+        return pedidos;
     }
 
-    
+    public void setPedidos(Set<PedidosEntity> pedidos) {
+        this.pedidos = pedidos;
+    }
+
+	@Override
+	public String toString() {
+		return "RepartidoresEntity [calle=" + calle + ", colonia=" + colonia + ", email=" + email + ", id=" + id
+				+ ", municipio=" + municipio + ", nombre=" + nombre + ", numero=" + numero + ", pedidos=" + pedidos
+				+ ", primer_apellido=" + primer_apellido + ", segundo_apellido=" + segundo_apellido + ", telefono="
+				+ telefono + "]";
+	}
 
 }

@@ -22,7 +22,7 @@ public class Tipos_comerciosEntity {
 	@Column
 	private String descripcion;
 
-	@OneToMany(mappedBy = "tipoComercio",cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "tipocomercio",cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<ComerciosEntity> comercios;
 
 	public Long getId() {

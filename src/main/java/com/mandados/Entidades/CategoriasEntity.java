@@ -9,17 +9,13 @@ public class CategoriasEntity {
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    
+     
 	@Column 
-	private String nombree;
+	private String nombre;
 
 	@Column
     private String descripcion;
 	
-	// @ManyToMany
-	// Set<ComerciosEntity> comercios;
-
 	@OneToMany(mappedBy = "categoria",cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<ProductosEntity> productos;
 
@@ -31,12 +27,12 @@ public class CategoriasEntity {
 		this.id = id;
 	}
 
-	public String getNombree() {
-		return nombree;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setNombree(String nombree) {
-		this.nombree = nombree;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	public String getDescripcion() {
@@ -57,7 +53,9 @@ public class CategoriasEntity {
 
 	@Override
 	public String toString() {
-		return "CategoriasEntity [descripcion=" + descripcion + ", id=" + id + ", nombree=" + nombree + "]";
+		return "CategoriasEntity [descripcion=" + descripcion + ", id=" + id + ", nombre=" + nombre + ", productos="
+				+ productos + "]";
 	}
+	
 	
 }
