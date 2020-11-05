@@ -9,65 +9,108 @@
             <div class="card card-rotating bg-gradient-light">
                 <div class="card-header">
                   <h3 class="card-title">REPARTIDORES</h3>
+                  <div class="card-tools">
+                    <ul class="nav nav-pills ml-auto">
+                      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#nuevo">
+                        Nuevo
+                      </button>
+                    </ul>
+                  </div>
                 </div>
-                <div class="card-body">
-                  <table id="tabla1" class="table table-bordered table-striped">
+                <div class="card-body table-responsive p-0" style="height: 300px;">
+                  <table class="table table-bordered table-striped">
                     <thead>
-                    <tr>
+                      <tr>
                         <th>nombre</th>
-                        <th>primer_apellido</th>
-                        <th>segundo_apellido</th>
                         <th>calle</th>
                         <th>numero</th>
                         <th>colonia</th>
                         <th>municipio</th>
                         <th>telefono</th>
                         <th>email</th>
-                    </tr>
+                      </tr>
                     </thead>
                     <tbody>
-                        <tr th:if="${repartidores.empty}">
-                            <td colspan="9"> No hay repartidores registrados </td>
-                        </tr>
-                        <tr th:each="r :${repartidores}">
-                            <td><span th:text="${r.nombre}"> Authority </span></td>
-                            <td><span th:text="${r.primer_apellido}"> Authority </span></td>
-                            <td><span th:text="${r.segundo_apellido}"> Authority </span></td>
-                            <td><span th:text="${r.calle}"> Authority </span></td>
-                            <td><span th:text="${r.numero}"> Authority </span></td>
-                            <td><span th:text="${r.colonia}"> Authority </span></td>
-                            <td><span th:text="${r.municipio}"> Authority </span></td>
-                            <td><span th:text="${r.telefono}"> Authority </span></td>
-                            <td><span th:text="${r.email}"> Authority </span></td>
-                        </tr>
+                      <tr th:if="${repartidores.empty}">
+                        <td colspan="9"> No hay repartidores registrados </td>
+                      </tr>
+                      <tr th:each="r :${repartidores}">
+                        <td>
+                          <span th:text="${r.nombre}"> Authority </span>
+                          <span th:text="${r.primer_apellido}"> Authority </span>
+                          <span th:text="${r.segundo_apellido}"> Authority </span>
+                        </td>
+                        <td><span th:text="${r.calle}"> Authority </span></td>
+                        <td><span th:text="${r.numero}"> Authority </span></td>
+                        <td><span th:text="${r.colonia}"> Authority </span></td>
+                        <td><span th:text="${r.municipio}"> Authority </span></td>
+                        <td><span th:text="${r.telefono}"> Authority </span></td>
+                        <td><span th:text="${r.email}"> Authority </span></td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="nuevo" data-backdrop="false">
+          <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+              <form class="form-signin" th:action="@{/registrorepartidor}" th:object=${repartidor} method="post" novalidate>
+                <div class="modal-header">
+                  <h4 class="modal-title">REGISTRO DE REPARTIDOR</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mx-auto">
+                                <input th:field="*{nombre}" type="text" class="form-control validate" placeholder="Nombre" required>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mx-auto">
+                                <input th:field="*{primer_apellido}" type="text" name="primer_apellido" id="primer_apellido" class="form-control validate" placeholder="Primer apellido" required>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mx-auto">
+                                <input th:field="*{segundo_apellido}" type="text" name="segundo_apellido" id="segundo_apellido" class="form-control validate" placeholder="Segundo apellido">
+                            </div>
+                        </div>
+                    </div>
+                    <div th:if="${repetido}" class="alert alert-danger" role="alert">Correo electronico ya registrado</div>
+                    <div class="form-group">
+                        <input th:field="*{email}" type="email" id="email" name="email" class="form-control validate" placeholder="Correo" required>
+                    </div>
+                    <div class="form-group">
+                        <input th:field="*{telefono}" type="text" class="form-control validate" placeholder="Telefono" data-inputmask='"mask": "(999) 999-9999"' data-mask required>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                <input th:field="*{calle}" type="text" name="calle" id="calle" class="form-control validate" placeholder="Calle" required>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                <input th:field="*{numero}" type="number" name="numero" id="numero" class="form-control validate" placeholder="Numero" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                <input th:field="*{colonia}" type="text" name="colonia" id="colonia" class="form-control validate" placeholder="Colonia" required>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                <input th:field="*{municipio}" type="text" name="municipio" id="municipio" class="form-control validate" placeholder="Municipio" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary">Registrar</button>
+                </div>
+              </form>
+              </div>
+            </div>
+        </div>
         <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
         <div th:replace="includes/footer::home"></div>
     </div>
-    <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-    <script>
-        $(function () {
-          $("#tabla1").DataTable({
-            "responsive": true,
-            "autoWidth": false,
-          });
-          $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": falsae,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
-          });
-        });
-    </script>
 </body>
 </html>

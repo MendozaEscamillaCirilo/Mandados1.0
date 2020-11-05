@@ -9,6 +9,15 @@
             <div class="card card-rotating bg-gradient-light">
                 <div class="card-header">
                   <h3 class="card-title">PRODUCTOS</h3>
+                  <div class="card-tools">
+                    <ul class="nav nav-pills ml-auto">
+                      <li class="nav-item">
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#nuevo">
+                          Nuevo
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
                 <div class="card-body">
                   <table id="tabla1" class="table table-bordered table-striped">
@@ -43,29 +52,46 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="nuevo" data-backdrop="false">
+          <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+              <form class="form-signin" th:action="@{/registroproducto}" th:object=${producto} method="post" novalidate>
+                <div class="modal-header">
+                  <h4 class="modal-title">REGISTRO DE PRODUCTOS(PLATILLOS, PRODUCTOS)</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto">
+                                <input th:field="*{nombre}" type="text" class="form-control validate" placeholder="Nombre" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input th:field="*{precio}" type="text" id="precio" name="precio" class="form-control validate" placeholder="Precio" required>
+                    </div>
+                    <div class="form-group">
+                        <input th:field="*{contenido}" type="text" id="contenido" name="contenido" class="form-control validate" placeholder="Contenido" required>
+                    </div>
+                    <div class="form-group">
+                        <input th:field="*{descripcion}" type="text" name="descripcion" id="descripcion" class="form-control validate" placeholder="Descripción" required>
+                    </div>
+                    <div class="form-group">
+                      <select th:field="*{categoria}" data-placeholder="Selecciona rol" class="form-control validate" required>
+                          <option th:each="tipo :${categorias}" th:value="${tipo.id}" th:text="${tipo.nombre}"></option>
+                      </select>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary">Registrar</button>
+                </div>
+              </form>
+              </div>
+            </div>
+        </div>
         <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
         <div th:replace="includes/footer::home"></div>
     </div>
-    <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-    <script>
-        $(function () {
-          $("#tabla1").DataTable({
-            "responsive": true,
-            "autoWidth": false,
-          });
-          $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
-          });
-        });
-    </script>
 </body>
 </html>

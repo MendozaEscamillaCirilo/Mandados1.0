@@ -21,7 +21,7 @@
                     </thead>
                     <tbody>
                         <tr th:if="${comercios.empty}">
-                            <td colspan="2"> No hay comercios registrados </td>
+                            <td colspan="3"> No hay comercios registrados </td>
                         </tr>
                         <tr th:each="comercio :${comercios}">
                             <td><span th:text="${comercio.nombre}"> Authority </span></td>
@@ -43,26 +43,5 @@
         <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
         <div th:replace="includes/footer::home"></div>
     </div>
-    <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-    <script>
-        $(function () {
-          $("#tabla1").DataTable({
-            "responsive": true,
-            "autoWidth": false,
-          });
-          $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": falsae,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
-          });
-        });
-    </script>
 </body>
 </html>

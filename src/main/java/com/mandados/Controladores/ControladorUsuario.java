@@ -2,6 +2,7 @@ package com.mandados.Controladores;
 
 import java.util.Optional;
 
+import com.mandados.Entidades.Authority;
 import com.mandados.Entidades.User;
 import com.mandados.Repository.AuthorityRepository;
 import com.mandados.Repository.UserRepository;
@@ -66,11 +67,14 @@ public class ControladorUsuario {
     @GetMapping("/usuarios")
     public String listarusuario(Model model) {
         model.addAttribute("usuarios", userRepository.findAll());
+        model.addAttribute("roles", authorityRepository.findAll());
+        model.addAttribute("usuario", new User());
         return "listar/usuario";	    
     }
     @GetMapping("/roles")
     public String listarrol(Model model) {
         model.addAttribute("roles", authorityRepository.findAll());
+        model.addAttribute("rol", new Authority());
         return "listar/authority";
     }
 }

@@ -15,7 +15,7 @@ public class RepartidoresEntity {
 	@Column
 	private String segundo_apellido;
 	@Column
-    private Double calle;
+    private String calle;
     @Column
     private String numero;
     @Column
@@ -62,11 +62,11 @@ public class RepartidoresEntity {
         this.segundo_apellido = segundo_apellido;
     }
 
-    public Double getCalle() {
+    public String getCalle() {
         return calle;
     }
 
-    public void setCalle(Double calle) {
+    public void setCalle(String calle) {
         this.calle = calle;
     }
 
