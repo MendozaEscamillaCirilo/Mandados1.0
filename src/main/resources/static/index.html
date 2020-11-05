@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -80,7 +80,7 @@
 
 							<!-- Heading -->
 							<center>
-								<img src="imagenes/logo.png" alt="Girl in a jacket" width="80%">
+								<img src="imagenes/logo.png" alt="Girl in a jacket" width="70%">
 							</center>
 							
 
@@ -88,10 +88,10 @@
 							<hr class="hr-light">
 
 							<!-- Description -->
-							<h4 class="text-white my-4">El mejor lugar para solicitar tu comida, 
+							<h4 class="text-white my-4">El mejor lugar para solicitar tu comida o pedir tu mandado, 
 								que será llevada hasta tu domicio o trabajo de la manera más eficiente, con nuestro equipo de
 								repartidores.</h4>
-							<button type="button" class="btn btn-outline-light">Te queremos ayudar<i class="fa fa-book ml-2"></i></button>
+							<button type="button" class="btn btn-outline-light" data-toggle="modal" data-target="#modal">Te queremos ayudar<i class="fa fa-book ml-2"></i></button>
 						</div>
 					</div>
 				</div>
@@ -104,10 +104,63 @@
 	<!--Main layout-->
 	<main class="mt-5">
 		<div class="container">
-
+			<!--Modal: modalConfirmDelete-->
+			<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="false">
+				<div class="modal-dialog" role="document">
+				<!--Content-->
+					<div class="modal-content text-center">
+					<!--Header-->
+						<div class="modal-header d-flex justify-content-center">
+							<h3 class="heading">¿Qué te gustaría pedir?</h3>
+						</div>
+						<!--Body-->
+						<div class="modal-body">
+							<div class="text-center">
+							  <i class="far fa-file-alt fa-4x mb-3 animated rotateIn"></i>
+							  <p>
+								<strong>Ordena algo</strong>
+							  </p>
+							</div>
+					
+							<hr>
+					
+							<!-- Radio -->
+							<div class="form-check mb-4">
+							  <input class="form-check-input" name="group1" type="radio" id="radio-179" value="option1" checked>
+							  <label class="form-check-label" for="radio-179">Mandado</label>
+							</div>
+							<div class="form-check mb-4">
+							  <input class="form-check-input" name="group1" type="radio" id="radio-279" value="option2">
+							  <label class="form-check-label" for="radio-279">Comida</label>
+							</div>
+							<!-- Radio -->
+					
+							<p class="text-center">
+							  <strong>Producto o platillo</strong>
+							</p>
+							<!--Basic textarea-->
+							<div class="md-form">
+							  <!-- <input type="text" class="form-control validate" placeholder="Rol" required> -->
+							  <input type="text" id="form79textarea" class="md-text form-control" rows="3"></input>
+							  <label for="form79textarea">Ingrese para buscar</label>
+							</div>
+							<div class="md-form">
+								<button type="button" class="btn btn-default" >Buscar</button>
+							</div>
+						  </div>
+						<!--Footer-->
+						<div class="modal-footer flex-center">
+							<!-- <a href="" class="btn  btn-outline-success" data-dismiss="modal">Cancelar</a> -->
+							<button type="button" class="btn btn-outline-default" data-dismiss="modal">Cancelar</button>
+						</div>
+					</div>
+				<!--/.Content-->
+				</div>
+			</div>
+			<!--Modal: modalConfirmDelete-->
 			<!--Section: Best Features-->
 			<section id="best-features" class="text-center">
-
+				<div th:replace="pedido::index"></div>
 				<!-- Heading -->
 				<h2 class="mb-5 font-weight-bold">Encuéntra tu platillo favorito</h2>
 
