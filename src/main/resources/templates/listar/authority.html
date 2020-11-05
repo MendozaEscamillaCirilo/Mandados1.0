@@ -1,0 +1,65 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<title>Roles</title>
+<div th:replace="includes/head::home"></div>
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+        <div th:replace="includes/navbar"></div>
+        <div th:replace="includes/sidebar"></div>
+        <div class="content-wrapper">
+            <div class="card card-rotating bg-gradient-light">
+                <div class="card-header">
+                  <h3 class="card-title">ROLES(AUTHORITIES)</h3>
+                  <div class="card-tools">
+                    <ul class="nav nav-pills ml-auto">
+                      <li class="nav-item">
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#nuevo">
+                          Nuevo
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <table id="tabla1" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                      <th>authority</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:if="${roles.empty}">
+                            <td colspan="2"> No hay roles registrados </td>
+                        </tr>
+                        <tr th:each="rol :${roles}">
+                            <td><span th:text="${rol.authority}"> Authority </span></td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="nuevo" data-backdrop="false">
+          <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+              <form class="form-signin" th:action="@{/registroauthority}" th:object=${rol} method="post" novalidate>
+                <div class="modal-header">
+                  <h4 class="modal-title">REGISTRO DE ROLES</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input th:field="*{authority}" type="text" class="form-control validate" placeholder="Rol" required>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary">Registrar</button>
+                </div>
+              </form>
+              </div>
+            </div>
+        </div>
+        <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
+        <div th:replace="includes/footer::home"></div>
+    </div>
+</body>
+</html>

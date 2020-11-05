@@ -1,0 +1,53 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<title>Pedidos</title>
+<div th:replace="includes/head::home"></div>
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+        <div th:replace="includes/navbar"></div>
+        <div th:replace="includes/sidebar"></div>
+        <div class="content-wrapper">
+            <div class="card card-rotating bg-gradient-light">
+                <div class="card-header">
+                  <h3 class="card-title">PEDIDOS</h3>
+                </div>
+                <div class="card-body">
+                  <table id="tabla1" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                      <th>fecha</th>
+                      <th>hora de pedido</th>
+                      <th>hora de recoleeccion</th>
+                      <th>hora de entrega</th>
+                      <th>total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:if="${pedidos.empty}">
+                            <td colspan="5"> No hay ordenes registrados </td>
+                        </tr>
+                        <tr th:each="pedido :${pedidos}">
+                            <td><span th:text="${pedido.fecha}"> Authority </span></td>
+                            <td><span th:text="${pedido.hora_pedido}"> Authority </span></td>
+                            <td><span th:text="${pedido.hora_recoleeccion}"> Authority </span></td>
+                            <td><span th:text="${pedido.hora_entrega}"> Authority </span></td>
+                            <td><span th:text="${pedido.total}"> Authority </span></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                      <th>fecha</th>
+                      <th>hora de pedido</th>
+                      <th>hora de recoleeccion</th>
+                      <th>hora de entrega</th>
+                      <th>total</th>
+                    </tr>
+                    </tfoot>
+                  </table>
+                </div>
+            </div>
+        </div>
+        <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
+        <div th:replace="includes/footer::home"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<title>Carta/catalogo</title>
+<div th:replace="includes/head::home"></div>
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+        <div th:replace="includes/navbar"></div>
+        <div th:replace="includes/sidebar"></div>
+        <div class="content-wrapper">
+            <div class="card card-rotating bg-gradient-light">
+                <div class="card-header">
+                  <h3 class="card-title">CARTA/CATALOGO</h3>
+                  <div class="card-tools">
+                    <ul class="nav nav-pills ml-auto">
+                      <li class="nav-item">
+                        <a class="nav-link" href="" data-toggle="tab">Nuevo</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <table id="tabla1" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                      <th>nombre</th>
+                      <th>email</th>
+                      <th>tipo comercio</th>
+                    </tr>
+                    </thead>
+                    <!-- <tbody>
+                        <tr th:if="${comercios.empty}">
+                            <td colspan="2"> No hay comercios registrados </td>
+                        </tr>
+                        <tr th:each="comercio :${comercios}">
+                            <td><span th:text="${comercio.nombre}"> Authority </span></td>
+                            <td><span th:text="${comercio.email}"> Authority </span></td>
+                            <td><span th:text="${comercio.tipoComercio.nombre}"> Authority </span></td>
+                        </tr>
+                    </tbody> -->
+                    <tfoot>
+                    <tr>
+                        <th>nombre</th>
+                        <th>email</th>
+                        <th>tipo comercio</th>
+                    </tr>
+                    </tfoot>
+                  </table>
+                </div>
+            </div>
+        </div>
+        <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
+        <div th:replace="includes/footer::home"></div>
+    </div>
+    <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <!-- <script>
+        $(function () {
+          $("#tabla1").DataTable({
+            "responsive": true,
+            "autoWidth": false,
+          });
+          $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+          });
+        });
+    </script> -->
+</body>
+</html>

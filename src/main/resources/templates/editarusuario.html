@@ -1,0 +1,89 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<title>Editar usuario</title>
+<div th:replace="includes/head::home"></div>
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+        <div th:replace="includes/navbar"></div>
+        <div th:replace="includes/sidebar"></div>
+        <div class="content-wrapper">
+            <div id="intro" class="content">
+                <!-- <!- Content Header (Page header) -- -->
+                <section class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            
+                        </div>
+                    </div>
+                    <!-- <!- /.container-fluid -- -->
+                </section>
+                <section class="content">
+                    <div class="container-fluid">
+                        <!-- <!- SELECT2 EXAMPLE -- -->
+                        <div class="card card-rotating text-center bg-gradient-dark">
+                            <div class="card-header">
+                                <div class="form-header btn-outline-light">
+                                    <center>
+                                        <img src="imagenes/logo.png" alt="Girl in a jacket" height="70">
+                                    </center>
+                                </div>
+                            </div>
+                            <!-- <!- /.card-header -- -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                        <div class="form-group">
+                                            <label>Tipo de cuenta</label>
+                                            <h3 sec:authorize="hasAuthority('ROL_ADMIN')" >Admin</h3>
+                                            <h3 sec:authorize="hasAuthority('ROL_COMERCIO')">Comercio</h3>
+                                            <h3 sec:authorize="hasAuthority('ROL_REPARTIDOR')">Repartidor</h3>
+                                            <!-- <input type="text" class="form-control validate" sec:authentication="name" disabled required> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Correo</label>
+                                            <h3 sec:authentication="name"></h3>
+                                            <!-- <input type="email" class="form-control validate" id="exampleInputEmail1" placeholder="Ingrese el correo electronico del comercio" required> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card card-rotating text-center">
+                                    <form th:object="${usuario}" th:action="@{/editausuario}" method="post">
+                                        <div class="row">
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Contraseña</label>
+                                                    <input type="password" class="form-control" placeholder="Contraseña" required>
+                                                    <!-- <input type="email" class="form-control validate" id="exampleInputEmail1" placeholder="Ingrese el correo electronico del comercio" required> -->
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Confirmación de contraseña</label>
+                                                    <input th:field="*{password}" type="password" class="form-control" placeholder="Confirmar contraseña" required>
+                                                    <!-- <input type="email" class="form-control validate" id="exampleInputEmail1" placeholder="Ingrese el correo electronico del comercio" required> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mx-auto">
+                                                <div class="form-group">
+                                                    <div class="text-center">
+                                                        <button type="submit" class="btn btn-block btn-outline-primary">Cambiar contraseña</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
+        <div th:replace="includes/footer::home"></div>
+    </div>
+</body>
+</html>

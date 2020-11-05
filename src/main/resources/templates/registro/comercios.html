@@ -1,0 +1,103 @@
+<title>Registro</title>
+<div th:replace="includes/head::head3"></div>
+<div id="intro" class="content">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="card card-rotating text-center">
+                <div class="row">
+                    <section class="col-xl-7 col-lg-7 col-md-7 col-sm-7 mx-auto connectedSortable">
+                          <div class="tab-content p-0">
+                            <form class="form-signin" th:action="@{/registrocomercio}" method="post" novalidate>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 mx-auto">
+                                            <div class="form-group">
+                                                <h3>Registra tu comercio</h3>
+                                            </div>
+                                            <div th:object="${comercio}">
+                                                <div class="form-group">
+                                                    <input th:field="*{nombre}" type="text" class="form-control validate" placeholder="Nombre del comercio" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div th:if="${repetido}" class="alert alert-danger" role="alert">Correo electronico ya registrado</div>
+                                                    <input th:field="*{email}" type="email" class="form-control validate" id="exampleInputEmail1" placeholder="Correo electronico del comercio" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <select th:field="*{tipoComercio}" data-placeholder="Selecciona rol" class="form-control validate">
+                                                        <option th:each="tipo :${tipocomercio}" th:value="${tipo.id}" th:text="${tipo.nombre}"></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div th:object="${sucursal}">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                                            <input th:field="*{calle}" type="text" name="calle" id="calle" class="form-control validate" placeholder="Calle" required>
+                                                        </div>
+                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                                            <input th:field="*{numero}" type="number" name="numero" id="numero" class="form-control validate" placeholder="Numero" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div th:if="${codigopostalmal}" class="alert alert-danger" role="alert">Por el momento no estamos trabajando en esta colonia.</div>
+                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                                            <input th:field="*{codigopostal}" type="number" name="cp" id="cp" class="form-control validate" placeholder="Codigo postal" required>
+                                                        </div>
+                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                                            <input th:field="*{colonia}" type="text" name="colonia" id="colonia" class="form-control validate" placeholder="Colonia" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input th:field="*{telefono}" type="tel" class="form-control validate" data-inputmask='"mask": "(999) 999-9999"' data-mask placeholder="Numero telefonico del comercio" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="text-center">
+                                                    <button type="submit" class="btn btn-block btn-outline-primary">Registrar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                          </div>
+                    </section>
+                    <section class="col-xl-5 col-lg-5 col-md-5 col-sm-5 mx-auto connectedSortable">
+                            <center>
+                                <img src="imagenes/logoc.png" alt="Girl in a jacket" width="100%">
+                            </center>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div th:replace="includes/footer::script2"></div>
+<script src="plugins/select2/js/select2.full.min.js"></script>
+<script>
+    (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+    var forms = document.getElementsByClassName('form-signin');
+    var validation = Array.prototype.filter.call(forms, function(form) {
+    form.addEventListener('submit', function(event) {
+    if (form.checkValidity() === false) {
+    event.preventDefault();
+    event.stopPropagation();
+    }
+    form.classList.add('was-validated');
+    }, false);
+    });
+    }, false);
+    })();
+</script>
