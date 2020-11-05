@@ -6,12 +6,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 
 import java.util.List;
-// import java.util.Set;
+import java.util.Set;
+import javax.persistence.*;
 
 @Entity
 public class User {
@@ -32,6 +34,9 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "authorities_users", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "authority_id"))
     private List<Authority> authority;
+
+    @OneToMany(mappedBy = "operador",cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<PedidosEntity> pedidos;
 
     // Getters y Setters
 
