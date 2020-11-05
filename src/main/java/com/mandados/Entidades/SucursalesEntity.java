@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class SucursalesEntity {
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @Column
     private String codigopostal;
     @Column
@@ -32,11 +32,11 @@ public class SucursalesEntity {
                 + numero + ", telefono=" + telefono + "]";
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

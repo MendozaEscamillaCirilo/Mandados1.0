@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 public class ComerciosEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 
 	@Column
 	private String nombre;
@@ -25,11 +25,11 @@ public class ComerciosEntity {
 	@JoinColumn(name = "tipo_id")
 	private Tipos_comerciosEntity tipoComercio;
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

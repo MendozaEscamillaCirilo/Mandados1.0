@@ -78,7 +78,7 @@
                         <input th:field="*{email}" type="email" id="email" name="email" class="form-control validate" placeholder="Correo" required>
                     </div>
                     <div class="form-group">
-                        <input th:field="*{telefono}" type="text" class="form-control validate" placeholder="Telefono" data-inputmask='"mask": "(999) 999-9999"' data-mask required>
+                        <input th:field="*{telefono}" type="tel" class="form-control validate" data-inputmask='"mask": "(999) 999-9999"' data-mask  placeholder="Telefono" required>
                     </div>
                     <div class="form-group">
                         <div class="row">
@@ -111,6 +111,7 @@
         </div>
         <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
         <div th:replace="includes/footer::home"></div>
+        <div th:replace="includes/footer::script2"></div>
     </div>
 </body>
 </html>

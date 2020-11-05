@@ -68,7 +68,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <input th:field="*{precio}" type="text" id="precio" name="precio" class="form-control validate" placeholder="Precio" required>
+                        <input th:field="*{precio}" type="number" id="precio" name="precio" data-inputmask-regex="[1-9]*.99" data-mask class="form-control validate" placeholder="Precio" required>
                     </div>
                     <div class="form-group">
                         <input th:field="*{contenido}" type="text" id="contenido" name="contenido" class="form-control validate" placeholder="Contenido" required>
@@ -78,7 +78,7 @@
                     </div>
                     <div class="form-group">
                       <select th:field="*{categoria}" data-placeholder="Selecciona rol" class="form-control validate" required>
-                          <option th:each="tipo :${categorias}" th:value="${tipo.id}" th:text="${tipo.nombre}"></option>
+                          <option th:each="tipo :${categorias}" th:value="${tipo.id}" th:text="${tipo.nombree}"></option>
                       </select>
                     </div>
                 </div>
@@ -92,6 +92,7 @@
         </div>
         <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
         <div th:replace="includes/footer::home"></div>
+        <script src="plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
     </div>
 </body>
 </html>

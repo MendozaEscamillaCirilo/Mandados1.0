@@ -25,7 +25,7 @@ import com.mandados.Repository.AuthorityRepository;
 // import com.mandados.Repository.CategoriaRepository;
 import com.mandados.Repository.ProductoRepository;
 import com.mandados.Repository.RepartidorRepository;
-// import com.mandados.Servicios.Authorities.IAuthorityService;
+import com.mandados.Servicios.Authorities.IAuthorityService;
 import com.mandados.Servicios.Comercio.IComercioService;
 import com.mandados.Servicios.Producto.IProductoService;
 import com.mandados.Servicios.Repartidor.IRepartidorService;
@@ -50,8 +50,8 @@ public class ControladorPrincipal {
     private RepartidorRepository repartidorRepository;
     @Autowired
     private TipoComercioRepository tipocomerciorepository;
-    // @Autowired
-    // private IAuthorityService authorityservice;
+    @Autowired
+    private IAuthorityService authorityservice;
     @Autowired
     private IComercioService servicecomercio;
     @Autowired
@@ -172,6 +172,9 @@ public class ControladorPrincipal {
     //////////////// REGISTRAR PRODUCTO/////////////////////
     @PostMapping("/registroproducto")
     public String registroproducto(@Validated ProductosEntity producto,Model model){
+        // System.out.println(producto);
+        // System.out.println(producto.getPrecio());
+        // producto.setPrecio(123.00);
         productoservice.save(producto);
         model.addAttribute("productos", productorepository.findAll());
         model.addAttribute("producto", new ProductosEntity());
@@ -182,7 +185,7 @@ public class ControladorPrincipal {
     @PostMapping("/registroauthority")
     public String registroauthority(@Validated Authority authority,Model model){
         // System.out.println(authority);
-        // authorityservice.save(authority);
+        authorityservice.save(authority);
         model.addAttribute("roles", authorityRepository.findAll());
         model.addAttribute("rol", new Authority());
         return "listar/authority";
