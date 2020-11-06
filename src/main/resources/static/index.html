@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -121,36 +121,35 @@
 								<strong>Ordena algo</strong>
 							  </p>
 							</div>
-					
 							<hr>
-					
-							<!-- Radio -->
-							<div class="form-check mb-4">
-							  <input class="form-check-input" name="group1" type="radio" id="radio-179" value="option1" checked>
-							  <label class="form-check-label" for="radio-179">Mandado</label>
+							<div>
+								<!-- Radio -->
+								<div class="form-check mb-4">
+									<input class="form-check-input" name="group1" type="radio" id="radio-179" value="option1" checked>
+									<label class="form-check-label" for="radio-179">Mandado</label>
+								</div>
+								<div class="form-check mb-4">
+									<input class="form-check-input" name="group1" type="radio" id="radio-279" value="option2">
+									<label class="form-check-label" for="radio-279">Comida</label>
+								</div>
+								<!-- Radio -->
 							</div>
-							<div class="form-check mb-4">
-							  <input class="form-check-input" name="group1" type="radio" id="radio-279" value="option2">
-							  <label class="form-check-label" for="radio-279">Comida</label>
-							</div>
-							<!-- Radio -->
-					
 							<p class="text-center">
 							  <strong>Producto o platillo</strong>
 							</p>
 							<!--Basic textarea-->
-							<div class="md-form">
-							  <!-- <input type="text" class="form-control validate" placeholder="Rol" required> -->
-							  <input type="text" id="form79textarea" class="md-text form-control" rows="3"></input>
-							  <label for="form79textarea">Ingrese para buscar</label>
-							</div>
-							<div class="md-form">
-								<button type="button" class="btn btn-default" >Buscar</button>
-							</div>
+							<form action="/buscarproducto" th:action="@{/buscarproducto}" method="post">
+								<div class="md-form">
+								<input name="buscar" type="text" id="form79textarea" class="md-text form-control" rows="3"></input>
+								<label for="form79textarea">Ingrese para buscar</label>
+								</div>
+								<div class="md-form">
+									<button type="submit" class="btn btn-default" >Buscar</button>
+								</div>
+							</form>
 						  </div>
 						<!--Footer-->
 						<div class="modal-footer flex-center">
-							<!-- <a href="" class="btn  btn-outline-success" data-dismiss="modal">Cancelar</a> -->
 							<button type="button" class="btn btn-outline-default" data-dismiss="modal">Cancelar</button>
 						</div>
 					</div>

@@ -19,7 +19,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
           <a href="#" class="d-block" sec:authentication="name"></a>
         </div>
       </div>
-
+      <span sec:authentication="principal"></span>
+      
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">

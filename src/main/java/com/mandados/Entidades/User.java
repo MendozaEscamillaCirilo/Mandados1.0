@@ -30,6 +30,8 @@ public class User {
 
     @Column
     private boolean enabled;
+    @Column
+    private String imagen;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "authorities_users", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "authority_id"))
@@ -67,7 +69,8 @@ public class User {
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", username=" + username + ", password=" + password + "]";
+        return "User [enabled=" + enabled + ", id=" + id + ", imagen=" + imagen + ", password=" + password
+                + ", username=" + username + "]";
     }
 
     public Long getId() {
@@ -108,6 +111,14 @@ public class User {
 
     public void setAuthority(List<Authority> authority) {
         this.authority = authority;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
     
 

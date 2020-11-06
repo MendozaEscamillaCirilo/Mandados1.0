@@ -221,5 +221,9 @@ public class ControladorPrincipal {
         System.out.println("Send message...");
     }
 
-    
+    @PostMapping("/buscarproductoo")
+    public String buscarproducto(Model model, String buscar){
+        System.out.println(buscar);
+        return "hola";
+    }
 }
