@@ -34,6 +34,6 @@ public class LoginController {
         Optional<User>lista = userRepository.findByUsername(((org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
         User user1 = lista.get();
         model.addAttribute("usuario", user1);
-        model.addAttribute("foto", "logos/"+user1.getImagen());
+        model.addAttribute("foto", "logos/"+user1.getUsername() + ".jpg");
     }
 }
