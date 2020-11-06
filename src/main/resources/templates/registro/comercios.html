@@ -42,7 +42,7 @@
                                                             <input th:field="*{calle}" type="text" name="calle" id="calle" class="form-control validate" placeholder="Calle" required>
                                                         </div>
                                                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
-                                                            <input th:field="*{numero}" type="number" name="numero" id="numero" class="form-control validate" placeholder="Numero" required>
+                                                            <input th:field="*{numero}" type="number" name="numero" id="numero" class="form-control validate" placeholder="Numero" min="0" max="9000" required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -50,7 +50,7 @@
                                                     <div class="row">
                                                         <div th:if="${codigopostalmal}" class="alert alert-danger" role="alert">Por el momento no estamos trabajando en esta colonia.</div>
                                                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
-                                                            <input th:field="*{codigopostal}" type="number" name="cp" id="cp" class="form-control validate" placeholder="Codigo postal" required>
+                                                            <input th:field="*{codigopostal}" type="number" name="cp" id="cp" class="form-control validate" placeholder="Codigo postal" min="67000" max="80000" required>
                                                         </div>
                                                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
                                                             <input th:field="*{colonia}" type="text" name="colonia" id="colonia" class="form-control validate" placeholder="Colonia" required>
@@ -63,7 +63,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <div class="text-center">
-                                                    <button type="submit" class="btn btn-block btn-outline-primary">Registrar</button>
+                                                    <button type="submit" class="btn btn-block btn-outline-primary swalDefaultInfo">Registrar</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -101,3 +101,4 @@
     }, false);
     })();
 </script>
+  

@@ -10,6 +10,7 @@ import com.mandados.Entidades.User;
 import com.mandados.Repository.AuthorityRepository;
 import com.mandados.Repository.UserRepository;
 import com.mandados.Servicios.User.IUserService;
+import com.mandados.Servicios.User.UserService;
 import com.mandados.config.Passgenerator;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,16 +62,14 @@ public class ControladorUsuario {
             Path directorioImagenes = Paths.get("src//main//resources//static//logos");
             String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
             Optional<User>lista = userRepository.findByUsername(((org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
-                User user1 = lista.get();
+            User user1 = lista.get();
             try {
                 byte[] bytesImgenes = imagen.getBytes();
                 Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + user1.getUsername()+".jpg");
                 Files.write(rutaCompleta,bytesImgenes);
-                
-                user1.setImagen(user1.getUsername()+".jpg");
-                serviceuser.save(user1);
+                user1.setImagen(user1.getUsername().split("@")[0]);
+            serviceuser.save(user1);
             } catch (Exception e) {System.out.println(e);}
-            
         }
         obtUsuario(model);
         return "home";
@@ -91,7 +90,7 @@ public class ControladorUsuario {
         Optional<User>lista = userRepository.findByUsername(((org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
         User user1 = lista.get();
         model.addAttribute("usuario", user1);
-        model.addAttribute("foto", "logos/"+user1.getImagen());
+        model.addAttribute("foto", "logos/"+user1.getUsername() + ".jpg");
     }
 
     @GetMapping("/usuarios")

@@ -9,10 +9,13 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.mail.SimpleMailMessage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import com.mandados.Entidades.Authority;
 import com.mandados.Entidades.CategoriasEntity;
 import com.mandados.Entidades.ComerciosEntity;
@@ -21,6 +24,7 @@ import com.mandados.Entidades.RepartidoresEntity;
 import com.mandados.Entidades.SucursalesEntity;
 import com.mandados.Entidades.User;
 import com.mandados.Repository.TipoComercioRepository;
+import com.mandados.Repository.UserRepository;
 import com.mandados.Repository.AuthorityRepository;
 // import com.mandados.Repository.CategoriaRepository;
 import com.mandados.Repository.ProductoRepository;
@@ -50,6 +54,8 @@ public class ControladorPrincipal {
     private RepartidorRepository repartidorRepository;
     @Autowired
     private TipoComercioRepository tipocomerciorepository;
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private IAuthorityService authorityservice;
     @Autowired
@@ -110,11 +116,18 @@ public class ControladorPrincipal {
             comercio.setTipoComercio(comercio.getTipoComercio()==null?tipocomerciorepository.findByNombre("RESTAURANTE"):comercio.getTipoComercio());
             sucursalesEntity.setNombre(comercio.getNombre());
             sucursalesEntity.setEmail(comercio.getEmail());
-            
-            
+            try {
+                serviceuser.save(newuser);
+            } catch (Exception e) {
+                System.out.println("ERROR AL GUARDAR");
+                model.addAttribute("comercio", comercio);
+                model.addAttribute("sucursal", sucursalesEntity);
+                model.addAttribute("tipocomercio",tipocomerciorepository.findAll());
+                model.addAttribute("repetido", true);
+                return "registro/comercios";
+            }
             try {
                 sucursalservice.save(sucursalesEntity);
-                serviceuser.save(newuser);
                 servicecomercio.save(comercio);
             } catch (Exception e) {
                 System.out.println("ERROR AL REGISTRAR LA SUCURSAL");
@@ -132,16 +145,15 @@ public class ControladorPrincipal {
                 System.out.println("ERROR AL ENVIAR EMAIL");
                 System.out.println(e);
             }
-            
-            }catch (Exception exception){
-                System.out.println("ERROR AL GUARDAR");
-                System.out.println(exception);
+        }catch (Exception e){
+            System.out.println("ERROR AL GUARDAR");
+                System.out.println(e);
                 model.addAttribute("comercio", comercio);
                 model.addAttribute("tipocomercio",tipocomerciorepository.findAll());
                 model.addAttribute("repetido", true);
                 return "registro/comercios";
-            }
-        return "redirect:/";
+        }
+        return "registro/exitoso";
     }
     //////////////// REGISTRAR REPARTIDOR/////////////////////
     @PostMapping("/registrorepartidor")
@@ -167,6 +179,7 @@ public class ControladorPrincipal {
         }
         model.addAttribute("repartidores", repartidorRepository.findAll());
         model.addAttribute("repartidor", new RepartidoresEntity());
+        obtUsuario(model);
         return "listar/repartidor";
     }
     //////////////// REGISTRAR PRODUCTO/////////////////////
@@ -179,6 +192,7 @@ public class ControladorPrincipal {
         model.addAttribute("productos", productorepository.findAll());
         model.addAttribute("producto", new ProductosEntity());
         model.addAttribute("categorias", new CategoriasEntity());
+        obtUsuario(model);
         return "listar/producto";
     }
     //////////////// REGISTRAR AUTHORITY(ROL)/////////////////////
@@ -225,5 +239,11 @@ public class ControladorPrincipal {
     public String buscarproducto(Model model, String buscar){
         System.out.println(buscar);
         return "hola";
+    }
+    public void obtUsuario(Model model){
+        Optional<User>lista = userRepository.findByUsername(((org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+        User user1 = lista.get();
+        model.addAttribute("usuario", user1);
+        model.addAttribute("foto", "logos/"+user1.getUsername() + ".jpg");
     }
 }

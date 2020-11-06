@@ -30,6 +30,7 @@ public class User {
 
     @Column
     private boolean enabled;
+    
     @Column
     private String imagen;
 

@@ -13,7 +13,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="main.css">
+	<link rel="stylesheet" href="main.css">
+	<link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
 </head>
 <body>
 	<!--Main Navigation-->
@@ -591,7 +592,7 @@
 						<a href="/resrep">Conviertete en repartidor</a>
 					</p>-->
 					<p>
-						<a href="/registrocomercio">Registra tu restaurante</a>
+						<a href="/registrocomercio">Registra tu comercio</a>
 					</p>
 					<p>
 						<a href="#!">Ayuda</a>
@@ -635,6 +636,20 @@
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
 	<!-- MDB core JavaScript -->
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
-	
+	<script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+	<script type="text/javascript">
+		$(function() {
+		  const Toast = Swal.mixin({
+			position: 'center',
+			showConfirmButton: true
+		  });
+		  $('.swalDefaultInfo').click(function() {
+			Toast.fire({
+			  icon: 'info',
+			  title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+			})
+		  });
+		});
+	</script>
 </body>
 </html>
