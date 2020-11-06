@@ -11,4 +11,5 @@ import com.mandados.Entidades.ComerciosEntity;
 public interface ComercioRepository extends CrudRepository<ComerciosEntity, Long>  {
     public List<ComerciosEntity> findAll();
     public ComerciosEntity findByNombre(String nombre);
+    public ComerciosEntity findByEmail(String email);
 }

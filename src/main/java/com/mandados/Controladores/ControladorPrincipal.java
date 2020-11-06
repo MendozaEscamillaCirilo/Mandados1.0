@@ -26,6 +26,7 @@ import com.mandados.Entidades.User;
 import com.mandados.Repository.TipoComercioRepository;
 import com.mandados.Repository.UserRepository;
 import com.mandados.Repository.AuthorityRepository;
+import com.mandados.Repository.ComercioRepository;
 // import com.mandados.Repository.CategoriaRepository;
 import com.mandados.Repository.ProductoRepository;
 import com.mandados.Repository.RepartidorRepository;
@@ -48,6 +49,8 @@ public class ControladorPrincipal {
     private AuthorityRepository authorityRepository;
     // @Autowired
     // private CategoriaRepository categoriarepository;
+    @Autowired
+    private ComercioRepository comerciorepository;
     @Autowired
     private ProductoRepository productorepository;
     @Autowired
@@ -185,9 +188,9 @@ public class ControladorPrincipal {
     //////////////// REGISTRAR PRODUCTO/////////////////////
     @PostMapping("/registroproducto")
     public String registroproducto(@Validated ProductosEntity producto,Model model){
-        // System.out.println(producto);
-        // System.out.println(producto.getPrecio());
-        // producto.setPrecio(123.00);
+        ComerciosEntity comerciosEntity =  comerciorepository.findByEmail(userRepository.findByUsername(((org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername()).get().getUsername());
+        System.out.print(comerciosEntity);
+        producto.setComercio(comerciosEntity);
         productoservice.save(producto);
         model.addAttribute("productos", productorepository.findAll());
         model.addAttribute("producto", new ProductosEntity());
@@ -245,5 +248,6 @@ public class ControladorPrincipal {
         User user1 = lista.get();
         model.addAttribute("usuario", user1);
         model.addAttribute("foto", "logos/"+user1.getUsername() + ".jpg");
+        model.addAttribute("comercio", comerciorepository.findByEmail(user1.getUsername()));
     }
 }
