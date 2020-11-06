@@ -36,7 +36,10 @@ public class ComerciosEntity {
             joinColumns = {@JoinColumn(name = "comercio_id")},
             inverseJoinColumns = {@JoinColumn(name = "categoria_id")}
     )
-    private Set<CategoriasEntity> categorias;
+	private Set<CategoriasEntity> categorias;
+	
+	@OneToMany(mappedBy = "comercio",cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<ProductosEntity> productos;
 
 	public Long getId() {
 		return id;
@@ -74,7 +77,7 @@ public class ComerciosEntity {
 	@Override
 	public String toString() {
 		return "ComerciosEntity [categorias=" + categorias + ", email=" + email + ", id=" + id + ", nombre=" + nombre
-				+ ", sucursales=" + sucursales + ", tipoComercio=" + tipocomercio + "]";
+				+ ", productos=" + productos + ", sucursales=" + sucursales + ", tipocomercio=" + tipocomercio + "]";
 	}
 
 	public Set<SucursalesEntity> getSucursales() {
@@ -91,6 +94,15 @@ public class ComerciosEntity {
 
 	public void setCategorias(Set<CategoriasEntity> categorias) {
 		this.categorias = categorias;
+	}
+
+
+	public Set<ProductosEntity> getProductos() {
+		return productos;
+	}
+
+	public void setProductos(Set<ProductosEntity> productos) {
+		this.productos = productos;
 	}
 
 	
