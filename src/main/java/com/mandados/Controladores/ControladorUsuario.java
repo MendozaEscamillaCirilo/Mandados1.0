@@ -41,20 +41,22 @@ public class ControladorUsuario {
         Optional<User>lista = userRepository.findByUsername(((org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
         User user = lista.get();
         model.addAttribute("usuario", user);
+        obtUsuario(model);
         return "editarusuario";	    
     }
     @PostMapping("/editarcontrasenia")
-    public String guardarDatos(@Validated User user){
+    public String guardarDatos(@Validated User user, Model model){
         Optional<User>lista = userRepository.findByUsername(((org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
         User user1 = lista.get();
         Passgenerator ps = new Passgenerator();
         user1.setPassword(ps.getPassword(user.getPassword()));
         serviceuser.save(user1);
         sendEmail(user1.getUsername());
+        obtUsuario(model);
         return "home";
     }
     @PostMapping("/editarfoto")
-    public String editarfoto(@RequestParam("file") MultipartFile imagen){
+    public String editarfoto(@RequestParam("file") MultipartFile imagen,Model model){
         if (!imagen.isEmpty()) {
             Path directorioImagenes = Paths.get("src//main//resources//static//logos");
             String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
@@ -70,6 +72,7 @@ public class ControladorUsuario {
             } catch (Exception e) {System.out.println(e);}
             
         }
+        obtUsuario(model);
         return "home";
     }
 
@@ -84,18 +87,26 @@ public class ControladorUsuario {
         javaMailSender.send(simpleMailMessage);
         System.out.println("Send message...");
     }
+    public void obtUsuario(Model model){
+        Optional<User>lista = userRepository.findByUsername(((org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+        User user1 = lista.get();
+        model.addAttribute("usuario", user1);
+        model.addAttribute("foto", "logos/"+user1.getImagen());
+    }
 
     @GetMapping("/usuarios")
     public String listarusuario(Model model) {
         model.addAttribute("usuarios", userRepository.findAll());
         model.addAttribute("roles", authorityRepository.findAll());
         model.addAttribute("usuario", new User());
+        obtUsuario(model);
         return "listar/usuario";	    
     }
     @GetMapping("/roles")
     public String listarrol(Model model) {
         model.addAttribute("roles", authorityRepository.findAll());
         model.addAttribute("rol", new Authority());
+        obtUsuario(model);
         return "listar/authority";
     }
 }
