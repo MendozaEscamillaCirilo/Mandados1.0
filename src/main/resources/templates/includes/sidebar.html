@@ -71,6 +71,14 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
             </a>
           </li>
           <li class="nav-item" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_COMERCIO')">
+            <a th:href="@{/listarcategoria}" class="nav-link">
+              <i class="nav-icon fas fa-dice-one"></i>
+              <p>
+                CATEGORIA
+              </p>
+            </a>
+          </li>
+          <li class="nav-item" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_COMERCIO')">
             <a th:href="@{/listaproducto}" class="nav-link">
               <i class="nav-icon fas fa-dice-one"></i>
               <p>

@@ -34,11 +34,13 @@ import com.mandados.Repository.TipoComercioRepository;
 import com.mandados.Repository.UserRepository;
 import com.mandados.Repository.AuthorityRepository;
 import com.mandados.Repository.ComercioRepository;
-// import com.mandados.Repository.CategoriaRepository;
+import com.mandados.Repository.CategoriaRepository;
 import com.mandados.Repository.ProductoRepository;
 import com.mandados.Repository.RepartidorRepository;
 import com.mandados.Servicios.Authorities.IAuthorityService;
+import com.mandados.Servicios.Comercio.ComercioService;
 import com.mandados.Servicios.Comercio.IComercioService;
+import com.mandados.Servicios.Categoria.ICategoriaService;
 import com.mandados.Servicios.Producto.IProductoService;
 import com.mandados.Servicios.Repartidor.IRepartidorService;
 import com.mandados.Servicios.Sucursal.ISucursalService;
@@ -46,6 +48,7 @@ import com.mandados.Servicios.User.IUserService;
 import com.mandados.config.Passgenerator;
 
 import java.util.Random;
+import java.util.Set;
 
 @Controller
 @RequestMapping
@@ -54,8 +57,8 @@ public class ControladorPrincipal {
     private JavaMailSender javaMailSender;
     @Autowired
     private AuthorityRepository authorityRepository;
-    // @Autowired
-    // private CategoriaRepository categoriarepository;
+    @Autowired
+    private CategoriaRepository categoriarepository;
     @Autowired
     private ComercioRepository comerciorepository;
     @Autowired
@@ -70,6 +73,8 @@ public class ControladorPrincipal {
     private IAuthorityService authorityservice;
     @Autowired
     private IComercioService servicecomercio;
+	@Autowired
+    private ICategoriaService categoriaservice;
     @Autowired
     private IProductoService productoservice;
     @Autowired
@@ -191,6 +196,50 @@ public class ControladorPrincipal {
         model.addAttribute("repartidor", new RepartidoresEntity());
         obtUsuario(model);
         return "listar/repartidor";
+    }
+	//////////////// REGISTRAR CATEGORIA /////////////////////
+    @PostMapping("/registrocategoria")
+    public String registrocategoriaguardar(@Validated CategoriasEntity cEntity, Model model){
+        try{
+            categoriaservice.save(cEntity);
+        }catch(Exception e){
+            System.out.println("ERROR AL REGISTRAR REPARTIDOR");
+            System.out.println(e);
+        }
+        model.addAttribute("categorias", categoriarepository.findAll());
+        model.addAttribute("categoria", new CategoriasEntity());
+        obtUsuario(model);
+        return "listar/categoria";
+    }
+	//////////////// ASIGNAR CATEGORIA A COMERCIO/////////////////////
+    @PostMapping("/asignarcategoria")
+    public String asignarcategoriaacomercio(@RequestParam("select") CategoriasEntity categorias, Model model, Authentication auth){
+        UserDetails userDetail = (UserDetails) auth.getPrincipal();
+        ComerciosEntity comerciosEntity =  comerciorepository.findByEmail(userDetail.getUsername());
+        try{
+            System.out.println(categorias);
+            // List<CategoriasEntity> cat = (comerciosEntity.getCategorias().size()!=0)?comerciosEntity.getCategorias() : new ArrayList<CategoriasEntity>();
+            List<CategoriasEntity> cat = new ArrayList<CategoriasEntity>();
+            if (comerciosEntity.getCategorias().size()>0) {
+                for(int i=0;i<comerciosEntity.getCategorias().size();i++){
+                    cat.add(comerciosEntity.getCategorias().get(i));
+                }
+            }
+            cat.add(categorias);
+            comerciosEntity.setCategorias(cat);
+            servicecomercio.save(comerciosEntity);
+        }catch(Exception e){
+            System.out.println("ERROR AL REGISTRAR CATEGORIA");
+            System.out.println(e);
+        }
+        // ///////////////////////////
+        obtUsuario(model);
+        model.addAttribute("categoriastotales", categoriarepository.findAll());
+        model.addAttribute("categoriasseleccionadas", comerciosEntity.getCategorias());
+        model.addAttribute("categoria", new CategoriasEntity());
+        return "listar/categoria";
+        // ///////////////////////////
+        // return "";
     }
     //////////////// REGISTRAR PRODUCTO/////////////////////
     @PostMapping("/registroproducto")

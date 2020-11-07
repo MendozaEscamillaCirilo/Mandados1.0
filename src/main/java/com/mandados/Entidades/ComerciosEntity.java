@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -36,7 +38,7 @@ public class ComerciosEntity {
             joinColumns = {@JoinColumn(name = "comercio_id")},
             inverseJoinColumns = {@JoinColumn(name = "categoria_id")}
     )
-	private Set<CategoriasEntity> categorias;
+	private List<CategoriasEntity> categorias;
 	
 	@OneToMany(mappedBy = "comercio",cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<ProductosEntity> productos;
@@ -88,11 +90,11 @@ public class ComerciosEntity {
 		this.sucursales = sucursales;
 	}
 
-	public Set<CategoriasEntity> getCategorias() {
+	public List<CategoriasEntity> getCategorias() {
 		return categorias;
 	}
 
-	public void setCategorias(Set<CategoriasEntity> categorias) {
+	public void setCategorias(List<CategoriasEntity> categorias) {
 		this.categorias = categorias;
 	}
 
