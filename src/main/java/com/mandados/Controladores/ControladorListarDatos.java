@@ -17,7 +17,9 @@ import com.mandados.Repository.RepartidorRepository;
 import com.mandados.Repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,6 +45,7 @@ public class ControladorListarDatos {
     public String listarcomercio(Model model) {
         obtUsuario(model);
         model.addAttribute("comercios", comerciorepository.findAll());
+        // model.addAttribute("comercios", comerciorepository.findAll());
         return "listar/comercio";	    
     }
     @GetMapping("/listarestaurante")
@@ -85,8 +88,11 @@ public class ControladorListarDatos {
         return "listar/orden";	    
     }
     @GetMapping("/listaproducto")
-    public String listarproducto(Model model) {
-        model.addAttribute("productos", productorepository.findAll());
+    public String listarproducto(Model model, Authentication auth) {
+        UserDetails userDetail = (UserDetails) auth.getPrincipal();
+        ComerciosEntity comerciosEntity =  comerciorepository.findByEmail(userDetail.getUsername());
+
+        model.addAttribute("productos", productorepository.findByComercio(comerciosEntity));
         model.addAttribute("producto", new ProductosEntity());
         model.addAttribute("categorias", categoriarepository.findAll());
         obtUsuario(model);
