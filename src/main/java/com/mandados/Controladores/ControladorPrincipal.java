@@ -19,7 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.web.multipart.MultipartFile;
@@ -198,19 +198,17 @@ public class ControladorPrincipal {
         UserDetails userDetail = (UserDetails) auth.getPrincipal();
         ComerciosEntity comerciosEntity =  comerciorepository.findByEmail(userDetail.getUsername());
         producto.setComercio(comerciosEntity);
+        String hora = GregorianCalendar.MONTH +""+ GregorianCalendar.HOUR +""+ GregorianCalendar.MINUTE +""+ GregorianCalendar.SECOND;
         if (!imagen.isEmpty()) {
             Path directorioImagenes = Paths.get("src//main//resources//static//productos");
             String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
             try {
                 byte[] bytesImgenes = imagen.getBytes();
-                Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + producto.getNombre()+".jpg");
+                Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + producto.getNombre().split(" ")[0]+"_"+hora+".jpg");
                 Files.write(rutaCompleta,bytesImgenes);
-                producto.setImagen(producto.getNombre()+".jpg");
+                producto.setImagen("productos/"+producto.getNombre().split(" ")[0]+"_"+hora+".jpg");
             } catch (Exception e) {
-                System.out.println("/////////////////////////////////////////////////////////////////////");
                 System.out.println(e);
-                System.out.println("/////////////////////////////////////////////////////////////////////");
-            
             }
         }
 
