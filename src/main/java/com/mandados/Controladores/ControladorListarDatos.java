@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-// import com.mandados.Entidades.CategoriasEntity;
+import com.mandados.Entidades.CategoriasEntity;
 import com.mandados.Entidades.ComerciosEntity;
 import com.mandados.Entidades.ProductosEntity;
 import com.mandados.Entidades.RepartidoresEntity;
@@ -80,6 +80,20 @@ public class ControladorListarDatos {
         model.addAttribute("repartidores", repartidorRepository.findAll());
         model.addAttribute("repartidor", new RepartidoresEntity());
         return "listar/repartidor";	    
+    }
+	@GetMapping("/listarcategoria")
+    public String listarcategoria(Model model, Authentication auth) {
+        UserDetails userDetail = (UserDetails) auth.getPrincipal();
+        ComerciosEntity comerciosEntity =  comerciorepository.findByEmail(userDetail.getUsername());
+        System.out.println("/////////////////////////////////////////////////////");
+        System.out.println(userDetail);
+        System.out.println(comerciosEntity);
+        System.out.println("/////////////////////////////////////////////////////");
+        obtUsuario(model);
+        model.addAttribute("categoriastotales", categoriarepository.findAll());
+        model.addAttribute("categoriasseleccionadas", comerciosEntity.getCategorias());
+        model.addAttribute("categoria", new CategoriasEntity());
+        return "listar/categoria";
     }
     @GetMapping("/listaorden")
     public String listarorden(Model model) {
