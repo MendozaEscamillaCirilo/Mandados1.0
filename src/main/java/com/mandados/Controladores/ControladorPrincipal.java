@@ -307,8 +307,15 @@ public class ControladorPrincipal {
     }
 
     @GetMapping("/buscarproductoo")
-    public String buscarproducto(Model model, String buscar){
-        System.out.println(buscar);
+    public String buscarproducto(Model model, @RequestParam("group1") String seleccionado,String buscar){
+        // List<ProductosEntity> productos = new ArrayList<ProductosEntity>();
+        // List<ProductosEntity> productosactuales = productorepository.findAll();
+        // for(int i=0;i<productosactuales.size();i++){
+
+        // }
+        model.addAttribute("seleccionado", seleccionado);
+        model.addAttribute("productos", productorepository.findAll());
+        model.addAttribute("categorias", categoriarepository.findAll());
         return "resultadodebusqueda";
     }
     public void obtUsuario(Model model){
