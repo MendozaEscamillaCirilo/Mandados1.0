@@ -108,7 +108,7 @@ public class ControladorListarDatos {
 
         model.addAttribute("productos", productorepository.findByComercio(comerciosEntity));
         model.addAttribute("producto", new ProductosEntity());
-        model.addAttribute("categorias", categoriarepository.findAll());
+        model.addAttribute("categorias", comerciosEntity.getCategorias());
         obtUsuario(model);
         return "listar/producto";	    
     }
