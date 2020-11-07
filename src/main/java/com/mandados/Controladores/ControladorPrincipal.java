@@ -2,6 +2,7 @@ package com.mandados.Controladores;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,13 +10,19 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.mail.SimpleMailMessage;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
-
+import org.springframework.web.multipart.MultipartFile;
 import com.mandados.Entidades.Authority;
 import com.mandados.Entidades.CategoriasEntity;
 import com.mandados.Entidades.ComerciosEntity;
@@ -187,10 +194,26 @@ public class ControladorPrincipal {
     }
     //////////////// REGISTRAR PRODUCTO/////////////////////
     @PostMapping("/registroproducto")
-    public String registroproducto(@Validated ProductosEntity producto,Model model){
-        ComerciosEntity comerciosEntity =  comerciorepository.findByEmail(userRepository.findByUsername(((org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername()).get().getUsername());
-        System.out.print(comerciosEntity);
+    public String registroproducto(@Validated ProductosEntity producto,Model model,@RequestParam("file") MultipartFile imagen, Authentication auth){
+        UserDetails userDetail = (UserDetails) auth.getPrincipal();
+        ComerciosEntity comerciosEntity =  comerciorepository.findByEmail(userDetail.getUsername());
         producto.setComercio(comerciosEntity);
+        if (!imagen.isEmpty()) {
+            Path directorioImagenes = Paths.get("src//main//resources//static//productos");
+            String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
+            try {
+                byte[] bytesImgenes = imagen.getBytes();
+                Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + producto.getNombre()+".jpg");
+                Files.write(rutaCompleta,bytesImgenes);
+                producto.setImagen(producto.getNombre()+".jpg");
+            } catch (Exception e) {
+                System.out.println("/////////////////////////////////////////////////////////////////////");
+                System.out.println(e);
+                System.out.println("/////////////////////////////////////////////////////////////////////");
+            
+            }
+        }
+
         productoservice.save(producto);
         model.addAttribute("productos", productorepository.findAll());
         model.addAttribute("producto", new ProductosEntity());

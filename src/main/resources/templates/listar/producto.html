@@ -55,7 +55,7 @@
         <div class="modal fade" id="nuevo" data-backdrop="false">
           <div class="modal-dialog modal-xl">
             <div class="modal-content">
-              <form class="form-signin" th:action="@{/registroproducto}" th:object=${producto} method="post" novalidate>
+              <form class="form-signin" th:action="@{/registroproducto}" th:object=${producto} enctype="multipart/form-data" method="post" novalidate>
                 <div class="modal-header">
                   <h4 class="modal-title">REGISTRO DE PRODUCTOS(PLATILLOS, PRODUCTOS)</h4>
                 </div>
@@ -77,6 +77,9 @@
                         <input th:field="*{descripcion}" type="text" name="descripcion" id="descripcion" class="form-control validate" placeholder="Descripción" required>
                     </div>
                     <div class="form-group">
+                        <input type="file" name="file" class="file-input" id="file">
+                    </div>
+                    <div class="form-group">
                       <select th:field="*{categoria}" data-placeholder="Selecciona rol" class="form-control validate" required>
                           <option th:each="tipo :${categorias}" th:value="${tipo.id}" th:text="${tipo.nombre}"></option>
                       </select>
@@ -93,6 +96,11 @@
         <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
         <div th:replace="includes/footer::home"></div>
         <script src="plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+        <script type="text/javascript">
+          $(document).ready(function () {
+            bsCustomFileInput.init();
+          });
+      </script>
     </div>
 </body>
 </html>

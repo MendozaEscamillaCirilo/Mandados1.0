@@ -53,8 +53,7 @@ public class CategoriasEntity {
 
 	@Override
 	public String toString() {
-		return "CategoriasEntity [descripcion=" + descripcion + ", id=" + id + ", nombre=" + nombre + ", productos="
-				+ productos + "]";
+		return "CategoriasEntity [descripcion=" + descripcion + ", id=" + id + ", nombre=" + nombre + "]";
 	}
 	
 	

@@ -10,7 +10,7 @@ import com.mandados.Entidades.User;
 import com.mandados.Repository.AuthorityRepository;
 import com.mandados.Repository.UserRepository;
 import com.mandados.Servicios.User.IUserService;
-import com.mandados.Servicios.User.UserService;
+// import com.mandados.Servicios.User.UserService;
 import com.mandados.config.Passgenerator;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +68,7 @@ public class ControladorUsuario {
                 Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + user1.getUsername()+".jpg");
                 Files.write(rutaCompleta,bytesImgenes);
                 user1.setImagen(user1.getUsername().split("@")[0]);
-            serviceuser.save(user1);
+                serviceuser.save(user1);
             } catch (Exception e) {System.out.println(e);}
         }
         obtUsuario(model);
