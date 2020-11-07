@@ -85,10 +85,6 @@ public class ControladorListarDatos {
     public String listarcategoria(Model model, Authentication auth) {
         UserDetails userDetail = (UserDetails) auth.getPrincipal();
         ComerciosEntity comerciosEntity =  comerciorepository.findByEmail(userDetail.getUsername());
-        System.out.println("/////////////////////////////////////////////////////");
-        System.out.println(userDetail);
-        System.out.println(comerciosEntity);
-        System.out.println("/////////////////////////////////////////////////////");
         obtUsuario(model);
         model.addAttribute("categoriastotales", categoriarepository.findAll());
         model.addAttribute("categoriasseleccionadas", comerciosEntity.getCategorias());
@@ -105,7 +101,6 @@ public class ControladorListarDatos {
     public String listarproducto(Model model, Authentication auth) {
         UserDetails userDetail = (UserDetails) auth.getPrincipal();
         ComerciosEntity comerciosEntity =  comerciorepository.findByEmail(userDetail.getUsername());
-
         model.addAttribute("productos", productorepository.findByComercio(comerciosEntity));
         model.addAttribute("producto", new ProductosEntity());
         model.addAttribute("categorias", comerciosEntity.getCategorias());

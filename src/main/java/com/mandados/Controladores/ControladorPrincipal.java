@@ -217,23 +217,22 @@ public class ControladorPrincipal {
         UserDetails userDetail = (UserDetails) auth.getPrincipal();
         ComerciosEntity comerciosEntity =  comerciorepository.findByEmail(userDetail.getUsername());
         try{
-            System.out.println("/////////////////////////////////////////////////////");
             System.out.println(categorias);
-            System.out.println("/////////////////////////////////////////////////////");
-            List<CategoriasEntity> cat = comerciosEntity.getCategorias();
+            // List<CategoriasEntity> cat = (comerciosEntity.getCategorias().size()!=0)?comerciosEntity.getCategorias() : new ArrayList<CategoriasEntity>();
+            List<CategoriasEntity> cat = new ArrayList<CategoriasEntity>();
+            if (comerciosEntity.getCategorias().size()>0) {
+                for(int i=0;i<comerciosEntity.getCategorias().size();i++){
+                    cat.add(comerciosEntity.getCategorias().get(i));
+                }
+            }
             cat.add(categorias);
             comerciosEntity.setCategorias(cat);
             servicecomercio.save(comerciosEntity);
         }catch(Exception e){
-            System.out.println("ERROR AL REGISTRAR REPARTIDOR");
+            System.out.println("ERROR AL REGISTRAR CATEGORIA");
             System.out.println(e);
         }
         // ///////////////////////////
-        
-        System.out.println("/////////////////////////////////////////////////////");
-        System.out.println(userDetail);
-        System.out.println(comerciosEntity);
-        System.out.println("/////////////////////////////////////////////////////");
         obtUsuario(model);
         model.addAttribute("categoriastotales", categoriarepository.findAll());
         model.addAttribute("categoriasseleccionadas", comerciosEntity.getCategorias());
