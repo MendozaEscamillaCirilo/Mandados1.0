@@ -38,7 +38,6 @@ import com.mandados.Repository.CategoriaRepository;
 import com.mandados.Repository.ProductoRepository;
 import com.mandados.Repository.RepartidorRepository;
 import com.mandados.Servicios.Authorities.IAuthorityService;
-import com.mandados.Servicios.Comercio.ComercioService;
 import com.mandados.Servicios.Comercio.IComercioService;
 import com.mandados.Servicios.Categoria.ICategoriaService;
 import com.mandados.Servicios.Producto.IProductoService;
@@ -48,7 +47,6 @@ import com.mandados.Servicios.User.IUserService;
 import com.mandados.config.Passgenerator;
 
 import java.util.Random;
-import java.util.Set;
 
 @Controller
 @RequestMapping
@@ -308,10 +306,10 @@ public class ControladorPrincipal {
         System.out.println("Send message...");
     }
 
-    @PostMapping("/buscarproductoo")
+    @GetMapping("/buscarproductoo")
     public String buscarproducto(Model model, String buscar){
         System.out.println(buscar);
-        return "hola";
+        return "resultadodebusqueda";
     }
     public void obtUsuario(Model model){
         Optional<User>lista = userRepository.findByUsername(((org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
