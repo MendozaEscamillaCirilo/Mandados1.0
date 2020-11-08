@@ -19,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
@@ -245,7 +246,8 @@ public class ControladorPrincipal {
         UserDetails userDetail = (UserDetails) auth.getPrincipal();
         ComerciosEntity comerciosEntity =  comerciorepository.findByEmail(userDetail.getUsername());
         producto.setComercio(comerciosEntity);
-        String hora = GregorianCalendar.MONTH +""+ GregorianCalendar.HOUR +""+ GregorianCalendar.MINUTE +""+ GregorianCalendar.SECOND;
+        Calendar calendario = new GregorianCalendar();
+        String hora = calendario.get(Calendar.HOUR_OF_DAY) +""+ calendario.get(Calendar.MINUTE) +""+ calendario.get(Calendar.SECOND);
         if (!imagen.isEmpty()) {
             Path directorioImagenes = Paths.get("src//main//resources//static//productos");
             String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
@@ -258,9 +260,9 @@ public class ControladorPrincipal {
                 System.out.println(e);
             }
         }
-
+        
         productoservice.save(producto);
-        model.addAttribute("productos", productorepository.findAll());
+        model.addAttribute("productos", productorepository.findByComercio(comerciosEntity));
         model.addAttribute("producto", new ProductosEntity());
         model.addAttribute("categorias", new CategoriasEntity());
         obtUsuario(model);
