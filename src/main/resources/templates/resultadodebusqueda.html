@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 3 | Gallery</title>
+  <title>Resultado</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
@@ -115,15 +115,15 @@
                     <a th:each="categoria:${categorias}" class="btn btn-info" href="javascript:void(0)" th:data-filter="${categoria.id}" th:text="${categoria.nombre}"> Comida </a>
                   </div>
                   <div class="mb-2">
-                    <a class="btn btn-secondary" href="javascript:void(0)" data-shuffle> Shuffle items </a>
+                    <a class="btn btn-secondary" href="javascript:void(0)" data-shuffle> Mezclar </a>
                     <div class="float-right">
                       <select class="custom-select" style="width: auto;" data-sortOrder>
-                        <option value="index"> Sort by Position </option>
-                        <option value="sortData"> Sort by Custom Data </option>
+                        <option value="index"> Ordenar por posicion </option>
+                        <option value="sortData"> Ordenar por datos </option>
                       </select>
                       <div class="btn-group">
-                        <a class="btn btn-default" href="javascript:void(0)" data-sortAsc> Ascending </a>
-                        <a class="btn btn-default" href="javascript:void(0)" data-sortDesc> Descending </a>
+                        <a class="btn btn-default" href="javascript:void(0)" data-sortAsc> Ascendente </a>
+                        <a class="btn btn-default" href="javascript:void(0)" data-sortDesc> Descendente </a>
                       </div>
                     </div>
                   </div>
