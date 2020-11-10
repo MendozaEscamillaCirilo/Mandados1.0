@@ -198,13 +198,21 @@ public class ControladorPrincipal {
     }
 	//////////////// REGISTRAR CATEGORIA /////////////////////
     @PostMapping("/registrocategoria")
-    public String registrocategoriaguardar(@Validated CategoriasEntity cEntity, Model model){
+    public String registrocategoriaguardar(@Validated CategoriasEntity cEntity, Model model,Authentication auth){
         try{
             categoriaservice.save(cEntity);
         }catch(Exception e){
             System.out.println("ERROR AL REGISTRAR REPARTIDOR");
             System.out.println(e);
         }
+        UserDetails userDetail = (UserDetails) auth.getPrincipal();
+        ComerciosEntity comerciosEntity =  comerciorepository.findByEmail(userDetail.getUsername());
+        if(userDetail.getUsername().equals("admin")){
+            model.addAttribute("categoriasseleccionadas", categoriarepository.findAll());
+        }else{
+            model.addAttribute("categoriasseleccionadas", comerciosEntity.getCategorias());
+        }
+        model.addAttribute("categoriasseleccionadas", comerciosEntity.getCategorias());
         model.addAttribute("categorias", categoriarepository.findAll());
         model.addAttribute("categoria", new CategoriasEntity());
         obtUsuario(model);

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Resultado</title>
+  <title>AdminLTE 3 | Gallery</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
@@ -17,9 +17,91 @@
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+  <style>
+    .profile-card-4 {
+        max-width: 300px;
+        background-color: #FFF;
+        border-radius: 5px;
+        box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        position: relative;
+        margin: 10px auto;
+        cursor: pointer;
+    }
+  
+    .profile-card-4 img {
+        transition: all 0.25s linear;
+    }
+  
+    .profile-card-4 .profile-content {
+        position: relative;
+        padding: 15px;
+        background-color: #FFF;
+    }
+  
+    .profile-card-4 .profile-name {
+        font-weight: bold;
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        top: -70px;
+        color: #FFF;
+        font-size: 17px;
+    }
+  
+    .profile-card-4 .profile-name p {
+        font-weight: 600;
+        font-size: 13px;
+        letter-spacing: 1.5px;
+    }
+  
+    .profile-card-4 .profile-description {
+        color: #777;
+        font-size: 12px;
+        padding: 10px;
+    }
+  
+    .profile-card-4 .profile-overview {
+        padding: 15px 0px;
+    }
+  
+    .profile-card-4 .profile-overview p {
+        font-size: 10px;
+        font-weight: 600;
+        color: #777;
+    }
+  
+    .profile-card-4 .profile-overview h4 {
+        color: #273751;
+        font-weight: bold;
+    }
+  
+    .profile-card-4 .profile-content::before {
+        content: "";
+        position: absolute;
+        height: 20px;
+        top: -10px;
+        left: 0px;
+        right: 0px;
+        background-color: #FFF;
+        z-index: 0;
+        transform: skewY(3deg);
+    }
+  
+    .profile-card-4:hover img {
+        transform: rotate(5deg) scale(1.1, 1.1);
+        filter: brightness(110%);
+    }
+    h4, .h4 {
+      font-size: 1.3em;
+      line-height: 1.55em;
+    }
+  </style>
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition layout-top-nav">
 <div class="wrapper">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
@@ -33,33 +115,50 @@
                     <a th:each="categoria:${categorias}" class="btn btn-info" href="javascript:void(0)" th:data-filter="${categoria.id}" th:text="${categoria.nombre}"> Comida </a>
                   </div>
                   <div class="mb-2">
-                    <a class="btn btn-secondary" href="javascript:void(0)" data-shuffle> Mezclar </a>
+                    <a class="btn btn-secondary" href="javascript:void(0)" data-shuffle> Shuffle items </a>
                     <div class="float-right">
                       <select class="custom-select" style="width: auto;" data-sortOrder>
-                        <option value="index"> Ordenar por posicion </option>
-                        <option value="sortData"> Ordenar por datos </option>
+                        <option value="index"> Sort by Position </option>
+                        <option value="sortData"> Sort by Custom Data </option>
                       </select>
                       <div class="btn-group">
-                        <a class="btn btn-default" href="javascript:void(0)" data-sortAsc> Ascendente </a>
-                        <a class="btn btn-default" href="javascript:void(0)" data-sortDesc> Descendente </a>
+                        <a class="btn btn-default" href="javascript:void(0)" data-sortAsc> Ascending </a>
+                        <a class="btn btn-default" href="javascript:void(0)" data-sortDesc> Descending </a>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div>
-                    <div class="filter-container p-0 row">
-                        <div th:each="producto:${productos}" class="filtr-item col-sm-3" th:data-category="${producto.categoria.id}" data-sort="white sample">
-                            <div class="card text-center">
-                                <p th:text="${producto.categoria.nombre}"></p>
-                                <p th:text="${producto.nombre}"></p>
-                                <p><h5>Comercio = <strong th:text="${producto.comercio.nombre}"></strong></h5></p>
-                                <a th:href="${producto.imagen}" data-toggle="lightbox" th:data-footer="${producto.descripcion}" th:data-title="${producto.nombre}">
-                                  <img th:src="${producto.imagen}" class="img-fluid mb-2" alt="white sample"/>
-                                </a>
-                                <p><h5>Precio = <strong th:text="${producto.precio}"></strong></h5></p>
+                  <div class="filter-container p-0 row">
+                    <div th:each="producto:${productos}" class="filtr-item col-sm-4" th:data-category="${producto.categoria.id}" data-sort="white sample">
+                      <div class="profile-card-4 text-center">
+                        <a th:href="${producto.imagen}" data-toggle="lightbox" th:data-footer="${producto.descripcion}" th:data-title="${producto.nombre}">
+                          <img th:src="${producto.imagen}" class="img img-responsive" width="100%">
+                        </a>
+                        <div class="profile-content">
+                          <div th:text="${producto.nombre}" class="profile-name">John Doe
+                            <p th:text="${producto.categoria.nombre}">categoria</p>
+                          </div>
+                          <div th:text="${producto.descripcion}" class="profile-description">Lorem</div>
+                          <div class="text-center">
+                            <div class="col-xs-4">
+                              <div class="profile-overview">
+                                <p th:text="${producto.comercio.nombre}">TWEETS</p>
+                                <div class="ftr">
+                                  <div class="price">
+                                    <h4>$<strong th:text="${producto.precio}"></strong></h4>
+                                  </div>
+                                  <div class="stats">
+                                    <button type="button" rel="tooltip" title="" class="btn btn-just-icon btn-simple btn-default" data-original-title="Save to Wishlist"> <i class="fa fa-shopping-cart"></i> </button>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
+                          </div>
                         </div>
+                      </div>
                     </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -68,150 +167,146 @@
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
-  <!-- /.content-wrapper -->
-  <div th:fragment="footer2">
-    <footer  class="page-footer font-small unique-color-dark">
-      <!-- Social buttons -->
-      <div class="primary-color">
-          <div class="container">
-              <!--Grid row-->
-              <div class="row py-4 d-flex align-items-center">
-  
-                  <!--Grid column-->
-                  <div class="col-md-6 col-lg-5 text-center text-md-left mb-4 mb-md-0">
-                      <h6 class="mb-0 text-white">Siguenos en nuestras redes sociales.</h6>
-                  </div>
-                  <!--Grid column-->
-  
-                  <!--Grid column-->
-                  <div class="col-md-6 col-lg-7 text-center text-md-right">
-                      <!--Facebook-->
-                      <a class="fb-ic ml-0">
-                          <i class="fab fa-facebook text-white mr-4"> </i>
-                      </a>
-                      <!--Twitter-->
-                      <a class="tw-ic">
-                          <i class="fab fa-twitter text-white mr-4"> </i>
-                      </a>
-                      <!--Google +-->
-                      <!-- <a class="gplus-ic">
-                          <i class="fab fa-google-plus text-white mr-4"> </i>
-                      </a> -->
-                      <!--Linkedin-->
-                      <!-- <a class="li-ic">
-                          <i class="fab fa-linkedin text-white mr-4"> </i>
-                      </a> -->
-                      <!--Instagram-->
-                      <a class="ins-ic">
-                          <i class="fab fa-instagram text-white mr-lg-4"> </i>
-                      </a>
-                  </div>
-                  <!--Grid column-->
-  
-              </div>
-              <!--Grid row-->
-          </div>
-      </div>
-      <!-- Social buttons -->
-  
-      <!--Footer Links-->
-      <div class="container mt-5 mb-4 text-center text-md-left">
-          <div class="row mt-3">
-  
-              <!--First column-->
-              <div class="col-md-3 col-lg-4 col-xl-3 mb-4">
-                  <h6 class="text-uppercase font-weight-bold">
-                      <strong>MANDADOS DE MAMÁ</strong>
-                  </h6>
-                  <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-                  <p>.</p>
-              </div>
-              <!--/.First column-->
-  
-              <!--Second column-->
-              <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-                  <h6 class="text-uppercase font-weight-bold">
-                      <strong>Productos</strong>
-                  </h6>
-                  <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-                  <p>
-                      <a href="#!">Reparto de comida.</a>
-                  </p>
-                  <p>
-                      <a href="#!">Entrega de mandados</a>
-                  </p>
-              </div>
-              <!--/.Second column-->
-  
-              <!--Third column-->
-              <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-                  <h6 class="text-uppercase font-weight-bold">
-                      <strong>Se parte del equipo</strong>
-                  </h6>
-                  <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-                  <p>
-                      <a href="/home">Tu cuenta</a>
-                  </p>
-                  <!-- <p>
-                      <a href="/resrep">Conviertete en repartidor</a>
-                  </p>-->
-                  <p>
-                      <a href="/registrocomercio">Registra tu comercio</a>
-                  </p>
-                  <p>
-                      <a href="#!">Ayuda</a>
-                  </p>
-              </div>
-              <!--/.Third column-->
-  
-              <!--Fourth column-->
-              <div class="col-md-4 col-lg-3 col-xl-3">
-                  <h6 class="text-uppercase font-weight-bold">
-                      <strong>Contacto</strong>
-                  </h6>
-                  <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-                  <p>
-                      <i class="fas fa-home"></i></i> Oaxaca de Juarez, Oaxaca</p>
-                  <p>
-                      <!-- <i class="fa fa-envelope mr-3"></i> info@mandadosdemama.com</p> -->
-                  <p>
-                      <!-- <i class="fa fa-phone mr-3"></i> 951 000 0000</p> -->
-                  <p>
-                      <!-- <i class="fa fa-print mr-3"></i> 951 000 0000</p> -->
-              </div>
-              <!--/.Fourth column-->
-  
-          </div>
-      </div>
-      <!--/.Footer Links-->
-  
-      <!-- Copyright -->
-      <div class="footer-copyright text-center py-3">© 2020 Copyright:
-    <!-- <a href="https://cirilomendoza.com/"> cirilomendoza.com</a> -->
-    <a href="">Mandados de mamá</a>
-      </div>
-      <!-- Copyright -->
-  
-    </footer>
   </div>
-</div>
-<!-- ./wrapper -->
+  <!-- /.content-wrapper -->
 
-<!-- jQuery -->
-<script src="../plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap -->
-<script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- jQuery UI -->
-<script src="../plugins/jquery-ui/jquery-ui.min.js"></script>
-<!-- Ekko Lightbox -->
-<script src="../plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
-<!-- AdminLTE App -->
-<script src="../dist/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="../dist/js/demo.js"></script>
-<!-- Filterizr-->
-<script src="../plugins/filterizr/jquery.filterizr.min.js"></script>
-<!-- Page specific script -->
+  <footer  class="main-footer page-footer font-small unique-color-dark">
+    <!-- Social buttons -->
+    <div class="primary-color">
+        <div class="container">
+            <!--Grid row-->
+            <div class="row py-4 d-flex align-items-center">
+
+                <!--Grid column-->
+                <div class="col-md-6 col-lg-5 text-center text-md-left mb-4 mb-md-0">
+                    <h6 class="mb-0 text-white">Siguenos en nuestras redes sociales.</h6>
+                </div>
+                <!--Grid column-->
+
+                <!--Grid column-->
+                <div class="col-md-6 col-lg-7 text-center text-md-right">
+                    <!--Facebook-->
+                    <a class="fb-ic ml-0">
+                        <i class="fab fa-facebook text-white mr-4"> </i>
+                    </a>
+                    <!--Twitter-->
+                    <a class="tw-ic">
+                        <i class="fab fa-twitter text-white mr-4"> </i>
+                    </a>
+                    <!--Google +-->
+                    <!-- <a class="gplus-ic">
+                        <i class="fab fa-google-plus text-white mr-4"> </i>
+                    </a> -->
+                    <!--Linkedin-->
+                    <!-- <a class="li-ic">
+                        <i class="fab fa-linkedin text-white mr-4"> </i>
+                    </a> -->
+                    <!--Instagram-->
+                    <a class="ins-ic">
+                        <i class="fab fa-instagram text-white mr-lg-4"> </i>
+                    </a>
+                </div>
+                <!--Grid column-->
+
+            </div>
+            <!--Grid row-->
+        </div>
+    </div>
+    <!-- Social buttons -->
+
+    <!--Footer Links-->
+    <div class="container mt-5 mb-4 text-center text-md-left">
+        <div class="row mt-3">
+
+            <!--First column-->
+            <div class="col-md-3 col-lg-4 col-xl-3 mb-4">
+                <h6 class="text-uppercase font-weight-bold">
+                    <strong>MANDADOS DE MAMÁ</strong>
+                </h6>
+                <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+                <p>.</p>
+            </div>
+            <!--/.First column-->
+
+            <!--Second column-->
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                <h6 class="text-uppercase font-weight-bold">
+                    <strong>Productos</strong>
+                </h6>
+                <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+                <p>
+                    <a href="#!">Reparto de comida.</a>
+                </p>
+                <p>
+                    <a href="#!">Entrega de mandados</a>
+                </p>
+            </div>
+            <!--/.Second column-->
+
+            <!--Third column-->
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                <h6 class="text-uppercase font-weight-bold">
+                    <strong>Se parte del equipo</strong>
+                </h6>
+                <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+                <p>
+                    <a href="/home">Tu cuenta</a>
+                </p>
+                <!-- <p>
+                    <a href="/resrep">Conviertete en repartidor</a>
+                </p>-->
+                <p>
+                    <a href="/registrocomercio">Registra tu comercio</a>
+                </p>
+                <p>
+                    <a href="#!">Ayuda</a>
+                </p>
+            </div>
+            <!--/.Third column-->
+
+            <!--Fourth column-->
+            <div class="col-md-4 col-lg-3 col-xl-3">
+                <h6 class="text-uppercase font-weight-bold">
+                    <strong>Contacto</strong>
+                </h6>
+                <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+                <p>
+                    <i class="fas fa-home"></i></i> Oaxaca de Juarez, Oaxaca</p>
+                <!-- <p>
+                    <i class="fa fa-envelope mr-3"></i> info@mandadosdemama.com</p> -->
+                <!-- <p>
+                    <i class="fa fa-phone mr-3"></i> 951 000 0000</p> -->
+                <!-- <p>
+                    <i class="fa fa-print mr-3"></i> 951 000 0000</p> -->
+            </div>
+            <!--/.Fourth column-->
+
+        </div>
+    </div>
+    <!--/.Footer Links-->
+
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2020 Copyright:
+	  <!-- <a href="https://cirilomendoza.com/"> cirilomendoza.com</a> -->
+	  <a href="">Mandados de mamá</a>
+    </div>
+    <!-- Copyright -->
+
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<script th:src="@{../plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{../plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{../plugins/jquery-ui/jquery-ui.min.js}"></script>
+<script th:src="@{../plugins/ekko-lightbox/ekko-lightbox.min.js}"></script>
+<script th:src="@{../dist/js/adminlte.min.js}"></script>
+<script th:src="@{../dist/js/demo.js}"></script>
+<script th:src="@{../plugins/filterizr/jquery.filterizr.min.js}"></script>
 <script>
   $(function () {
     $(document).on('click', '[data-toggle="lightbox"]', function(event) {

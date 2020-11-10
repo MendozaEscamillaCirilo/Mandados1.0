@@ -87,7 +87,11 @@ public class ControladorListarDatos {
         ComerciosEntity comerciosEntity =  comerciorepository.findByEmail(userDetail.getUsername());
         obtUsuario(model);
         model.addAttribute("categoriastotales", categoriarepository.findAll());
-        model.addAttribute("categoriasseleccionadas", comerciosEntity.getCategorias());
+        if(userDetail.getUsername().equals("admin")){
+            model.addAttribute("categoriasseleccionadas", categoriarepository.findAll());
+        }else{
+            model.addAttribute("categoriasseleccionadas", comerciosEntity.getCategorias());
+        }
         model.addAttribute("categoria", new CategoriasEntity());
         return "listar/categoria";
     }
@@ -101,9 +105,14 @@ public class ControladorListarDatos {
     public String listarproducto(Model model, Authentication auth) {
         UserDetails userDetail = (UserDetails) auth.getPrincipal();
         ComerciosEntity comerciosEntity =  comerciorepository.findByEmail(userDetail.getUsername());
-        model.addAttribute("productos", productorepository.findByComercio(comerciosEntity));
+        if(userDetail.getUsername().equals("admin")){
+            model.addAttribute("productos", productorepository.findAll());
+            model.addAttribute("categorias", categoriarepository.findAll());
+        }else{
+            model.addAttribute("productos", productorepository.findByComercio(comerciosEntity));
+            model.addAttribute("categorias", comerciosEntity.getCategorias());
+        }
         model.addAttribute("producto", new ProductosEntity());
-        model.addAttribute("categorias", comerciosEntity.getCategorias());
         obtUsuario(model);
         return "listar/producto";	    
     }

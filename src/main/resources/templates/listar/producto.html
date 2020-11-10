@@ -12,7 +12,7 @@
                   <div class="card-tools">
                     <ul class="nav nav-pills ml-auto">
                       <li class="nav-item">
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#nuevo">
+                        <button sec:authorize="hasAuthority('ROL_COMERCIO')" type="button" class="btn btn-default" data-toggle="modal" data-target="#nuevo">
                           Nuevo
                         </button>
                       </li>
