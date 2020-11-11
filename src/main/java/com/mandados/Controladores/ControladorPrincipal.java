@@ -49,11 +49,19 @@ import com.mandados.config.Passgenerator;
 
 import java.util.Random;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+// import javax.persistence.criteria.CriteriaBuilder;
+// import javax.persistence.criteria.CriteriaQuery;
+// import javax.persistence.criteria.Root;
+
 @Controller
 @RequestMapping
 public class ControladorPrincipal {
     @Autowired
     private JavaMailSender javaMailSender;
+    @Autowired
+    private EntityManager em;
     @Autowired
     private AuthorityRepository authorityRepository;
     @Autowired
@@ -318,11 +326,12 @@ public class ControladorPrincipal {
 
     @GetMapping("/buscarproductoo")
     public String buscarproducto(Model model, @RequestParam("group1") String seleccionado,String buscar){
-        // List<ProductosEntity> productos = new ArrayList<ProductosEntity>();
-        // List<ProductosEntity> productosactuales = productorepository.findAll();
-        // for(int i=0;i<productosactuales.size();i++){
 
-        // }
+        Query q = em.createQuery("SELECT nombre FROM productos p WHERE p.nombre LIKE comida ");
+        System.out.println(q.getResultList());
+        // Query q = em.createQuery("SELECT nombre FROM productos p WHERE p.nombre LIKE '%:nombre%' ");
+        // q.setParameter("comida");
+        
         model.addAttribute("seleccionado", seleccionado);
         model.addAttribute("productos", productorepository.findAll());
         model.addAttribute("categorias", categoriarepository.findAll());

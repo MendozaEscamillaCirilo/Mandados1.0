@@ -130,6 +130,9 @@
                 </div>
                 <div>
                   <div class="filter-container p-0 row">
+                    <div th:if="${productos.empty}">
+                        <h3> No hay productos relacionados con su busqueda</h3>
+                    </div>
                     <div th:each="producto:${productos}" class="filtr-item col-sm-4" th:data-category="${producto.categoria.id}" data-sort="white sample">
                       <div class="profile-card-4 text-center">
                         <a th:href="${producto.imagen}" data-toggle="lightbox" th:data-footer="${producto.descripcion}" th:data-title="${producto.nombre}">

@@ -63,16 +63,22 @@
                       <div class="row">
                         <div class="col-5 col-sm-3">
                           <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+                            <a class="nav-link" th:id="todo" data-toggle="pill" href="#vert-tabs-todo" role="tab" aria-controls="vert-tabs-todo" aria-selected="false">TODO</a>
                             <a th:each="categoria:${categorias}" class="nav-link" th:id="${categoria.nombre}" data-toggle="pill" th:href="'#vert-tabs-' + ${categoria.nombre}" role="tab" th:aria-controls="'vert-tabs-' + ${categoria.nombre}" aria-selected="false" th:text=${categoria.nombre}>Settings</a>
                           </div>
                         </div>
                         <div class="col-7 col-sm-9">
                           <div class="tab-content" id="vert-tabs-tabContent">
-                            <div th:each="categoria:${categorias}" class="tab-pane text-left fade " th:id="'vert-tabs-' + ${categoria.nombre}" role="tabpanel" th:aria-labelledby="${categoria.nombre}" th:text="'Estoy en la categoria de ' + ${categoria.nombre}">
-                              <div th:each="producto :${productos}" class="text-left fade " th:text="'Estoy en la categoria de ' + ${producto.categoria.nombre} + con el producto + ${producto.nombre}">
-                                Loroctetur. 
+                            <div class="tab-pane text-left fade show active" id="vert-tabs-todo" role="tabpanel" aria-labelledby="todo" >Todos los productos
+                              <div th:each="producto :${productos}" class="text-left fade show" th:text="'Estoy en la categoria de ' + ${producto.categoria.nombre} + ' con el producto ' + ${producto.nombre}">
+                                Hola
                               </div>
-                           </div>
+                            </div>
+                            <div th:each="categoria:${categorias}" class="tab-pane text-left fade show" th:id="'vert-tabs-' + ${categoria.nombre}" role="tabpanel" th:aria-labelledby="${categoria.nombre}" ><h2 th:text="${categoria.nombre}"></h2>
+                              <div th:each="producto :${productos}" th:if="${producto.categoria.nombre}==${categoria.nombre}" class="text-left fade show" th:text="'Estoy en la categoria de ' + ${producto.categoria.nombre} + 'con el producto ' + ${producto.nombre}">
+                                hola
+                              </div>
+                            </div>
                             <!-- <div class="tab-pane text-left fade show active" id="vert-tabs-COMIDA" role="tabpanel" aria-labelledby="COMIDA">
                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin malesuada lacus ullamcorper dui molestie, sit amet congue quam finibus. Etiam ultricies nunc non magna feugiat commodo. Etiam odio magna, mollis auctor felis vitae, ullamcorper ornare ligula. Proin pellentesque tincidunt nisi, vitae ullamcorper felis aliquam id. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin id orci eu lectus blandit suscipit. Phasellus porta, ante et varius ornare, sem enim sollicitudin eros, at commodo leo est vitae lacus. Etiam ut porta sem. Proin porttitor porta nisl, id tempor risus rhoncus quis. In in quam a nibh cursus pulvinar non consequat neque. Mauris lacus elit, condimentum ac condimentum at, semper vitae lectus. Cras lacinia erat eget sapien porta consectetur. 
                             </div> -->
