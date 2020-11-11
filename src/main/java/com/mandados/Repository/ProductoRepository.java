@@ -20,4 +20,5 @@ public interface ProductoRepository extends CrudRepository<ProductosEntity, Long
     @Query(value="select * from productos where nombre like %:nombre%", nativeQuery=true)
     public List<ProductosEntity> buscarPorNombre(@Param("nombre") String nombre);
     // public List<ProductosEntity> indUsersByKeyword(@Param("keyword") String keyword);
+    
 }
