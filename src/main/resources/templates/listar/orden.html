@@ -19,6 +19,7 @@
                       <th>hora de recoleeccion</th>
                       <th>hora de entrega</th>
                       <th>total</th>
+                      <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -31,6 +32,13 @@
                             <td><span th:text="${pedido.hora_recoleeccion}"> Authority </span></td>
                             <td><span th:text="${pedido.hora_entrega}"> Authority </span></td>
                             <td><span th:text="${pedido.total}"> Authority </span></td>
+                            <td class="text-center py-0 align-middle">
+                              <div class="btn-group btn-group-sm">
+                                <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                              </div>
+                            </td>
                         </tr>
                     </tbody>
                     <tfoot>
@@ -40,6 +48,7 @@
                       <th>hora de recoleeccion</th>
                       <th>hora de entrega</th>
                       <th>total</th>
+                      <th></th>
                     </tr>
                     </tfoot>
                   </table>

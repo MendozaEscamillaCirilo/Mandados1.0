@@ -75,12 +75,7 @@ public class ProductosEntity {
 		this.categoria = categoria;
 	}
 
-	@Override
-	public String toString() {
-		return "ProductosEntity [categoria=" + categoria + ", comercio=" + comercio + ", contenido=" + contenido
-				+ ", descripcion=" + descripcion + ", id=" + id + ", imagen=" + imagen + ", nombre=" + nombre
-				+ ", precio=" + precio + "]";
-	}
+	
 
 	public String getImagen() {
 		return imagen;
@@ -98,6 +93,9 @@ public class ProductosEntity {
 		this.comercio = comercio;
 	}
 
+	public String toString() {
+		return "ProductosEntity [contenido=" + contenido + ", descripcion=" + descripcion + ", id=" + id + ", imagen="
+				+ imagen + ", nombre=" + nombre + ", precio=" + precio + "]";
+	}
 
-	
 }

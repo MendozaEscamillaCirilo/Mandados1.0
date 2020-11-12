@@ -9,4 +9,5 @@ public interface IProductoService {
 	public Optional<ProductosEntity>listarId(int d);
 	public int save(ProductosEntity p);
 	public void delete(int d);
+	public List<ProductosEntity> findByNombreStartsWith(String nombre);
 }

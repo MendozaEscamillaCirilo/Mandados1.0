@@ -118,12 +118,11 @@ public class RepartidoresEntity {
         this.pedidos = pedidos;
     }
 
-	@Override
-	public String toString() {
-		return "RepartidoresEntity [calle=" + calle + ", colonia=" + colonia + ", email=" + email + ", id=" + id
-				+ ", municipio=" + municipio + ", nombre=" + nombre + ", numero=" + numero + ", pedidos=" + pedidos
-				+ ", primer_apellido=" + primer_apellido + ", segundo_apellido=" + segundo_apellido + ", telefono="
-				+ telefono + "]";
-	}
+    public String toString() {
+        return "RepartidoresEntity [calle=" + calle + ", colonia=" + colonia + ", email=" + email + ", id=" + id
+                + ", municipio=" + municipio + ", nombre=" + nombre + ", numero=" + numero + ", pedidos=" + pedidos
+                + ", primer_apellido=" + primer_apellido + ", segundo_apellido=" + segundo_apellido + ", telefono="
+                + telefono + "]";
+    }
 
 }

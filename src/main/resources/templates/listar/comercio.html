@@ -21,6 +21,7 @@
                         <th>nombre</th>
                         <th>email</th>
                         <th>tipo comercio</th>
+                        <th></th>
                       </tr>
                       </thead>
                       <tbody>
@@ -28,9 +29,16 @@
                               <td colspan="3"> No hay comercios registrados </td>
                           </tr>
                           <tr th:each="comercio :${comercios}">
-                              <td><span th:text="${comercio.nombre}"> Authority </span></td>
-                              <td><span th:text="${comercio.email}"> Authority </span></td>
-                              <td><span th:text="${comercio.tipoComercio.nombre}"> Authority </span></td>
+                            <td><span th:text="${comercio.nombre}"> Authority </span></td>
+                            <td><span th:text="${comercio.email}"> Authority </span></td>
+                            <td><span th:text="${comercio.tipoComercio.nombre}"> Authority </span></td>
+                            <td class="text-center py-0 align-middle">
+                              <div class="btn-group btn-group-sm">
+                                <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                              </div>
+                            </td>
                           </tr>
                       </tbody>
                       <tfoot>
@@ -38,6 +46,7 @@
                           <th>nombre</th>
                           <th>email</th>
                           <th>tipo comercio</th>
+                          <th></th>
                       </tr>
                       </tfoot>
                     </table>

@@ -25,6 +25,7 @@
                     <tr>
                       <th>nombre</th>
                       <th>abilitado</th>
+                      <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -34,12 +35,20 @@
                         <tr th:each="user :${usuarios}">
                             <td><span th:text="${user.username}"> username </span></td>
                             <td><span th:text="${user.enabled}"> enabled </span></td>
+                            <td class="text-center py-0 align-middle">
+                              <div class="btn-group btn-group-sm">
+                                <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                              </div>
+                            </td>
                         </tr>
                     </tbody>
                     <tfoot>
                     <tr>
                         <th>nombre</th>
                         <th>abilitado</th>
+                        <th></th>
                     </tr>
                     </tfoot>
                   </table>

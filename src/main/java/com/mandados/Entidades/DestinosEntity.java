@@ -110,11 +110,9 @@ public class DestinosEntity {
         this.pedidos = pedidos;
     }
 
-	@Override
-	public String toString() {
-		return "DestinosEntity [calle=" + calle + ", colonia=" + colonia + ", id=" + id + ", municipio=" + municipio
-				+ ", nombres=" + nombres + ", numero=" + numero + ", pedidos=" + pedidos + ", primer_apellido="
-				+ primer_apellido + ", segundo_apellido=" + segundo_apellido + ", telefono=" + telefono + "]";
-	}
-
+    public String toString() {
+        return "DestinosEntity [calle=" + calle + ", colonia=" + colonia + ", id=" + id + ", municipio=" + municipio
+                + ", nombres=" + nombres + ", numero=" + numero + ", pedidos=" + pedidos + ", primer_apellido="
+                + primer_apellido + ", segundo_apellido=" + segundo_apellido + ", telefono=" + telefono + "]";
+    }
 }

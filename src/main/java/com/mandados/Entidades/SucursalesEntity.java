@@ -109,14 +109,10 @@ public class SucursalesEntity {
         this.comercio = comercio;
     }
 
-    @Override
     public String toString() {
         return "SucursalesEntity [calle=" + calle + ", codigopostal=" + codigopostal + ", colonia=" + colonia
                 + ", comercio=" + comercio + ", email=" + email + ", id=" + id + ", municipio=" + municipio
                 + ", nombre=" + nombre + ", numero=" + numero + ", telefono=" + telefono + "]";
     }
-
-
-    
     
 }

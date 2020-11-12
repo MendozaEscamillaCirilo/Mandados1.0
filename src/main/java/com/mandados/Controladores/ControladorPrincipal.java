@@ -21,6 +21,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,9 +52,10 @@ import java.util.Random;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-// import javax.persistence.criteria.CriteriaBuilder;
-// import javax.persistence.criteria.CriteriaQuery;
-// import javax.persistence.criteria.Root;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 @Controller
 @RequestMapping
@@ -220,7 +222,6 @@ public class ControladorPrincipal {
         }else{
             model.addAttribute("categoriasseleccionadas", comerciosEntity.getCategorias());
         }
-        model.addAttribute("categoriasseleccionadas", comerciosEntity.getCategorias());
         model.addAttribute("categorias", categoriarepository.findAll());
         model.addAttribute("categoria", new CategoriasEntity());
         obtUsuario(model);
@@ -327,17 +328,21 @@ public class ControladorPrincipal {
     @GetMapping("/buscarproductoo")
     public String buscarproducto(Model model, @RequestParam("group1") String seleccionado,String buscar){
 
-        // Query q = em.createQuery("SELECT nombre FROM productos p WHERE p.nombre LIKE comida ");
-        // System.out.println(q.getResultList());
-        // Query q = em.createQuery("SELECT nombre FROM productos p WHERE p.nombre LIKE '%:nombre%' ");
-        // q.setParameter("comida");
-        // System.out.println(productorepository.findByNombre(buscar));
-        // System.out.println(productorepository.findByNombreLike(buscar));
-
-        
+        // CriteriaBuilder cb = em.getCriteriaBuilder();
+        // CriteriaQuery<ProductosEntity> criteriaQ = cb.createQuery(ProductosEntity.class);
+        // Root<ProductosEntity> root = criteriaQ.from(ProductosEntity.class);
+        // criteriaQ.select(root).where(cb.equal(root.get("comercio").get("id"), 1));
+        // List<ProductosEntity>result = em.createQuery(criteriaQ).getResultList();
+        List<ProductosEntity>productos = productorepository.findByNombreStartsWith(buscar);
+        List<CategoriasEntity>categorias = new ArrayList<CategoriasEntity>();
+        for(int i=0;i<productos.size();i++){
+            categorias.add(categoriarepository.findByNombre(productos.get(i).getCategoria().getNombre()));
+        }
         model.addAttribute("seleccionado", seleccionado);
-        model.addAttribute("productos", productorepository.findAll());
-        model.addAttribute("categorias", categoriarepository.findAll());
+        // model.addAttribute("productos", productorepository.findAll());
+        model.addAttribute("productos", productos);
+        // model.addAttribute("categorias", categoriarepository.findAll());
+        model.addAttribute("categorias", categorias);
         return "resultadodebusqueda";
     }
     public void obtUsuario(Model model){
@@ -347,4 +352,5 @@ public class ControladorPrincipal {
         model.addAttribute("foto", "logos/"+user1.getUsername() + ".jpg");
         model.addAttribute("comercio", comerciorepository.findByEmail(user1.getUsername()));
     }
+    
 }

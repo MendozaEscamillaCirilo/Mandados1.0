@@ -68,7 +68,6 @@ public class User {
         return true;
     }
 
-    @Override
     public String toString() {
         return "User [enabled=" + enabled + ", id=" + id + ", imagen=" + imagen + ", password=" + password
                 + ", username=" + username + "]";

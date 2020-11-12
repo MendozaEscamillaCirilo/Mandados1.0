@@ -50,11 +50,5 @@ public class CategoriasEntity {
 	public void setProductos(Set<ProductosEntity> productos) {
 		this.productos = productos;
 	}
-
-	@Override
-	public String toString() {
-		return "CategoriasEntity [descripcion=" + descripcion + ", id=" + id + ", nombre=" + nombre + "]";
-	}
-	
 	
 }

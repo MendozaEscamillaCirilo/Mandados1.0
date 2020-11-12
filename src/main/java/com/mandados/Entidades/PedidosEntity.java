@@ -113,8 +113,6 @@ public class PedidosEntity {
         this.repartidor = repartidor;
     }
 
-
-	@Override
 	public String toString() {
 		return "PedidosEntity [destino=" + destino + ", fecha=" + fecha + ", hora_entrega=" + hora_entrega
 				+ ", hora_pedido=" + hora_pedido + ", hora_recoleeccion=" + hora_recoleeccion + ", id=" + id

@@ -76,12 +76,6 @@ public class ComerciosEntity {
 		this.email = email;
 	}
 
-	@Override
-	public String toString() {
-		return "ComerciosEntity [categorias=" + categorias + ", email=" + email + ", id=" + id + ", nombre=" + nombre
-				+ ", productos=" + productos + ", sucursales=" + sucursales + ", tipocomercio=" + tipocomercio + "]";
-	}
-
 	public Set<SucursalesEntity> getSucursales() {
 		return sucursales;
 	}
@@ -107,5 +101,8 @@ public class ComerciosEntity {
 		this.productos = productos;
 	}
 
-	
+	public String toString() {
+		return "ComerciosEntity [categorias=" + categorias + ", email=" + email + ", id=" + id + ", nombre=" + nombre
+				+ ", productos=" + productos + ", sucursales=" + sucursales + ", tipocomercio=" + tipocomercio + "]";
+	}
 }
