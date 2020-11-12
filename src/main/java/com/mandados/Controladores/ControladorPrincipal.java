@@ -327,10 +327,13 @@ public class ControladorPrincipal {
     @GetMapping("/buscarproductoo")
     public String buscarproducto(Model model, @RequestParam("group1") String seleccionado,String buscar){
 
-        Query q = em.createQuery("SELECT nombre FROM productos p WHERE p.nombre LIKE comida ");
-        System.out.println(q.getResultList());
+        // Query q = em.createQuery("SELECT nombre FROM productos p WHERE p.nombre LIKE comida ");
+        // System.out.println(q.getResultList());
         // Query q = em.createQuery("SELECT nombre FROM productos p WHERE p.nombre LIKE '%:nombre%' ");
         // q.setParameter("comida");
+        // System.out.println(productorepository.findByNombre(buscar));
+        // System.out.println(productorepository.findByNombreLike(buscar));
+
         
         model.addAttribute("seleccionado", seleccionado);
         model.addAttribute("productos", productorepository.findAll());
