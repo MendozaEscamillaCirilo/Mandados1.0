@@ -102,7 +102,6 @@ public class ComerciosEntity {
 	}
 
 	public String toString() {
-		return "ComerciosEntity [categorias=" + categorias + ", email=" + email + ", id=" + id + ", nombre=" + nombre
-				+ ", productos=" + productos + ", sucursales=" + sucursales + ", tipocomercio=" + tipocomercio + "]";
+		return "Comercio => id = " + id + ", nombre = " + nombre + ", email = " + email;
 	}
 }

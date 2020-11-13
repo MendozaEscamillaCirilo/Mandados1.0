@@ -108,13 +108,13 @@
         <div class="row">
           <div class="col-12">
             <div class="card card-primary">
-              <div class="card-body">
+              <div class="card-body text-center">
                 <div>
-                  <div class="btn-group w-100 mb-2">
+                  <div th:if="${porproducto}" class="btn-group w-100 mb-2">
                     <a class="btn btn-info active" href="javascript:void(0)" data-filter="all"> Todos </a>
                     <a th:each="categoria:${categorias}" class="btn btn-info" href="javascript:void(0)" th:data-filter="${categoria.id}" th:text="${categoria.nombre}"> Comida </a>
                   </div>
-                  <div class="mb-2">
+                  <div th:if="${porproducto}" class="mb-2">
                     <a class="btn btn-secondary" href="javascript:void(0)" data-shuffle> Mezclar </a>
                     <div class="float-right">
                       <select class="custom-select" style="width: auto;" data-sortOrder>
@@ -130,29 +130,84 @@
                 </div>
                 <div>
                   <div class="filter-container p-0 row">
-                    <div th:if="${productos.empty}">
-                        <h3> No hay productos relacionados con su busqueda</h3>
+                    <div th:if="${porproducto}">
+                      <div th:if="${productos.empty}">
+                          <h3> No hay productos relacionados con su busqueda</h3>
+                      </div>
                     </div>
-                    <div th:each="producto:${productos}" class="filtr-item col-sm-4" th:data-category="${producto.categoria.id}" data-sort="white sample">
-                      <div class="profile-card-4 text-center">
-                        <a th:href="${producto.imagen}" data-toggle="lightbox" th:data-footer="${producto.descripcion}" th:data-title="${producto.nombre}">
-                          <img th:src="${producto.imagen}" class="img img-responsive" width="100%">
-                        </a>
-                        <div class="profile-content">
-                          <div th:text="${producto.nombre}" class="profile-name">John Doe
-                            <p th:text="${producto.categoria.nombre}">categoria</p>
+                    <div th:if="${porcomercio}" class="text-center" >
+                      <div th:if="${comercios.empty}" class="text-center" >
+                        <center>
+                          <h3> No hay productos relacionados con su busqueda</h3>
+                          <h4> Intenta buscar algo diferente</h4>
+                          <form class="text-center" style="color: #757575;" action="buscarproductoo">
+                            <!-- Radio -->
+                            <div class="form-check mb-4">
+                              <input class="form-check-input" name="group1" type="radio" id="radio-179" value="mandado" checked>
+                              <label class="form-check-label" for="radio-179">Mandado</label>
+                            </div>
+                            <div class="form-check mb-4">
+                              <input class="form-check-input" name="group1" type="radio" id="radio-279" value="comida">
+                              <label class="form-check-label" for="radio-279">Comida</label>
+                            </div>
+                            <!-- Radio -->
+                            <p class="text-center">
+                              <strong>Producto o platillo</strong>
+                            </p>
+                            <!--Basic textarea-->
+                            <div class="md-form">
+                              <input name="buscar" type="text" id="form79textarea" class="md-text form-control" required></input>
+                              <label for="form79textarea">Ingrese para buscar</label>
+                            </div>
+                            <div class="md-form">
+                              <button type="submit" class="btn btn-default" >Buscar</button>
+                            </div>
+                          </form>
+                        </center>
+                      </div>
+                    </div>
+                    <div th:if="${porcomercio}">
+                      <div th:each="comercio:${comercios}" class="row">
+                        <div class="profile-card-4 text-center">
+                          <form action="buscarproductoo">
+                            <input type="hidden" name="group1" id="group1" value="noObtain">
+                            <input type="hidden" name="buscar" id="buscar" th:value="${buscar}">
+                            <button type="submit">
+                              <img th:src="'logos/' + ${comercio.email} + '.jpg'" class="img img-responsive" width="100%">
+                            </button>
+                          </form>
+                          <!-- <a th:href="'logos/' + ${comercio.email} + '.jpg'" data-toggle="lightbox" th:data-title="${comercio.nombre}">
+                            <img th:src="'logos/' + ${comercio.email} + '.jpg'" class="img img-responsive" width="100%">
+                          </a> -->
+                          <div class="profile-content">
+                            <div th:text="${comercio.nombre}" class="profile-name">John Doe
+                            </div>
                           </div>
-                          <div th:text="${producto.descripcion}" class="profile-description">Lorem</div>
-                          <div class="text-center">
-                            <div class="col-xs-4">
-                              <div class="profile-overview">
-                                <p th:text="${producto.comercio.nombre}">TWEETS</p>
-                                <div class="ftr">
-                                  <div class="price">
-                                    <h4>$<strong th:text="${producto.precio}"></strong></h4>
-                                  </div>
-                                  <div class="stats">
-                                    <button type="button" rel="tooltip" title="" class="btn btn-just-icon btn-simple btn-default" data-original-title="Save to Wishlist"> <i class="fa fa-shopping-cart"></i> </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div th:if="${porproducto}">
+                      <div th:each="producto:${productos}" class="filtr-item col-sm-4" th:data-category="${producto.categoria.id}" data-sort="white sample">
+                        <div class="profile-card-4 text-center">
+                          <a th:href="${producto.imagen}" data-toggle="lightbox" th:data-footer="${producto.descripcion}" th:data-title="${producto.nombre}">
+                            <img th:src="${producto.imagen}" class="img img-responsive" width="100%">
+                          </a>
+                          <div class="profile-content">
+                            <div th:text="${producto.nombre}" class="profile-name">John Doe
+                              <p th:text="${producto.categoria.nombre}">categoria</p>
+                            </div>
+                            <div th:text="${producto.descripcion}" class="profile-description">Lorem</div>
+                            <div class="text-center">
+                              <div class="col-xs-4">
+                                <div class="profile-overview">
+                                  <p th:text="${producto.comercio.nombre}">TWEETS</p>
+                                  <div class="ftr">
+                                    <div class="price">
+                                      <h4>$<strong th:text="${producto.precio}"></strong></h4>
+                                    </div>
+                                    <div class="stats">
+                                      <button type="button" rel="tooltip" title="" class="btn btn-just-icon btn-simple btn-default" data-original-title="Save to Wishlist"> <i class="fa fa-shopping-cart"></i> </button>
+                                    </div>
                                   </div>
                                 </div>
                               </div>

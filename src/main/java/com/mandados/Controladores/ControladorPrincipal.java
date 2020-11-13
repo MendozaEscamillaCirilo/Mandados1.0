@@ -141,8 +141,9 @@ public class ControladorPrincipal {
                 return "registro/comercios";
             }
             try {
-                sucursalservice.save(sucursalesEntity);
                 servicecomercio.save(comercio);
+                sucursalesEntity.setComercio(comercio);
+                sucursalservice.save(sucursalesEntity);
             } catch (Exception e) {
                 System.out.println("ERROR AL REGISTRAR LA SUCURSAL");
                 System.out.println(e);
@@ -321,19 +322,36 @@ public class ControladorPrincipal {
     public String buscarproducto(Model model, @RequestParam("group1") String seleccionado,String buscar){
         List<ProductosEntity>productos = productorepository.findByNombreContaining(buscar);
         List<CategoriasEntity>categorias = new ArrayList<CategoriasEntity>();
+        List<ComerciosEntity>comercios = new ArrayList<ComerciosEntity>();
         for(int i=0;i<productos.size();i++){
             if(categorias.size()==0){
                 categorias.add(categoriarepository.findByNombre(productos.get(i).getCategoria().getNombre()));
+            }
+            if(comercios.size()==0){
+                comercios.add(comerciorepository.findByNombre(productos.get(i).getComercio().getNombre()));
             }
             for(int j=0;j<categorias.size();j++){
                 if(!productos.get(i).getCategoria().getNombre().equals(categorias.get(j).getNombre())){
                     categorias.add(categoriarepository.findByNombre(productos.get(i).getCategoria().getNombre()));
                 }
             } 
+            for(int j=0;j<comercios.size();j++){
+                if(!productos.get(i).getComercio().getNombre().equals(comercios.get(j).getNombre())){
+                    comercios.add(comerciorepository.findByNombre(productos.get(i).getComercio().getNombre()));
+                }
+            } 
         }
+        System.out.println(comercios);
         model.addAttribute("seleccionado", seleccionado);
         model.addAttribute("productos", productos);
         model.addAttribute("categorias", categorias);
+        model.addAttribute("comercios", comercios);
+        model.addAttribute("buscar", buscar);
+        if(seleccionado.equals("noObtain")){
+            model.addAttribute("porproducto", true);
+        }else{
+            model.addAttribute("porcomercio", true);
+        }
         return "resultadodebusqueda";
     }
     public void obtUsuario(Model model){
