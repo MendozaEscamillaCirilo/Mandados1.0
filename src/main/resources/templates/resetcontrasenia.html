@@ -40,25 +40,17 @@
                                                                 <img src="imagenes/logo.png" alt="Girl in a jacket" height="70">
                                                             </center>
                                                         </div>
-                                                        <form class="form-signin" th:action="@{/login}" method="post">
+                                                        <form class="form-signin" th:action="@{/reset}" method="post">
                                                             <div class="md-form">
                                                                 <i class="fas fa-user prefix grey-text d-flex"></i>
                                                                 <input type="text" id="username" name="username" class="form-control validate">
-                                                                <label for="user" class="d-flex">Email</label>
+                                                                <label for="user" class="d-flex">Ingresa tu correo electrónico</label>
                                                             </div>
-                                                            <div class="md-form">
-                                                                <i class="fas fa-lock prefix grey-text d-flex"></i>
-                                                                <input type="password" id="password" name="password" class="form-control validate">
-                                                                <label for="password" class="d-flex">Contraseña</label>
-                                                            </div>
+                                                            <div th:if="${existe}" class="alert alert-danger" role="alert">Correo electronico no encontrado</div>
                                                             <div class="text-center">
-                                                                <button type="submit" class="btn btn-outline-light">Iniciar sesion</button>
+                                                                <button type="submit" class="btn btn-outline-light">Pedir contraseña</button>
                                                             </div>
                                                         </form>
-                                                        <hr>
-                                                        <div>
-                                                            <a href="reset">Olvidé mi contraseña</a>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

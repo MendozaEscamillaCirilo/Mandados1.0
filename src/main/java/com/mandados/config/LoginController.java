@@ -34,6 +34,11 @@ public class LoginController {
         return "home";	    
     }
 
+    @GetMapping("/reset")
+    public String resetPage() {
+        return "resetcontrasenia";	    
+    }
+
     public void obtUsuario(Model model){
         Optional<User>lista = userRepository.findByUsername(((org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
         User user1 = lista.get();

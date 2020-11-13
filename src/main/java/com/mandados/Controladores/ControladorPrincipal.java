@@ -21,7 +21,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,20 +49,11 @@ import com.mandados.config.Passgenerator;
 
 import java.util.Random;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
 @Controller
 @RequestMapping
 public class ControladorPrincipal {
     @Autowired
     private JavaMailSender javaMailSender;
-    @Autowired
-    private EntityManager em;
     @Autowired
     private AuthorityRepository authorityRepository;
     @Autowired
@@ -177,6 +167,7 @@ public class ControladorPrincipal {
                 model.addAttribute("repetido", true);
                 return "registro/comercios";
         }
+        model.addAttribute("registro",true);
         return "registro/exitoso";
     }
     //////////////// REGISTRAR REPARTIDOR/////////////////////
@@ -281,7 +272,8 @@ public class ControladorPrincipal {
         productoservice.save(producto);
         model.addAttribute("productos", productorepository.findByComercio(comerciosEntity));
         model.addAttribute("producto", new ProductosEntity());
-        model.addAttribute("categorias", new CategoriasEntity());
+        model.addAttribute("categorias", comerciosEntity.getCategorias());
+        // model.addAttribute("categorias", new CategoriasEntity());
         obtUsuario(model);
         return "listar/producto";
     }
@@ -301,7 +293,7 @@ public class ControladorPrincipal {
     }
 
     private String aleatorio(){
-        char [] chars = "0123456789ABCDEFGHJKMNPQRSTUVWXYZ".toCharArray();
+        char [] chars = "012346789ABCDEFGHJKMNPQRSTUVWXYZ".toCharArray();
         int charsLength = chars.length;
         Random random = new Random();
         StringBuffer buffer = new StringBuffer();

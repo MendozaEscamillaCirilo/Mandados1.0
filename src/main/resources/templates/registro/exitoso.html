@@ -40,11 +40,21 @@
                                                                 <img src="imagenes/logo.png" alt="Girl in a jacket" height="70">
                                                             </center>
                                                         </div>
-                                                        <div class="md-form">
-                                                            <h2>Comercio registrado correctamente</h2>
+                                                        <div th:if="${registro}">
+                                                            <div class="md-form">
+                                                                <h2>Comercio registrado correctamente</h2>
+                                                            </div>
+                                                            <div class="md-form">
+                                                                Favor de revisar su correo electronico, ahí estarán las instrucciones para iniciar sesión.
+                                                            </div>
                                                         </div>
-                                                        <div class="md-form">
-                                                            Favor de revisar su correo electronico, ahí estarán las instrucciones para iniciar sesión.
+                                                        <div th:if="${reset}">
+                                                            <div class="md-form">
+                                                                <h2>Se te enviará un correo con una nueva contraseña</h2>
+                                                            </div>
+                                                            <div class="md-form">
+                                                                Favor de iniciar sesión y cambiar su contraseña.
+                                                            </div>
                                                         </div>
                                                         <div class="text-center">
                                                             <a href="/home">

@@ -4,6 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
+import java.util.Random;
 
 import com.mandados.Entidades.Authority;
 import com.mandados.Entidades.User;
@@ -75,6 +76,34 @@ public class ControladorUsuario {
         return "home";
     }
 
+    @PostMapping("/reset")
+    public String contraseniaolvidada(@RequestParam("username") String username, Model model){
+        try {
+            User usuario = userRepository.findByUsername(username).get();
+            Passgenerator ps = new Passgenerator();
+            String generada = aleatorio();
+            String password = ps.getPassword(generada);
+            usuario.setPassword(password);
+            try {
+                serviceuser.save(usuario);
+            } catch (Exception e) {
+                System.out.println("ERROR AL GUARDAR");
+                return "registro/exitoso";
+            }
+            try {
+                sendEmailRemember(usuario.getUsername(), generada);
+                model.addAttribute("reset",true);
+                return "registro/exitoso";
+            } catch (Exception e) {
+                System.out.println("ERROR AL ENVIAR EMAIL");
+                System.out.println(e);
+            }
+        } catch (Exception e) {
+            model.addAttribute("existe", true);
+            return "resetcontrasenia";
+        }
+        return "resetcontrasenia";
+    }
     private void sendEmail(String correo){
         System.out.println("Sending message");
         String body = "Estimado usuario, \n    Su contraseña ah sido cambiada.. \n ";
@@ -85,6 +114,30 @@ public class ControladorUsuario {
         simpleMailMessage.setText(body);
         javaMailSender.send(simpleMailMessage);
         System.out.println("Send message...");
+    }
+    private void sendEmailRemember(String correo,String generada){
+        System.out.println("Sending message");
+        String body = "Estimado usuario, \n     \n " +
+                "   Los datos de acceso son: \n     EMAIL: " + correo +" \n " + 
+                "    CONTRASEÑA: " + generada;
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setFrom("no-reply@mandados.com");// quien envía
+        simpleMailMessage.setTo(correo);
+        simpleMailMessage.setSubject("¡¡¡¡GRACIAS!!!!");
+        simpleMailMessage.setText(body);
+        javaMailSender.send(simpleMailMessage);
+        System.out.println("Send message...");
+    }
+    private String aleatorio(){
+        char [] chars = "012346789ABCDEFGHJKMNPQRSTUVWXYZ".toCharArray();
+        int charsLength = chars.length;
+        Random random = new Random();
+        StringBuffer buffer = new StringBuffer();
+        for (int i=0;i<6;i++){
+            buffer.append(chars[random.nextInt(charsLength)]);
+        }
+        // System.out.println("Random String " + buffer.toString());
+        return buffer.toString();
     }
     public void obtUsuario(Model model){
         Optional<User>lista = userRepository.findByUsername(((org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
