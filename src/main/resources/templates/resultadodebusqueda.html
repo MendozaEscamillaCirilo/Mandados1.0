@@ -107,7 +107,62 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
-            <div class="card card-primary">
+            <div class="card card-primary" th:if="${porcomercio}">
+              <div class="card-body text-center">
+                <div th:if="${porcomercio}" class="text-center" >
+                  <div th:if="${comercios.empty}" class="text-center" >
+                    <center>
+                      <h3> No hay productos relacionados con su busqueda</h3>
+                      <h4> Intenta buscar algo diferente</h4>
+                      <form class="text-center" style="color: #757575;" action="buscarproductoo">
+                        <!-- Radio -->
+                        <div class="form-check mb-4">
+                          <input class="form-check-input" name="group1" type="radio" id="radio-179" value="mandado" checked>
+                          <label class="form-check-label" for="radio-179">Mandado</label>
+                        </div>
+                        <div class="form-check mb-4">
+                          <input class="form-check-input" name="group1" type="radio" id="radio-279" value="comida">
+                          <label class="form-check-label" for="radio-279">Comida</label>
+                        </div>
+                        <!-- Radio -->
+                        <p class="text-center">
+                          <strong>Producto o platillo</strong>
+                        </p>
+                        <div class="md-form">
+                          <input type="hidden" name="com" id="com" value="no">
+                        </div>
+                        <div class="md-form">
+                          <input name="buscar" type="text" id="form79textarea" class="md-text form-control" required></input>
+                          <label for="form79textarea">Ingrese para buscar</label>
+                        </div>
+                        <div class="md-form">
+                          <button type="submit" class="btn btn-default" >Buscar</button>
+                        </div>
+                      </form>
+                    </center>
+                  </div>
+                </div>
+                <div th:if="${porcomercio}" class="row">
+                  <div th:each="comercio:${comercios}" class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mx-auto">
+                    <div class="profile-card-4 text-center">
+                      <form action="buscarproductoo">
+                        <input type="hidden" name="group1" id="group1" value="noObtain">
+                        <input type="hidden" name="buscar" id="buscar" th:value="${buscar}">
+                        <input type="hidden" name="com" id="com" th:value="${comercio.nombre}">
+                        <button type="submit">
+                          <img th:src="'logos/' + ${comercio.email} + '.jpg'" class="img img-responsive" width="100%">
+                        </button>
+                      </form>
+                      <div class="profile-content">
+                        <div th:text="${comercio.nombre}" class="profile-name">John Doe
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card card-primary" th:if="${porproducto}">
               <div class="card-body text-center">
                 <div>
                   <div th:if="${porproducto}" class="btn-group w-100 mb-2">
@@ -129,65 +184,14 @@
                   </div>
                 </div>
                 <div>
-                  <div class="filter-container p-0 row">
+                  <div class="filter-container text-center">
                     <div th:if="${porproducto}">
                       <div th:if="${productos.empty}">
                           <h3> No hay productos relacionados con su busqueda</h3>
                       </div>
                     </div>
-                    <div th:if="${porcomercio}" class="text-center" >
-                      <div th:if="${comercios.empty}" class="text-center" >
-                        <center>
-                          <h3> No hay productos relacionados con su busqueda</h3>
-                          <h4> Intenta buscar algo diferente</h4>
-                          <form class="text-center" style="color: #757575;" action="buscarproductoo">
-                            <!-- Radio -->
-                            <div class="form-check mb-4">
-                              <input class="form-check-input" name="group1" type="radio" id="radio-179" value="mandado" checked>
-                              <label class="form-check-label" for="radio-179">Mandado</label>
-                            </div>
-                            <div class="form-check mb-4">
-                              <input class="form-check-input" name="group1" type="radio" id="radio-279" value="comida">
-                              <label class="form-check-label" for="radio-279">Comida</label>
-                            </div>
-                            <!-- Radio -->
-                            <p class="text-center">
-                              <strong>Producto o platillo</strong>
-                            </p>
-                            <!--Basic textarea-->
-                            <div class="md-form">
-                              <input name="buscar" type="text" id="form79textarea" class="md-text form-control" required></input>
-                              <label for="form79textarea">Ingrese para buscar</label>
-                            </div>
-                            <div class="md-form">
-                              <button type="submit" class="btn btn-default" >Buscar</button>
-                            </div>
-                          </form>
-                        </center>
-                      </div>
-                    </div>
-                    <div th:if="${porcomercio}">
-                      <div th:each="comercio:${comercios}" class="row">
-                        <div class="profile-card-4 text-center">
-                          <form action="buscarproductoo">
-                            <input type="hidden" name="group1" id="group1" value="noObtain">
-                            <input type="hidden" name="buscar" id="buscar" th:value="${buscar}">
-                            <button type="submit">
-                              <img th:src="'logos/' + ${comercio.email} + '.jpg'" class="img img-responsive" width="100%">
-                            </button>
-                          </form>
-                          <!-- <a th:href="'logos/' + ${comercio.email} + '.jpg'" data-toggle="lightbox" th:data-title="${comercio.nombre}">
-                            <img th:src="'logos/' + ${comercio.email} + '.jpg'" class="img img-responsive" width="100%">
-                          </a> -->
-                          <div class="profile-content">
-                            <div th:text="${comercio.nombre}" class="profile-name">John Doe
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div th:if="${porproducto}">
-                      <div th:each="producto:${productos}" class="filtr-item col-sm-4" th:data-category="${producto.categoria.id}" data-sort="white sample">
+                    <div th:if="${porproducto}" class="row">
+                      <div th:each="producto:${productos}" class="filtr-item col-xl-4 col-lg-4 col-md-4 col-sm-4 mx-auto" th:data-category="${producto.categoria.id}" data-sort="white sample">
                         <div class="profile-card-4 text-center">
                           <a th:href="${producto.imagen}" data-toggle="lightbox" th:data-footer="${producto.descripcion}" th:data-title="${producto.nombre}">
                             <img th:src="${producto.imagen}" class="img img-responsive" width="100%">
@@ -365,6 +369,7 @@
 <script th:src="@{../dist/js/adminlte.min.js}"></script>
 <script th:src="@{../dist/js/demo.js}"></script>
 <script th:src="@{../plugins/filterizr/jquery.filterizr.min.js}"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
 <script>
   $(function () {
     $(document).on('click', '[data-toggle="lightbox"]', function(event) {

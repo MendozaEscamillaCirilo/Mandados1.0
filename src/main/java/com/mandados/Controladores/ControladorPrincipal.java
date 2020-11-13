@@ -103,7 +103,7 @@ public class ControladorPrincipal {
             return "registro/comercios";
         }
         // System.out.println(sucursalesEntity);
-        if(!sucursalesEntity.getCodigopostal().equals("68050")){
+        if(!obtCodigoPostalValido(sucursalesEntity.getCodigopostal())){
             model.addAttribute("comercio", comercio);
             model.addAttribute("sucursal", sucursalesEntity);
             model.addAttribute("tipocomercio",tipocomerciorepository.findAll());
@@ -319,7 +319,8 @@ public class ControladorPrincipal {
     }
 
     @GetMapping("/buscarproductoo")
-    public String buscarproducto(Model model, @RequestParam("group1") String seleccionado,String buscar){
+    public String buscarproducto(Model model, @RequestParam("group1") String seleccionado, @RequestParam("com") String comercio,String buscar){
+        
         List<ProductosEntity>productos = productorepository.findByNombreContaining(buscar);
         List<CategoriasEntity>categorias = new ArrayList<CategoriasEntity>();
         List<ComerciosEntity>comercios = new ArrayList<ComerciosEntity>();
@@ -327,23 +328,27 @@ public class ControladorPrincipal {
             if(categorias.size()==0){
                 categorias.add(categoriarepository.findByNombre(productos.get(i).getCategoria().getNombre()));
             }
+            if (!existeCategorias(categorias, productos.get(i).getCategoria().getNombre())) {
+                categorias.add(categoriarepository.findByNombre(productos.get(i).getCategoria().getNombre()));
+            }
             if(comercios.size()==0){
                 comercios.add(comerciorepository.findByNombre(productos.get(i).getComercio().getNombre()));
             }
-            for(int j=0;j<categorias.size();j++){
-                if(!productos.get(i).getCategoria().getNombre().equals(categorias.get(j).getNombre())){
-                    categorias.add(categoriarepository.findByNombre(productos.get(i).getCategoria().getNombre()));
-                }
-            } 
-            for(int j=0;j<comercios.size();j++){
-                if(!productos.get(i).getComercio().getNombre().equals(comercios.get(j).getNombre())){
-                    comercios.add(comerciorepository.findByNombre(productos.get(i).getComercio().getNombre()));
-                }
-            } 
+            if (!existeComercios(comercios, productos.get(i).getComercio().getNombre())) {
+                comercios.add(comerciorepository.findByNombre(productos.get(i).getComercio().getNombre()));
+            }
         }
-        System.out.println(comercios);
+        if(!comercio.equals("no")){
+            List<ProductosEntity>products = new ArrayList<ProductosEntity>();
+            for(int i=0;i<productos.size();i++){
+                if(productos.get(i).getComercio().getNombre().equals(comercio))
+                products.add(productos.get(i));
+            }
+            model.addAttribute("productos", products);
+        }else{
+            model.addAttribute("productos", productos);
+        }
         model.addAttribute("seleccionado", seleccionado);
-        model.addAttribute("productos", productos);
         model.addAttribute("categorias", categorias);
         model.addAttribute("comercios", comercios);
         model.addAttribute("buscar", buscar);
@@ -354,6 +359,18 @@ public class ControladorPrincipal {
         }
         return "resultadodebusqueda";
     }
+    private boolean existeCategorias(List<CategoriasEntity> lista, String nombre){
+        for(int i=0;i<lista.size();i++){
+            if(nombre.equals(lista.get(i).getNombre())) return true;
+        }
+        return false;
+    }
+    private boolean existeComercios(List<ComerciosEntity> lista, String nombre){
+        for(int i=0;i<lista.size();i++){
+            if(nombre.equals(lista.get(i).getNombre())) return true;
+        }
+        return false;
+    }
     public void obtUsuario(Model model){
         Optional<User>lista = userRepository.findByUsername(((org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
         User user1 = lista.get();
@@ -361,5 +378,11 @@ public class ControladorPrincipal {
         model.addAttribute("foto", "logos/"+user1.getUsername() + ".jpg");
         model.addAttribute("comercio", comerciorepository.findByEmail(user1.getUsername()));
     }
-    
+    private boolean obtCodigoPostalValido(String cp){
+        String [] cps = {"68050"};
+        for(int i=0;i<cps.length;i++){
+            if(cp.equals(cps[i])) return true;
+        }
+        return false;
+    }
 }
