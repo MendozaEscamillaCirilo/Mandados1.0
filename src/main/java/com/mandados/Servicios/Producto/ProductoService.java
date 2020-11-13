@@ -8,15 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mandados.Entidades.ProductosEntity;
-import com.mandados.Repository.ProductoRepository;
 
 @Service
 public class ProductoService implements IProductoService{
 
 	@Autowired
 	private IProducto data;
-	@Autowired
-	private ProductoRepository pr;
 	
 	@Override
 	public List<ProductosEntity> listar() {
@@ -41,12 +38,4 @@ public class ProductoService implements IProductoService{
 	public void delete(int id) {
 		data.deleteById(id);
 	}
-
-	@Override
-	public List<ProductosEntity> findByNombreStartsWith(String nombre) {
-		
-		return pr.findByNombreStartsWith(nombre);
-	}
-	
-
 }

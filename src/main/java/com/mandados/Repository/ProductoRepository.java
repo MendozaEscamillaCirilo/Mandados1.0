@@ -16,5 +16,6 @@ public interface ProductoRepository extends CrudRepository<ProductosEntity, Long
     public List<ProductosEntity> findByNombreLike(String nombre);
     public List<ProductosEntity> findByNombreStartsWith(String nombre);
     public List<ProductosEntity> findByCategoria(CategoriasEntity categoria);
+    public List<ProductosEntity> findByNombreContaining(String nombre);
 
 }

@@ -327,21 +327,20 @@ public class ControladorPrincipal {
 
     @GetMapping("/buscarproductoo")
     public String buscarproducto(Model model, @RequestParam("group1") String seleccionado,String buscar){
-
-        // CriteriaBuilder cb = em.getCriteriaBuilder();
-        // CriteriaQuery<ProductosEntity> criteriaQ = cb.createQuery(ProductosEntity.class);
-        // Root<ProductosEntity> root = criteriaQ.from(ProductosEntity.class);
-        // criteriaQ.select(root).where(cb.equal(root.get("comercio").get("id"), 1));
-        // List<ProductosEntity>result = em.createQuery(criteriaQ).getResultList();
-        List<ProductosEntity>productos = productorepository.findByNombreStartsWith(buscar);
+        List<ProductosEntity>productos = productorepository.findByNombreContaining(buscar);
         List<CategoriasEntity>categorias = new ArrayList<CategoriasEntity>();
         for(int i=0;i<productos.size();i++){
-            categorias.add(categoriarepository.findByNombre(productos.get(i).getCategoria().getNombre()));
+            if(categorias.size()==0){
+                categorias.add(categoriarepository.findByNombre(productos.get(i).getCategoria().getNombre()));
+            }
+            for(int j=0;j<categorias.size();j++){
+                if(!productos.get(i).getCategoria().getNombre().equals(categorias.get(j).getNombre())){
+                    categorias.add(categoriarepository.findByNombre(productos.get(i).getCategoria().getNombre()));
+                }
+            } 
         }
         model.addAttribute("seleccionado", seleccionado);
-        // model.addAttribute("productos", productorepository.findAll());
         model.addAttribute("productos", productos);
-        // model.addAttribute("categorias", categoriarepository.findAll());
         model.addAttribute("categorias", categorias);
         return "resultadodebusqueda";
     }
