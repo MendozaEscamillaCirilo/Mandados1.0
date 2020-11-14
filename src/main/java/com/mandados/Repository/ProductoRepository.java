@@ -1,4 +1,6 @@
 package com.mandados.Repository;
+
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -17,5 +19,6 @@ public interface ProductoRepository extends CrudRepository<ProductosEntity, Long
     public List<ProductosEntity> findByNombreStartsWith(String nombre);
     public List<ProductosEntity> findByCategoria(CategoriasEntity categoria);
     public List<ProductosEntity> findByNombreContaining(String nombre);
+    public List<ProductosEntity> findByComercioAndNombreContaining(ComerciosEntity comercio, String nombre);
 
 }

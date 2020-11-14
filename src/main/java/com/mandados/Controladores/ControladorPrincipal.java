@@ -292,7 +292,6 @@ public class ControladorPrincipal {
     public String registrousuario(Model model){
         return "home";
     }
-
     private String aleatorio(){
         char [] chars = "012346789ABCDEFGHJKMNPQRSTUVWXYZ".toCharArray();
         int charsLength = chars.length;
@@ -317,10 +316,8 @@ public class ControladorPrincipal {
         javaMailSender.send(simpleMailMessage);
         System.out.println("Send message...");
     }
-
     @GetMapping("/buscarproductoo")
     public String buscarproducto(Model model, @RequestParam("group1") String seleccionado, @RequestParam("com") String comercio,String buscar){
-        
         List<ProductosEntity>productos = productorepository.findByNombreContaining(buscar);
         List<CategoriasEntity>categorias = new ArrayList<CategoriasEntity>();
         List<ComerciosEntity>comercios = new ArrayList<ComerciosEntity>();
@@ -339,12 +336,7 @@ public class ControladorPrincipal {
             }
         }
         if(!comercio.equals("no")){
-            List<ProductosEntity>products = new ArrayList<ProductosEntity>();
-            for(int i=0;i<productos.size();i++){
-                if(productos.get(i).getComercio().getNombre().equals(comercio))
-                products.add(productos.get(i));
-            }
-            model.addAttribute("productos", products);
+            model.addAttribute("productos", productorepository.findByComercioAndNombreContaining(comerciorepository.findByNombre(comercio), buscar));
         }else{
             model.addAttribute("productos", productos);
         }
