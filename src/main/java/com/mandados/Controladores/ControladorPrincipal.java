@@ -322,12 +322,6 @@ public class ControladorPrincipal {
         List<CategoriasEntity>categorias = new ArrayList<CategoriasEntity>();
         List<ComerciosEntity>comercios = new ArrayList<ComerciosEntity>();
         for(int i=0;i<productos.size();i++){
-            if(categorias.size()==0){
-                categorias.add(categoriarepository.findByNombre(productos.get(i).getCategoria().getNombre()));
-            }
-            if (!existeCategorias(categorias, productos.get(i).getCategoria().getNombre())) {
-                categorias.add(categoriarepository.findByNombre(productos.get(i).getCategoria().getNombre()));
-            }
             if(comercios.size()==0){
                 comercios.add(comerciorepository.findByNombre(productos.get(i).getComercio().getNombre()));
             }
@@ -336,7 +330,18 @@ public class ControladorPrincipal {
             }
         }
         if(!comercio.equals("no")){
-            model.addAttribute("productos", productorepository.findByComercioAndNombreContaining(comerciorepository.findByNombre(comercio), buscar));
+            productos = productorepository.findByComercioAndNombreContaining(comerciorepository.findByNombre(comercio), buscar);
+            model.addAttribute("productos", productos);
+            for(int i=0;i<productos.size();i++){
+                if(categorias.size()==0){
+                    categorias.add(categoriarepository.findByNombre(productos.get(i).getCategoria().getNombre()));
+                }
+                if (!existeCategorias(categorias, productos.get(i).getCategoria().getNombre())) {
+                    categorias.add(categoriarepository.findByNombre(productos.get(i).getCategoria().getNombre()));
+                }
+            }
+            System.out.println(categorias.size());
+            model.addAttribute("unacategoria", categorias.size()>1 ? true : false);
         }else{
             model.addAttribute("productos", productos);
         }

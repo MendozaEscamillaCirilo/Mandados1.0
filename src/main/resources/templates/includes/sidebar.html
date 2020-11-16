@@ -110,6 +110,14 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
               </p>
             </a>
           </li>
+          <li class="nav-item" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')">
+            <a href="/callcenter" class="nav-link">
+              <i class="nav-icon fas fa-object-group"></i>
+              <p>
+                CALL CENTER
+              </p>
+            </a>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
