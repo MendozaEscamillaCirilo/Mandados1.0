@@ -12,7 +12,6 @@ import com.mandados.Repository.ComercioRepository;
 import com.mandados.Repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 @Controller	
@@ -26,12 +25,6 @@ public class LoginController {
     @GetMapping("/login")
     public String loginPage() {	        
         return "login";	    
-    }	
-
-    @GetMapping("/home")
-    public String userPage(Authentication authentication, Model model) {	   
-        obtUsuario(model);
-        return "home";	    
     }
 
     @GetMapping("/reset")

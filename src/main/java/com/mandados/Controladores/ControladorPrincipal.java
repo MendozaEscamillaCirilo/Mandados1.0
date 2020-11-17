@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mandados.Entidades.Authority;
 import com.mandados.Entidades.CategoriasEntity;
 import com.mandados.Entidades.ComerciosEntity;
+import com.mandados.Entidades.PedidosEntity;
 import com.mandados.Entidades.ProductosEntity;
 import com.mandados.Entidades.RepartidoresEntity;
 import com.mandados.Entidades.SucursalesEntity;
@@ -35,6 +36,7 @@ import com.mandados.Repository.TipoComercioRepository;
 import com.mandados.Repository.UserRepository;
 import com.mandados.Repository.AuthorityRepository;
 import com.mandados.Repository.ComercioRepository;
+import com.mandados.Repository.PedidoRepository;
 import com.mandados.Repository.CategoriaRepository;
 import com.mandados.Repository.ProductoRepository;
 import com.mandados.Repository.RepartidorRepository;
@@ -60,6 +62,8 @@ public class ControladorPrincipal {
     private CategoriaRepository categoriarepository;
     @Autowired
     private ComercioRepository comerciorepository;
+    @Autowired
+    private PedidoRepository pedidorepository;
     @Autowired
     private ProductoRepository productorepository;
     @Autowired
@@ -381,5 +385,34 @@ public class ControladorPrincipal {
             if(cp.equals(cps[i])) return true;
         }
         return false;
+    }
+    private List<PedidosEntity> getDatesOnListNoExist(List<PedidosEntity> lista){
+        List<PedidosEntity> aux = new ArrayList<PedidosEntity>();
+        for(int i=0;i<lista.size();i++){
+            if(lista.get(i).getHora_entrega()!=null){
+                aux.add(lista.get(i));
+            }
+        }
+        return aux;
+    }
+    private List<PedidosEntity> getDatesOnListExist(List<PedidosEntity> lista){
+        List<PedidosEntity> aux = new ArrayList<PedidosEntity>();
+        for(int i=0;i<lista.size();i++){
+            if(lista.get(i).getHora_entrega()!=null){
+                aux.add(lista.get(i));
+            }
+        }
+        return aux;
+    }
+
+    /////////////////////// HOME///////////////////////////////
+    @GetMapping("/home")
+    public String userPage(Authentication authentication, Model model) {
+        model.addAttribute("totalcomercios", comerciorepository.count());
+        model.addAttribute("totalrepartidores", repartidorRepository.count());
+        model.addAttribute("ordenescompletadas", getDatesOnListNoExist(pedidorepository.findAll()).size());
+        model.addAttribute("ordenespendientes", getDatesOnListExist(pedidorepository.findAll()).size());
+        obtUsuario(model);
+        return "home";	    
     }
 }
