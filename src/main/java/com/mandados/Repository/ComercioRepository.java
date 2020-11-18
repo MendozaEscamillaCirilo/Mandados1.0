@@ -8,7 +8,7 @@ import java.util.List;
 import com.mandados.Entidades.ComerciosEntity;
 
 @Repository
-public interface ComercioRepository extends CrudRepository<ComerciosEntity, Long>  {
+public interface ComercioRepository extends CrudRepository<ComerciosEntity, Long> {
     public List<ComerciosEntity> findAll();
     public ComerciosEntity findByNombre(String nombre);
     public ComerciosEntity findByEmail(String email);

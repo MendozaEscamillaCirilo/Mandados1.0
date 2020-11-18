@@ -327,10 +327,10 @@ public class ControladorPrincipal {
         List<ComerciosEntity>comercios = new ArrayList<ComerciosEntity>();
         for(int i=0;i<productos.size();i++){
             if(comercios.size()==0){
-                comercios.add(comerciorepository.findByNombre(productos.get(i).getComercio().getNombre()));
+                comercios.add(comerciorepository.findByEmail(productos.get(i).getComercio().getEmail()));
             }
             if (!existeComercios(comercios, productos.get(i).getComercio().getNombre())) {
-                comercios.add(comerciorepository.findByNombre(productos.get(i).getComercio().getNombre()));
+                comercios.add(comerciorepository.findByEmail(productos.get(i).getComercio().getEmail()));
             }
         }
         if(!comercio.equals("no")){
