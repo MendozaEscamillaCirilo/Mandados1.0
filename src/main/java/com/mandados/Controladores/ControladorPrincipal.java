@@ -145,6 +145,7 @@ public class ControladorPrincipal {
                 return "registro/comercios";
             }
             try {
+                comercio.setEstatus(true);
                 servicecomercio.save(comercio);
                 sucursalesEntity.setComercio(comercio);
                 sucursalservice.save(sucursalesEntity);
