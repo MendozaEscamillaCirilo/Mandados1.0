@@ -389,7 +389,7 @@ public class ControladorPrincipal {
     private List<PedidosEntity> getDatesOnListNoExist(List<PedidosEntity> lista){
         List<PedidosEntity> aux = new ArrayList<PedidosEntity>();
         for(int i=0;i<lista.size();i++){
-            if(lista.get(i).getHora_entrega()!=null){
+            if(lista.get(i).getHoraEntrega()!=null){
                 aux.add(lista.get(i));
             }
         }
@@ -398,7 +398,7 @@ public class ControladorPrincipal {
     private List<PedidosEntity> getDatesOnListExist(List<PedidosEntity> lista){
         List<PedidosEntity> aux = new ArrayList<PedidosEntity>();
         for(int i=0;i<lista.size();i++){
-            if(lista.get(i).getHora_entrega()!=null){
+            if(lista.get(i).getHoraEntrega()!=null){
                 aux.add(lista.get(i));
             }
         }
