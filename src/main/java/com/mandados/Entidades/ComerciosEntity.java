@@ -30,7 +30,7 @@ public class ComerciosEntity {
 	private Tipos_comerciosEntity tipocomercio;
 
 	@OneToMany(mappedBy = "comercio",cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<SucursalesEntity> sucursales;
+	private List<SucursalesEntity> sucursales;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(
@@ -42,6 +42,15 @@ public class ComerciosEntity {
 	
 	@OneToMany(mappedBy = "comercio",cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<ProductosEntity> productos;
+
+	@Column
+	private Boolean estatus;
+
+	@Column
+	private java.sql.Time horaApertura;
+	
+	@Column
+    private java.sql.Time horaCierre;
 
 	public Long getId() {
 		return id;
@@ -76,11 +85,11 @@ public class ComerciosEntity {
 		this.email = email;
 	}
 
-	public Set<SucursalesEntity> getSucursales() {
+	public List<SucursalesEntity> getSucursales() {
 		return sucursales;
 	}
 
-	public void setSucursales(Set<SucursalesEntity> sucursales) {
+	public void setSucursales(List<SucursalesEntity> sucursales) {
 		this.sucursales = sucursales;
 	}
 
@@ -103,5 +112,37 @@ public class ComerciosEntity {
 
 	public String toString() {
 		return "Comercio => id = " + id + ", nombre = " + nombre + ", email = " + email;
+	}
+
+	public Tipos_comerciosEntity getTipocomercio() {
+		return tipocomercio;
+	}
+
+	public void setTipocomercio(Tipos_comerciosEntity tipocomercio) {
+		this.tipocomercio = tipocomercio;
+	}
+
+	public Boolean getEstatus() {
+		return estatus;
+	}
+
+	public void setEstatus(Boolean estatus) {
+		this.estatus = estatus;
+	}
+
+	public java.sql.Time getHoraApertura() {
+		return horaApertura;
+	}
+
+	public void setHoraApertura(java.sql.Time horaApertura) {
+		this.horaApertura = horaApertura;
+	}
+
+	public java.sql.Time getHoraCierre() {
+		return horaCierre;
+	}
+
+	public void setHoraCierre(java.sql.Time horaCierre) {
+		this.horaCierre = horaCierre;
 	}
 }

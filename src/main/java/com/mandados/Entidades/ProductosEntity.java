@@ -18,6 +18,8 @@ public class ProductosEntity {
 	private Double precio;
 	@Column 
 	private String imagen;
+	@Column
+	private Boolean estatus;
 	
 	@ManyToOne()
 	@JoinColumn(name = "categoria_id")
