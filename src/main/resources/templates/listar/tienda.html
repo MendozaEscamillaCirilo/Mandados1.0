@@ -32,7 +32,7 @@
                               <div class="btn-group btn-group-sm">
                                 <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
                                 <a href="#" class="btn btn-warning"><i class="fas fa-edit"></i></a>
-                                <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                <a th:onclick="eliminar([[${comercio.id}]])" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                               </div>
                             </td>
                         </tr>
@@ -52,6 +52,8 @@
         <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
         <div th:replace="includes/footer::home"></div>
         <div th:replace="includes/footer::script2"></div>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <script src="scripts/funciones.js"></script>
     </div>
 </body>
 </html>
