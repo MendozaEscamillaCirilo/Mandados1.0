@@ -192,9 +192,11 @@ public class ControladorPrincipal {
         user.setEnabled(true);
         user.setPassword(new Passgenerator().getPassword("password98"));
         try{
-            repartidorservice.save(rEntity);
             serviceuser.save(user);
+            repartidorservice.save(rEntity);
+            model.addAttribute("noerror", true);
         }catch(Exception e){
+            model.addAttribute("error", true);
             System.out.println("ERROR AL REGISTRAR REPARTIDOR");
             System.out.println(e);
         }

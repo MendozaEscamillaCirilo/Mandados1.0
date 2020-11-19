@@ -120,6 +120,14 @@
         <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
         <div th:replace="includes/footer::home"></div>
         <div th:replace="includes/footer::script2"></div>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <script src="scripts/funciones.js"></script>
+        <script th:if="${error}">
+          Swal.fire({title:'No se pudo registrar!', text:'correo repetido', allowOutsideClick: false, icon:'error'})
+        </script>
+        <script th:if="${noerror}">
+          window.location.href = "/listarepartidor";
+        </script>
     </div>
 </body>
 </html>

@@ -11,10 +11,12 @@ function eliminar(id){
 			$.ajax({
 				url:"/eliminar/"+id,
 				success: function(res){
-					console.log(res);
+					Swal.fire('Inhabilitado correctamente!', '', 'success')
+				},
+				error: function(res){
+					Swal.fire('Sucedió un error!', '', 'error')
 				}
 			});
-		  Swal.fire('Inhabilitado correctamente!', '', 'success')
 		} else if (result.isDenied) {
 		  Swal.fire('No se eliminará el comercio', '', 'info')
 		}
@@ -96,13 +98,18 @@ function eliminarRepartidor(id){
 		allowOutsideClick: false
 	  }).then((result) => {
 		if (result.isConfirmed) {
+			console.log("Se eliminará el usuario.");
 			$.ajax({
 				url:"/eliminarrepartidor/"+id,
 				success: function(res){
-					console.log(res);
+					Swal.fire('Inhabilitado correctamente!', '', 'success')
+					window.location.href = "/listarepartidor";
+				},
+				error: function(res){
+					Swal.fire('Sucedió un error!', '', 'error')
+					console.log(res)
 				}
 			});
-		  Swal.fire('Inhabilitado correctamente!', '', 'success')
 		} else if (result.isDenied) {
 		  Swal.fire('No se eliminará el repartidor', '', 'info')
 		}
