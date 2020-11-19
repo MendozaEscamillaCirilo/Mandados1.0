@@ -2,7 +2,6 @@ package com.mandados.Servicios.User;
 
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,11 +20,6 @@ public class UserService implements IUserService{
 	}
 
 	@Override
-	public Optional<User> listarId(int id) {
-		return data.findById(id);
-	}
-
-	@Override
 	public int save(User p) {
 		User user=data.save(p);
 		if(!user.equals(null)){
@@ -35,7 +29,7 @@ public class UserService implements IUserService{
 	}
 
 	@Override
-	public void delete(int id) {
+	public void delete(Long id) {
 		data.deleteById(id);
 	}
 

@@ -15,7 +15,7 @@ import com.mandados.Repository.PedidoRepository;
 import com.mandados.Repository.ProductoRepository;
 import com.mandados.Repository.RepartidorRepository;
 import com.mandados.Repository.UserRepository;
-import com.mandados.Repository.SucursalReposirtory;
+import com.mandados.Repository.SucursalRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -42,7 +42,7 @@ public class ControladorListarDatos {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private SucursalReposirtory sucursalrepository;
+    private SucursalRepository sucursalrepository;
     
     @GetMapping("/listacomercio")
     public String listarcomercio(Model model) {
@@ -125,6 +125,11 @@ public class ControladorListarDatos {
         obtUsuario(model);
         // model.addAttribute("comercios", comerciorepository.findAll());
         return "listar/carta";	    
+    }
+    @GetMapping("/callcenter")
+    public String listarcallcenter(Model model) {
+        obtUsuario(model);
+        return "listar/callcenter";	    
     }
 
     public void obtUsuario(Model model){

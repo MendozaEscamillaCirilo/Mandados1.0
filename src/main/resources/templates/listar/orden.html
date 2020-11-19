@@ -6,58 +6,64 @@
         <div th:replace="includes/navbar"></div>
         <div th:replace="includes/sidebar"></div>
         <div class="content-wrapper">
-            <div class="card card-rotating bg-gradient-light">
-                <div class="card-header">
-                  <h3 class="card-title">PEDIDOS</h3>
-                </div>
-                <div class="card-body">
-                  <table id="tabla1" class="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                      <th>fecha</th>
-                      <th>hora de pedido</th>
-                      <th>hora de recoleeccion</th>
-                      <th>hora de entrega</th>
-                      <th>total</th>
-                      <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:if="${pedidos.empty}">
-                            <td colspan="5"> No hay ordenes registrados </td>
-                        </tr>
-                        <tr th:each="pedido :${pedidos}">
-                            <td><span th:text="${pedido.fecha}"> Authority </span></td>
-                            <td><span th:text="${pedido.hora_pedido}"> Authority </span></td>
-                            <td><span th:text="${pedido.hora_recoleeccion}"> Authority </span></td>
-                            <td><span th:text="${pedido.hora_entrega}"> Authority </span></td>
-                            <td><span th:text="${pedido.total}"> Authority </span></td>
-                            <td class="text-center py-0 align-middle">
-                              <div class="btn-group btn-group-sm">
-                                <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                                <a href="#" class="btn btn-warning"><i class="fas fa-edit"></i></a>
-                                <a th:onclick="eliminarOrden([[${pedido.id}]])" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                              </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                      <th>fecha</th>
-                      <th>hora de pedido</th>
-                      <th>hora de recoleeccion</th>
-                      <th>hora de entrega</th>
-                      <th>total</th>
-                      <th></th>
-                    </tr>
-                    </tfoot>
-                  </table>
-                </div>
+          <div class="card card-rotating bg-gradient-light">
+            <div class="card-body">
+              <div class="card card-primary card-outline">
+                  <div class="card-header">
+                    <h3 class="card-title">PEDIDOS</h3>
+                  </div>
+                  <div class="card-body">
+                    <table id="tabla1" class="table table-bordered table-striped">
+                      <thead>
+                      <tr>
+                        <th>fecha</th>
+                        <th>hora de pedido</th>
+                        <th>hora de recoleeccion</th>
+                        <th>hora de entrega</th>
+                        <th>total</th>
+                        <th></th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                          <tr th:if="${pedidos.empty}">
+                              <td colspan="5"> No hay ordenes registrados </td>
+                          </tr>
+                          <tr th:each="pedido :${pedidos}">
+                              <td><span th:text="${pedido.fecha}"> Authority </span></td>
+                              <td><span th:text="${pedido.hora_pedido}"> Authority </span></td>
+                              <td><span th:text="${pedido.hora_recoleeccion}"> Authority </span></td>
+                              <td><span th:text="${pedido.hora_entrega}"> Authority </span></td>
+                              <td><span th:text="${pedido.total}"> Authority </span></td>
+                              <td class="text-center py-0 align-middle">
+                                <div class="btn-group btn-group-sm">
+                                  <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                                  <a href="#" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                  <a th:onclick="eliminarOrden([[${pedido.id}]])" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                </div>
+                              </td>
+                          </tr>
+                      </tbody>
+                      <tfoot>
+                      <tr>
+                        <th>fecha</th>
+                        <th>hora de pedido</th>
+                        <th>hora de recoleeccion</th>
+                        <th>hora de entrega</th>
+                        <th>total</th>
+                        <th></th>
+                      </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+              </div>
             </div>
+          </div>
         </div>
         <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
         <div th:replace="includes/footer::home"></div>
         <div th:replace="includes/footer::script2"></div>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <script src="scripts/funciones.js"></script>
     </div>
 </body>
 </html>

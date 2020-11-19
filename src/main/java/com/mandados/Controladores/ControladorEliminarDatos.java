@@ -13,6 +13,7 @@ import com.mandados.Servicios.Comercio.IComercioService;
 import com.mandados.Servicios.Pedido.IPedidoService;
 import com.mandados.Servicios.Producto.IProductoService;
 import com.mandados.Servicios.Repartidor.IRepartidorService;
+import com.mandados.Servicios.User.IUserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,6 +40,8 @@ public class ControladorEliminarDatos {
     public IProductoService productoservice;
     @Autowired
     public IRepartidorService Repartidorservice;
+    @Autowired
+    public IUserService userservice;
     @GetMapping("/eliminar/{id}")
 	public String eliminarComercio(@PathVariable Long id, Model model) {
         ComerciosEntity comercio = comerciorepository.findById(id).get();
@@ -52,7 +55,7 @@ public class ControladorEliminarDatos {
 		return "redirect:listar/categoria";
 	}
     @GetMapping("/eliminarorden/{id}")
-	public String eliminarPedido(@PathVariable int id, Model model) {
+	public String eliminarPedido(@PathVariable Long id, Model model) {
         pedidoservice.delete(id);
 		return "redirect:listar/orden";
 	}
@@ -61,11 +64,18 @@ public class ControladorEliminarDatos {
         productoservice.delete(id);
 		return "redirect:listar/producto";
 	}
+    @GetMapping("/eliminarusuario/{id}")
+	public String eliminarUsuario(@PathVariable Long id, Model model) {
+        userservice.delete(id);
+		return "redirect:/usuarios";
+	}
     @GetMapping("/eliminarrepartidor/{id}")
 	public String eliminarRepartidor(@PathVariable Long id, Model model) {
         System.out.println("Llegó hasta aquí");
         try {
+            User user = userrepository.findByUsername(repartidorrepository.findById(id).get().getEmail()).get();
             Repartidorservice.delete(id);
+            userservice.delete(user.getId());
             model.addAttribute("eliminado", true);
             obtUsuario(model);
             model.addAttribute("repartidores", repartidorrepository.findAll());

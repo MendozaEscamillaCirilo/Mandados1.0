@@ -22,28 +22,6 @@ function eliminar(id){
 		}
 	  })
 }
-function eliminarCategoria(id){
-	Swal.fire({
-		title: 'Solo se va a inabilitar',
-		text: 'No se va a borrar',
-		showDenyButton: true,
-		confirmButtonText: `Aceptar`,
-		denyButtonText: `Cancelar`,
-		allowOutsideClick: false
-	  }).then((result) => {
-		if (result.isConfirmed) {
-			$.ajax({
-				url:"/eliminarcategoria/"+id,
-				success: function(res){
-					console.log(res);
-				}
-			});
-		  Swal.fire('Inhabilitada correctamente!', '', 'success')
-		} else if (result.isDenied) {
-		  Swal.fire('No se eliminará la categoria', '', 'info')
-		}
-	  })
-}
 function eliminarOrden(id){
 	Swal.fire({
 		title: '¿Estás seguro de eliminar la orden?',
@@ -112,6 +90,34 @@ function eliminarRepartidor(id){
 			});
 		} else if (result.isDenied) {
 		  Swal.fire('No se eliminará el repartidor', '', 'info')
+		}
+	  })
+}
+function eliminaUsuario(id){
+	Swal.fire({
+		title: 'Solo se va a inabilitar',
+		text: 'No se va a borrar',
+		showDenyButton: true,
+		confirmButtonText: `Aceptar`,
+		denyButtonText: `Cancelar`,
+		allowOutsideClick: false
+	  }).then((result) => {
+		if (result.isConfirmed) {
+			console.log("Se eliminará el usuario.");
+			Swal.fire('Inhabilitado correctamente!', '', 'success')
+			$.ajax({
+				url:"/eliminarusuario/"+id,
+				success: function(res){
+					Swal.fire('Inhabilitado correctamente!', '', 'success')
+					window.location.href = "/usuarios";
+				},
+				error: function(res){
+					Swal.fire('Sucedió un error!', '', 'error')
+					console.log(res)
+				}
+			});
+		} else if (result.isDenied) {
+		  Swal.fire('No se eliminará el usuario', '', 'info')
 		}
 	  })
 }

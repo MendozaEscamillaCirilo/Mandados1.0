@@ -25,7 +25,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview" sec:authorize="hasAuthority('ROL_ADMIN')">
+          <li class="nav-item has-treeview" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-building"></i>
               <p>
@@ -54,7 +54,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
               </li>
             </ul>
           </li>
-          <li class="nav-item" sec:authorize="hasAuthority('ROL_ADMIN')">
+          <li class="nav-item" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')">
             <a th:href="@{/listarepartidor}" class="nav-link">
               <i class="nav-icon fas fa-motorcycle"></i>
               <p>
@@ -62,11 +62,11 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
               </p>
             </a>
           </li>
-          <li class="nav-item" sec:authorize="hasAuthority('ROL_ADMIN')">
+          <li class="nav-item" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_REPARTIDOR','ROL_CALLCENTER','ROL_COMERCIO')">
             <a th:href="@{/listaorden}" class="nav-link">
               <i class="nav-icon fas fa-shopify"></i>
               <p>
-                ORDEN
+                PEDIDO
               </p>
             </a>
           </li>
@@ -86,14 +86,14 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
               </p>
             </a>
           </li>
-          <li class="nav-item" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_COMERCIO')">
+          <!-- <li class="nav-item" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_COMERCIO')">
             <a th:href="@{/listacatalogo}" class="nav-link">
               <i class="nav-icon fas fa-object-group"></i>
               <p>
                 CARTA/CATALOGO
               </p>
             </a>
-          </li>
+          </li> -->
           <li class="nav-item" sec:authorize="hasAuthority('ROL_ADMIN')">
             <a href="/roles" class="nav-link">
               <i class="nav-icon fas fa-object-group"></i>
