@@ -28,10 +28,10 @@
                           <tr th:if="${comercios.empty}">
                               <td colspan="3"> No hay comercios registrados </td>
                           </tr>
-                          <tr th:each="comercio :${comercios}">
+                          <tr th:each="comercio :${sucursales}">
                             <td><span th:text="${comercio.nombre}"> Authority </span></td>
                             <td><span th:text="${comercio.email}"> Authority </span></td>
-                            <td><span th:text="${comercio.tipoComercio.nombre}"> Authority </span></td>
+                            <td><span th:text="${comercio.comercio.tipocomercio.nombre}"> Authority </span></td>
                             <td class="text-center py-0 align-middle">
                               <div class="btn-group btn-group-sm">
                                 <a class="btn btn-info" data-toggle="modal" th:data-target="'#modal-' + ${comercio.id}"><i class="fas fa-eye"></i></a>
@@ -45,7 +45,7 @@
                                       </div>
                                       <div class="modal-body">
                                         <form action=""></form>
-                                        <p th:text="${comercio.email}">One fine body&hellip;</p>
+                                        <p th:text="${comercio.telefono}">One fine body&hellip;</p>
                                         <!-- <p th:text="$comercio.sucursales.size">One fine body&hellip;</p> -->
                                       </div>
                                       <div class="modal-footer justify-content-between">
