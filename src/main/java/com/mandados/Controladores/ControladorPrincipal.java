@@ -187,7 +187,7 @@ public class ControladorPrincipal {
                 list.add(lista.get(i));
             }
         }
-        user.setAuthority(list);
+        user.setAuthority(authorityRepository.findByAuthority("ROL_REPARTIDOR"));
         user.setUsername(rEntity.getEmail());
         user.setEnabled(true);
         user.setPassword(new Passgenerator().getPassword("password98"));
@@ -198,7 +198,9 @@ public class ControladorPrincipal {
         }catch(Exception e){
             model.addAttribute("error", true);
             System.out.println("ERROR AL REGISTRAR REPARTIDOR");
-            System.out.println(e);
+            System.out.println(e.getCause());
+            System.out.println("///////////////////////////////////////////////////////////////////");
+            System.out.println(e.getMessage());
         }
         model.addAttribute("repartidores", repartidorRepository.findAll());
         model.addAttribute("repartidor", new RepartidoresEntity());

@@ -2,7 +2,6 @@ package com.mandados.Servicios.Pedido;
 
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,11 +20,6 @@ public class PedidoService implements IPedidoService{
 	}
 
 	@Override
-	public Optional<PedidosEntity> listarId(int id) {
-		return data.findById(id);
-	}
-
-	@Override
 	public int save(PedidosEntity p) {
 		PedidosEntity pedido=data.save(p);
 		if(!pedido.equals(null)){
@@ -35,7 +29,7 @@ public class PedidoService implements IPedidoService{
 	}
 
 	@Override
-	public void delete(int id) {
+	public void delete(Long id) {
 		data.deleteById(id);
 	}
 

@@ -6,52 +6,55 @@
         <div th:replace="includes/navbar"></div>
         <div th:replace="includes/sidebar"></div>
         <div class="content-wrapper">
-            <div class="card card-rotating bg-gradient-light">
-                <div class="card-header">
-                  <h3 class="card-title">CATEGORIAS HABILITADAS PARA EL COMERCIO</h3>
-                  <div class="card-tools">
-                    <ul class="nav nav-pills ml-auto">
-                      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#nuevo">
-                        Nueva categoria
-                      </button>
-                    </ul>
+          <div class="card card-rotating bg-gradient-light">
+            <div class="card-body">
+              <div class="card card-primary card-outline">
+                  <div class="card-header">
+                    <h3 class="card-title">CATEGORIAS HABILITADAS PARA EL COMERCIO</h3>
+                    <div class="card-tools">
+                      <ul class="nav nav-pills ml-auto">
+                        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#nuevo">
+                          Nueva categoria
+                        </button>
+                      </ul>
+                    </div>
+                    <div class="card-tools">
+                      <ul class="nav nav-pills ml-auto">
+                        <button sec:authorize="hasAuthority('ROL_COMERCIO')" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#agregaralcomercio">
+                          Agregar una nueva categoria al comercio
+                        </button>
+                      </ul>
+                    </div>
                   </div>
-                  <div class="card-tools">
-                    <ul class="nav nav-pills ml-auto">
-                      <button sec:authorize="hasAuthority('ROL_COMERCIO')" type="button" class="btn btn-default" data-toggle="modal" data-target="#agregaralcomercio">
-                        Agregar una nueva categoria al comercio
-                      </button>
-                    </ul>
-                  </div>
-                </div>
-                <div class="card-body table-responsive p-0" style="height: 300px;">
-                  <table class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>nombre</th>
-                        <th>descripcion</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr th:if="${categoriasseleccionadas.empty}">
-                        <td colspan="9"> No hay categorias registrados </td>
-                      </tr>
-                      <tr th:each="c :${categoriasseleccionadas}">
-                        <td><span th:text="${c.nombre}"> Authority </span></td>
-                        <td><span th:text="${c.descripcion}"> Authority </span></td>
-                        <td class="text-center py-0 align-middle">
-                          <div class="btn-group btn-group-sm">
-                            <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                            <a href="#" class="btn btn-warning"><i class="fas fa-edit"></i></a>
-                            <a th:onclick="eliminarCategoria([[${c.id}]])" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                  <div class="card-body table-responsive p-0" style="height: 300px;">
+                    <table class="table table-bordered table-striped">
+                      <thead>
+                        <tr>
+                          <th>nombre</th>
+                          <th>descripcion</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr th:if="${categoriasseleccionadas.empty}">
+                          <td colspan="9"> No hay categorias registrados </td>
+                        </tr>
+                        <tr th:each="c :${categoriasseleccionadas}">
+                          <td><span th:text="${c.nombre}"> Authority </span></td>
+                          <td><span th:text="${c.descripcion}"> Authority </span></td>
+                          <td class="text-center py-0 align-middle">
+                            <div class="btn-group btn-group-sm">
+                              <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                              <a href="#" class="btn btn-warning"><i class="fas fa-edit"></i></a>
                           </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
             </div>
+          </div>
         </div>
         <div class="modal fade" id="nuevo" data-backdrop="false">
           <div class="modal-dialog modal-xl">
