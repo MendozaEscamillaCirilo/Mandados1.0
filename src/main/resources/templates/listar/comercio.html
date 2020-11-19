@@ -41,16 +41,22 @@
                                   <div class="modal-dialog">
                                     <div class="modal-content">
                                       <div class="modal-header text-center">
-                                        <h4 class="modal-title text-center" th:text="${comercio.nombre}">Default Modal</h4>
+                                        <h4 class="modal-title col-12 text-center" th:text="${comercio.nombre}">Default Modal</h4>
                                       </div>
                                       <div class="modal-body">
+                                        <h5>INFORMACION</h5>
                                         <form action=""></form>
+                                        <p> <b> Direccion </b> </p>
+                                        <p th:text="${'Calle '+comercio.calle+' #'+comercio.numero+', Colonia '+comercio.colonia}">One fine body&hellip;</p>
+                                        <p> <b> Telefono </b> </p>
                                         <p th:text="${comercio.telefono}">One fine body&hellip;</p>
+                                        <p> <b> Correo </b> </p>
+                                        <p th:text="${comercio.email}">One fine body&hellip;</p>
                                         <!-- <p th:text="$comercio.sucursales.size">One fine body&hellip;</p> -->
                                       </div>
                                       <div class="modal-footer justify-content-between">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                        <button type="button" class="btn btn-primary">CATALOGO</button>
                                       </div>
                                     </div>
                                   </div>

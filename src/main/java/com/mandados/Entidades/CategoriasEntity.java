@@ -19,6 +19,9 @@ public class CategoriasEntity {
 	@OneToMany(mappedBy = "categoria",cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<ProductosEntity> productos;
 
+	@Column
+	private Boolean estatus;
+
 	public Long getId() {
 		return id;
 	}
@@ -49,6 +52,14 @@ public class CategoriasEntity {
 
 	public void setProductos(Set<ProductosEntity> productos) {
 		this.productos = productos;
+	}
+
+	public Boolean getEstatus() {
+		return estatus;
+	}
+
+	public void setEstatus(Boolean estatus) {
+		this.estatus = estatus;
 	}
 	
 }

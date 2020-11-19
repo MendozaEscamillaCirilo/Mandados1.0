@@ -100,4 +100,12 @@ public class ProductosEntity {
 				+ imagen + ", nombre=" + nombre + ", precio=" + precio + "]";
 	}
 
+	public Boolean getEstatus() {
+		return estatus;
+	}
+
+	public void setEstatus(Boolean estatus) {
+		this.estatus = estatus;
+	}
+
 }
