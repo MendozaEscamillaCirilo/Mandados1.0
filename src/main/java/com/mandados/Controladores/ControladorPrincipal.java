@@ -9,11 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.mail.SimpleMailMessage;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,18 +19,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.web.multipart.MultipartFile;
 import com.mandados.Entidades.Authority;
 import com.mandados.Entidades.CategoriasEntity;
 import com.mandados.Entidades.ComerciosEntity;
-import com.mandados.Entidades.PedidosEntity;
 import com.mandados.Entidades.ProductosEntity;
 import com.mandados.Entidades.RepartidoresEntity;
 import com.mandados.Entidades.SucursalesEntity;
 import com.mandados.Entidades.User;
 import com.mandados.Repository.TipoComercioRepository;
-import com.mandados.Repository.UserRepository;
 import com.mandados.Repository.AuthorityRepository;
 import com.mandados.Repository.ComercioRepository;
 import com.mandados.Repository.PedidoRepository;
@@ -47,15 +41,13 @@ import com.mandados.Servicios.Producto.IProductoService;
 import com.mandados.Servicios.Repartidor.IRepartidorService;
 import com.mandados.Servicios.Sucursal.ISucursalService;
 import com.mandados.Servicios.User.IUserService;
+import com.mandados.config.MetodosExtra;
 import com.mandados.config.Passgenerator;
 
-import java.util.Random;
 
 @Controller
 @RequestMapping
 public class ControladorPrincipal {
-    @Autowired
-    private JavaMailSender javaMailSender;
     @Autowired
     private AuthorityRepository authorityRepository;
     @Autowired
@@ -71,8 +63,6 @@ public class ControladorPrincipal {
     @Autowired
     private TipoComercioRepository tipocomerciorepository;
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
     private IAuthorityService authorityservice;
     @Autowired
     private IComercioService servicecomercio;
@@ -86,6 +76,7 @@ public class ControladorPrincipal {
     private ISucursalService sucursalservice;
     @Autowired
     private IUserService serviceuser;
+    private MetodosExtra metodosextra;
     //////////////// REGISTRAR COMERCIO/////////////////////
     @GetMapping("/registrocomercio")
     public String principal(Model model){
@@ -95,7 +86,6 @@ public class ControladorPrincipal {
         model.addAttribute("tipocomercio",tipocomerciorepository.findAll());
         return "registro/comercios";
     }
-
     @PostMapping("/registrocomercio")
     public String guardar(@Validated ComerciosEntity comercio,@Validated SucursalesEntity sucursalesEntity, ModelMap model){
         if (comercio.getNombre().equals("")||comercio.getEmail().equals("")){
@@ -107,7 +97,7 @@ public class ControladorPrincipal {
             return "registro/comercios";
         }
         // System.out.println(sucursalesEntity);
-        if(!obtCodigoPostalValido(sucursalesEntity.getCodigopostal())){
+        if(!metodosextra.obtCodigoPostalValido(sucursalesEntity.getCodigopostal())){
             model.addAttribute("comercio", comercio);
             model.addAttribute("sucursal", sucursalesEntity);
             model.addAttribute("tipocomercio",tipocomerciorepository.findAll());
@@ -119,7 +109,7 @@ public class ControladorPrincipal {
             newuser.setUsername(comercio.getEmail());
             newuser.setEnabled(true);
             Passgenerator ps = new Passgenerator();
-            String generada = aleatorio();
+            String generada = metodosextra.aleatorio();
             String password = ps.getPassword(generada);
             newuser.setPassword(password);
     
@@ -162,7 +152,7 @@ public class ControladorPrincipal {
             try {
                 System.out.println(comercio.getEmail());
                 System.out.println(generada);
-                sendEmail(comercio.getEmail(), generada);
+                metodosextra.sendEmail(comercio.getEmail(), generada);
             } catch (Exception e) {
                 System.out.println("ERROR AL ENVIAR EMAIL");
                 System.out.println(e);
@@ -207,7 +197,7 @@ public class ControladorPrincipal {
         }
         model.addAttribute("repartidores", repartidorRepository.findAll());
         model.addAttribute("repartidor", new RepartidoresEntity());
-        obtUsuario(model);
+        metodosextra.obtUsuario(model);
         return "listar/repartidor";
     }
 	//////////////// REGISTRAR CATEGORIA /////////////////////
@@ -229,7 +219,7 @@ public class ControladorPrincipal {
         }
         model.addAttribute("categorias", categoriarepository.findAll());
         model.addAttribute("categoria", new CategoriasEntity());
-        obtUsuario(model);
+        metodosextra.obtUsuario(model);
         return "listar/categoria";
     }
 	//////////////// ASIGNAR CATEGORIA A COMERCIO/////////////////////
@@ -255,7 +245,7 @@ public class ControladorPrincipal {
             System.out.println(e);
         }
         // ///////////////////////////
-        obtUsuario(model);
+        metodosextra.obtUsuario(model);
         model.addAttribute("categoriastotales", categoriarepository.findAll());
         model.addAttribute("categoriasseleccionadas", comerciosEntity.getCategorias());
         model.addAttribute("categoria", new CategoriasEntity());
@@ -289,7 +279,7 @@ public class ControladorPrincipal {
         model.addAttribute("producto", new ProductosEntity());
         model.addAttribute("categorias", comerciosEntity.getCategorias());
         // model.addAttribute("categorias", new CategoriasEntity());
-        obtUsuario(model);
+        metodosextra.obtUsuario(model);
         return "listar/producto";
     }
     //////////////// REGISTRAR AUTHORITY(ROL)/////////////////////
@@ -306,30 +296,6 @@ public class ControladorPrincipal {
     public String registrousuario(Model model){
         return "home";
     }
-    private String aleatorio(){
-        char [] chars = "012346789ABCDEFGHJKMNPQRSTUVWXYZ".toCharArray();
-        int charsLength = chars.length;
-        Random random = new Random();
-        StringBuffer buffer = new StringBuffer();
-        for (int i=0;i<6;i++){
-            buffer.append(chars[random.nextInt(charsLength)]);
-        }
-        // System.out.println("Random String " + buffer.toString());
-        return buffer.toString();
-    }
-    private void sendEmail(String correo,String generada){
-        System.out.println("Sending message");
-        String body = "Estimado usuario, \n    Gracias por contactarnos al correo \n " +
-                "   Los datos de acceso son: \n     USUARIO: El correo que usó en el registro.\n " + 
-                "    CONTRASEÑA: " + generada;
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setFrom("no-reply@mandados.com");// quien envía
-        simpleMailMessage.setTo(correo);
-        simpleMailMessage.setSubject("¡¡¡¡GRACIAS!!!!");
-        simpleMailMessage.setText(body);
-        javaMailSender.send(simpleMailMessage);
-        System.out.println("Send message...");
-    }
     @GetMapping("/buscarproductoo")
     public String buscarproducto(Model model, @RequestParam("group1") String seleccionado, @RequestParam("com") String comercio,String buscar){
         List<ProductosEntity>productos = productorepository.findByNombreContaining(buscar);
@@ -339,7 +305,7 @@ public class ControladorPrincipal {
             if(comercios.size()==0){
                 comercios.add(comerciorepository.findByEmail(productos.get(i).getComercio().getEmail()));
             }
-            if (!existeComercios(comercios, productos.get(i).getComercio().getNombre())) {
+            if (!metodosextra.existeComercios(comercios, productos.get(i).getComercio().getNombre())) {
                 comercios.add(comerciorepository.findByEmail(productos.get(i).getComercio().getEmail()));
             }
         }
@@ -350,7 +316,7 @@ public class ControladorPrincipal {
                 if(categorias.size()==0){
                     categorias.add(categoriarepository.findByNombre(productos.get(i).getCategoria().getNombre()));
                 }
-                if (!existeCategorias(categorias, productos.get(i).getCategoria().getNombre())) {
+                if (!metodosextra.existeCategorias(categorias, productos.get(i).getCategoria().getNombre())) {
                     categorias.add(categoriarepository.findByNombre(productos.get(i).getCategoria().getNombre()));
                 }
             }
@@ -370,59 +336,14 @@ public class ControladorPrincipal {
         }
         return "resultadodebusqueda";
     }
-    private boolean existeCategorias(List<CategoriasEntity> lista, String nombre){
-        for(int i=0;i<lista.size();i++){
-            if(nombre.equals(lista.get(i).getNombre())) return true;
-        }
-        return false;
-    }
-    private boolean existeComercios(List<ComerciosEntity> lista, String nombre){
-        for(int i=0;i<lista.size();i++){
-            if(nombre.equals(lista.get(i).getNombre())) return true;
-        }
-        return false;
-    }
-    public void obtUsuario(Model model){
-        Optional<User>lista = userRepository.findByUsername(((org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
-        User user1 = lista.get();
-        model.addAttribute("usuario", user1);
-        model.addAttribute("foto", "logos/"+user1.getUsername() + ".jpg");
-        model.addAttribute("comercio", comerciorepository.findByEmail(user1.getUsername()));
-    }
-    private boolean obtCodigoPostalValido(String cp){
-        String [] cps = {"68050"};
-        for(int i=0;i<cps.length;i++){
-            if(cp.equals(cps[i])) return true;
-        }
-        return false;
-    }
-    private List<PedidosEntity> getDatesOnListNoExist(List<PedidosEntity> lista){
-        List<PedidosEntity> aux = new ArrayList<PedidosEntity>();
-        for(int i=0;i<lista.size();i++){
-            if(lista.get(i).getHoraEntrega()!=null){
-                aux.add(lista.get(i));
-            }
-        }
-        return aux;
-    }
-    private List<PedidosEntity> getDatesOnListExist(List<PedidosEntity> lista){
-        List<PedidosEntity> aux = new ArrayList<PedidosEntity>();
-        for(int i=0;i<lista.size();i++){
-            if(lista.get(i).getHoraEntrega()!=null){
-                aux.add(lista.get(i));
-            }
-        }
-        return aux;
-    }
-
     /////////////////////// HOME///////////////////////////////
     @GetMapping("/home")
     public String userPage(Authentication authentication, Model model) {
         model.addAttribute("totalcomercios", comerciorepository.count());
         model.addAttribute("totalrepartidores", repartidorRepository.count());
-        model.addAttribute("ordenescompletadas", getDatesOnListNoExist(pedidorepository.findAll()).size());
-        model.addAttribute("ordenespendientes", getDatesOnListExist(pedidorepository.findAll()).size());
-        obtUsuario(model);
+        model.addAttribute("ordenescompletadas", metodosextra.getDatesOnListNoExist(pedidorepository.findAll()).size());
+        model.addAttribute("ordenespendientes", metodosextra.getDatesOnListExist(pedidorepository.findAll()).size());
+        metodosextra.obtUsuario(model);
         return "home";	    
     }
 }

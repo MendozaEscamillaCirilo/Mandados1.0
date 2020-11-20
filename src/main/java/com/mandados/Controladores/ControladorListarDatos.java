@@ -2,24 +2,21 @@ package com.mandados.Controladores;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import com.mandados.Entidades.CategoriasEntity;
 import com.mandados.Entidades.ComerciosEntity;
 import com.mandados.Entidades.ProductosEntity;
 import com.mandados.Entidades.RepartidoresEntity;
-import com.mandados.Entidades.User;
 import com.mandados.Repository.CategoriaRepository;
 import com.mandados.Repository.ComercioRepository;
 import com.mandados.Repository.PedidoRepository;
 import com.mandados.Repository.ProductoRepository;
 import com.mandados.Repository.RepartidorRepository;
-import com.mandados.Repository.UserRepository;
+import com.mandados.config.MetodosExtra;
 import com.mandados.Repository.SucursalRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,13 +37,11 @@ public class ControladorListarDatos {
     @Autowired
     private ProductoRepository productorepository;
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
     private SucursalRepository sucursalrepository;
-    
+    private MetodosExtra metodosextra;
     @GetMapping("/listacomercio")
     public String listarcomercio(Model model) {
-        obtUsuario(model);
+        metodosextra.obtUsuario(model);
         model.addAttribute("comercios", comerciorepository.findAll());
         model.addAttribute("sucursales", sucursalrepository.findAll());
         // model.addAttribute("comercios", comerciorepository.findAll());
@@ -54,7 +49,7 @@ public class ControladorListarDatos {
     }
     @GetMapping("/listarestaurante")
     public String listarcomercior(Model model) {
-        obtUsuario(model);
+        metodosextra.obtUsuario(model);
         List<ComerciosEntity> lista = comerciorepository.findAll();
         List<ComerciosEntity> lista1 = new ArrayList<ComerciosEntity>();
         for(int i=0;i<lista.size();i++){
@@ -67,7 +62,7 @@ public class ControladorListarDatos {
     }
     @GetMapping("/listatienda")
     public String listarcomerciot(Model model) {
-        obtUsuario(model);
+        metodosextra.obtUsuario(model);
         List<ComerciosEntity> lista = comerciorepository.findAll();
         List<ComerciosEntity> lista1 = new ArrayList<ComerciosEntity>();
         for(int i=0;i<lista.size();i++){
@@ -80,7 +75,7 @@ public class ControladorListarDatos {
     }
     @GetMapping("/listarepartidor")
     public String listarrepartidor(Model model) {
-        obtUsuario(model);
+        metodosextra.obtUsuario(model);
         model.addAttribute("repartidores", repartidorRepository.findAll());
         model.addAttribute("repartidor", new RepartidoresEntity());
         return "listar/repartidor";	    
@@ -89,7 +84,7 @@ public class ControladorListarDatos {
     public String listarcategoria(Model model, Authentication auth) {
         UserDetails userDetail = (UserDetails) auth.getPrincipal();
         ComerciosEntity comerciosEntity =  comerciorepository.findByEmail(userDetail.getUsername());
-        obtUsuario(model);
+        metodosextra.obtUsuario(model);
         model.addAttribute("categoriastotales", categoriarepository.findAll());
         if(userDetail.getUsername().equals("admin")){
             model.addAttribute("categoriasseleccionadas", categoriarepository.findAll());
@@ -101,7 +96,7 @@ public class ControladorListarDatos {
     }
     @GetMapping("/listaorden")
     public String listarorden(Model model) {
-        obtUsuario(model);
+        metodosextra.obtUsuario(model);
         model.addAttribute("pedidos", pedidorepository.findAll());
         return "listar/orden";	    
     }
@@ -117,25 +112,18 @@ public class ControladorListarDatos {
             model.addAttribute("categorias", comerciosEntity.getCategorias());
         }
         model.addAttribute("producto", new ProductosEntity());
-        obtUsuario(model);
+        metodosextra.obtUsuario(model);
         return "listar/producto";	    
     }
     @GetMapping("/listacatalogo")
     public String listarcatalogo(Model model) {
-        obtUsuario(model);
+        metodosextra.obtUsuario(model);
         // model.addAttribute("comercios", comerciorepository.findAll());
         return "listar/carta";	    
     }
     @GetMapping("/callcenter")
     public String listarcallcenter(Model model) {
-        obtUsuario(model);
+        metodosextra.obtUsuario(model);
         return "listar/callcenter";	    
-    }
-
-    public void obtUsuario(Model model){
-        Optional<User>lista = userRepository.findByUsername(((org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
-        User user1 = lista.get();
-        model.addAttribute("usuario", user1);
-        model.addAttribute("foto", "logos/"+user1.getUsername() + ".jpg");
     }
 }

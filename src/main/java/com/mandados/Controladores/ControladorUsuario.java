@@ -4,19 +4,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
-import java.util.Random;
 
 import com.mandados.Entidades.Authority;
 import com.mandados.Entidades.User;
 import com.mandados.Repository.AuthorityRepository;
 import com.mandados.Repository.UserRepository;
 import com.mandados.Servicios.User.IUserService;
-// import com.mandados.Servicios.User.UserService;
+import com.mandados.config.MetodosExtra;
 import com.mandados.config.Passgenerator;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,19 +28,18 @@ import org.springframework.validation.annotation.Validated;
 @RequestMapping
 public class ControladorUsuario {
     @Autowired
-    private JavaMailSender javaMailSender;
-    @Autowired
     private UserRepository userRepository;
     @Autowired
     private AuthorityRepository authorityRepository;
     @Autowired
     private IUserService serviceuser;
+    private MetodosExtra metodosextra;
     @GetMapping("/editarusuario")
     public String editarusuario(Model model) {
         Optional<User>lista = userRepository.findByUsername(((org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
         User user = lista.get();
         model.addAttribute("usuario", user);
-        obtUsuario(model);
+        metodosextra.obtUsuario(model);
         return "editarusuario";	    
     }
     @PostMapping("/editarcontrasenia")
@@ -53,8 +49,8 @@ public class ControladorUsuario {
         Passgenerator ps = new Passgenerator();
         user1.setPassword(ps.getPassword(user.getPassword()));
         serviceuser.save(user1);
-        sendEmail(user1.getUsername());
-        obtUsuario(model);
+        metodosextra.sendEmail(user1.getUsername());
+        metodosextra.obtUsuario(model);
         return "home";
     }
     @PostMapping("/editarfoto")
@@ -72,16 +68,15 @@ public class ControladorUsuario {
                 serviceuser.save(user1);
             } catch (Exception e) {System.out.println(e);}
         }
-        obtUsuario(model);
+        metodosextra.obtUsuario(model);
         return "home";
     }
-
     @PostMapping("/reset")
     public String contraseniaolvidada(@RequestParam("username") String username, Model model){
         try {
             User usuario = userRepository.findByUsername(username).get();
             Passgenerator ps = new Passgenerator();
-            String generada = aleatorio();
+            String generada = metodosextra.aleatorio();
             String password = ps.getPassword(generada);
             usuario.setPassword(password);
             try {
@@ -91,7 +86,7 @@ public class ControladorUsuario {
                 return "registro/exitoso";
             }
             try {
-                sendEmailRemember(usuario.getUsername(), generada);
+                metodosextra.sendEmailRemember(usuario.getUsername(), generada);
                 model.addAttribute("reset",true);
                 return "registro/exitoso";
             } catch (Exception e) {
@@ -104,61 +99,21 @@ public class ControladorUsuario {
         }
         return "resetcontrasenia";
     }
-    private void sendEmail(String correo){
-        System.out.println("Sending message");
-        String body = "Estimado usuario, \n    Su contraseña ah sido cambiada.. \n ";
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setFrom("no-reply@mandados.com");// quien envía
-        simpleMailMessage.setTo(correo);
-        simpleMailMessage.setSubject("¡¡¡¡ACTUALIZADO!!!!");
-        simpleMailMessage.setText(body);
-        javaMailSender.send(simpleMailMessage);
-        System.out.println("Send message...");
-    }
-    private void sendEmailRemember(String correo,String generada){
-        System.out.println("Sending message");
-        String body = "Estimado usuario, \n     \n " +
-                "   Los datos de acceso son: \n     EMAIL: " + correo +" \n " + 
-                "    CONTRASEÑA: " + generada;
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setFrom("no-reply@mandados.com");// quien envía
-        simpleMailMessage.setTo(correo);
-        simpleMailMessage.setSubject("¡¡¡¡GRACIAS!!!!");
-        simpleMailMessage.setText(body);
-        javaMailSender.send(simpleMailMessage);
-        System.out.println("Send message...");
-    }
-    private String aleatorio(){
-        char [] chars = "012346789ABCDEFGHJKMNPQRSTUVWXYZ".toCharArray();
-        int charsLength = chars.length;
-        Random random = new Random();
-        StringBuffer buffer = new StringBuffer();
-        for (int i=0;i<6;i++){
-            buffer.append(chars[random.nextInt(charsLength)]);
-        }
-        // System.out.println("Random String " + buffer.toString());
-        return buffer.toString();
-    }
-    public void obtUsuario(Model model){
-        Optional<User>lista = userRepository.findByUsername(((org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
-        User user1 = lista.get();
-        model.addAttribute("usuario", user1);
-        model.addAttribute("foto", "logos/"+user1.getUsername() + ".jpg");
-    }
-
     @GetMapping("/usuarios")
     public String listarusuario(Model model) {
         model.addAttribute("usuarios", userRepository.findAll());
         model.addAttribute("roles", authorityRepository.findAll());
         model.addAttribute("usuario", new User());
-        obtUsuario(model);
+        metodosextra.obtUsuario(model);
         return "listar/usuario";	    
     }
     @GetMapping("/roles")
     public String listarrol(Model model) {
         model.addAttribute("roles", authorityRepository.findAll());
         model.addAttribute("rol", new Authority());
-        obtUsuario(model);
+        metodosextra.obtUsuario(model);
         return "listar/authority";
     }
+    
+    
 }

@@ -1,12 +1,9 @@
 package com.mandados.Controladores;
 
-import java.util.Optional;
-
 import com.mandados.Entidades.CategoriasEntity;
 import com.mandados.Entidades.ComerciosEntity;
 import com.mandados.Entidades.ProductosEntity;
 import com.mandados.Entidades.RepartidoresEntity;
-import com.mandados.Entidades.User;
 import com.mandados.Repository.CategoriaRepository;
 import com.mandados.Repository.ComercioRepository;
 import com.mandados.Repository.ProductoRepository;
@@ -20,7 +17,6 @@ import com.mandados.Servicios.Repartidor.IRepartidorService;
 import com.mandados.Servicios.User.IUserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -87,12 +83,5 @@ public class ControladorEliminarDatos {
         repartidor.setEstatus(false);
         repartidorservice.save(repartidor);
 		return "redirect:/listarepartidor";
-    }
-    
-    public void obtUsuario(Model model){
-        Optional<User>lista = userrepository.findByUsername(((org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
-        User user1 = lista.get();
-        model.addAttribute("usuario", user1);
-        model.addAttribute("foto", "logos/"+user1.getUsername() + ".jpg");
     }
 }
