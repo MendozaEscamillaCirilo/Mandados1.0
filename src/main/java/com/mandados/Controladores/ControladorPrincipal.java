@@ -76,6 +76,7 @@ public class ControladorPrincipal {
     private ISucursalService sucursalservice;
     @Autowired
     private IUserService serviceuser;
+    @Autowired
     private MetodosExtra metodosextra;
     //////////////// REGISTRAR COMERCIO/////////////////////
     @GetMapping("/registrocomercio")

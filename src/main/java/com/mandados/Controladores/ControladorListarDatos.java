@@ -38,13 +38,14 @@ public class ControladorListarDatos {
     private ProductoRepository productorepository;
     @Autowired
     private SucursalRepository sucursalrepository;
+    @Autowired
     private MetodosExtra metodosextra;
     @GetMapping("/listacomercio")
     public String listarcomercio(Model model) {
         metodosextra.obtUsuario(model);
         model.addAttribute("comercios", comerciorepository.findAll());
         model.addAttribute("sucursales", sucursalrepository.findAll());
-        // model.addAttribute("comercios", comerciorepository.findAll());
+        model.addAttribute("comercios", comerciorepository.findAll());
         return "listar/comercio";	    
     }
     @GetMapping("/listarestaurante")

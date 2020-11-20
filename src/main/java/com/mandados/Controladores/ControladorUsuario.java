@@ -33,6 +33,7 @@ public class ControladorUsuario {
     private AuthorityRepository authorityRepository;
     @Autowired
     private IUserService serviceuser;
+    @Autowired
     private MetodosExtra metodosextra;
     @GetMapping("/editarusuario")
     public String editarusuario(Model model) {
