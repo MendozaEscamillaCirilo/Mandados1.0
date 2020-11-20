@@ -135,6 +135,7 @@ public class ControladorPrincipal {
             sucursalesEntity.setNombre(comercio.getNombre());
             sucursalesEntity.setEmail(comercio.getEmail());
             try {
+                newuser.setEnabled(true);
                 serviceuser.save(newuser);
             } catch (Exception e) {
                 System.out.println("ERROR AL GUARDAR");
@@ -148,6 +149,7 @@ public class ControladorPrincipal {
                 comercio.setEstatus(true);
                 servicecomercio.save(comercio);
                 sucursalesEntity.setComercio(comercio);
+                sucursalesEntity.setEstatus(true);
                 sucursalservice.save(sucursalesEntity);
             } catch (Exception e) {
                 System.out.println("ERROR AL REGISTRAR LA SUCURSAL");
@@ -193,6 +195,7 @@ public class ControladorPrincipal {
         user.setPassword(new Passgenerator().getPassword("password98"));
         try{
             serviceuser.save(user);
+            rEntity.setEstatus(true);
             repartidorservice.save(rEntity);
             model.addAttribute("noerror", true);
         }catch(Exception e){
@@ -211,6 +214,7 @@ public class ControladorPrincipal {
     @PostMapping("/registrocategoria")
     public String registrocategoriaguardar(@Validated CategoriasEntity cEntity, Model model,Authentication auth){
         try{
+            cEntity.setEstatus(true);
             categoriaservice.save(cEntity);
         }catch(Exception e){
             System.out.println("ERROR AL REGISTRAR REPARTIDOR");
@@ -244,6 +248,7 @@ public class ControladorPrincipal {
             }
             cat.add(categorias);
             comerciosEntity.setCategorias(cat);
+            comerciosEntity.setEstatus(true);
             servicecomercio.save(comerciosEntity);
         }catch(Exception e){
             System.out.println("ERROR AL REGISTRAR CATEGORIA");
@@ -278,7 +283,7 @@ public class ControladorPrincipal {
                 System.out.println(e);
             }
         }
-        
+        producto.setEstatus(true);
         productoservice.save(producto);
         model.addAttribute("productos", productorepository.findByComercio(comerciosEntity));
         model.addAttribute("producto", new ProductosEntity());
