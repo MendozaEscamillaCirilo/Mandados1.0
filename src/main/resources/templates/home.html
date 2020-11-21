@@ -32,23 +32,18 @@
                       <!-- <li class="breadcrumb-item"><a href="#">Home</a></li>
                       <li class="breadcrumb-item active">Dashboard v1</li> -->
                     </ol>
-                  </div><!-- /.col -->
-                </div><!-- /.row -->
-              </div><!-- /.container-fluid -->
+                  </div>
+                </div>
+              </div>
             </div>
-            <!-- /.content-header -->
-        
-            <!-- Main content -->
             <section class="content">
               <div class="container-fluid">
-                <!-- Small boxes (Stat box) -->
                 <div class="row">
-                  <div class="col-lg-3 col-6" sec:authorize="hasAuthority('ROL_ADMIN')">
+                  <div class="col-lg-3 col-6" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')">
                     <!-- small box -->
                     <div class="small-box bg-info">
                       <div class="inner">
                         <h3 th:text="${totalcomercios}">150</h3>
-        
                         <p>COMERCIOS REGISTRADOS</p>
                       </div>
                       <div class="icon">
@@ -57,14 +52,12 @@
                       <a href="/listacomercio" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                   </div>
-                  <!-- ./col -->
-                  <div class="col-lg-3 col-6" sec:authorize="hasAuthority('ROL_ADMIN')">
+                  <div class="col-lg-3 col-6" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')">
                     <!-- small box -->
                     <div class="small-box bg-success">
                       <div class="inner">
                         <!-- <h3>53<sup style="font-size: 20px">%</sup></h3> -->
                         <h3 th:text="${totalrepartidores}">53</h3>
-        
                         <p>REPARTIDORES REGISTRADOS</p>
                       </div>
                       <div class="icon">
@@ -73,13 +66,11 @@
                       <a href="/listarepartidor" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                   </div>
-                  <!-- ./col -->
-                  <div class="col-lg-3 col-6" sec:authorize="hasAuthority('ROL_ADMIN')">
+                  <div class="col-lg-3 col-6" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER','ROL_REPARTIDOR')">
                     <!-- small box -->
                     <div class="small-box bg-warning">
                       <div class="inner">
                         <h3 th:text="${ordenescompletadas}">44</h3>
-        
                         <p>PEDIDOS COMPLETADOS</p>
                       </div>
                       <div class="icon">
@@ -88,8 +79,7 @@
                       <a href="#" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                   </div>
-                  <!-- ./col -->
-                  <div class="col-lg-3 col-6" sec:authorize="hasAuthority('ROL_ADMIN')">
+                  <div class="col-lg-3 col-6" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER','ROL_COMERCIO')">
                     <!-- small box -->
                     <div class="small-box bg-danger">
                       <div class="inner">
@@ -102,25 +92,19 @@
                       <a href="#" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                   </div>
-                  <div class="col-lg-3 col-6" sec:authorize="hasAuthority('ROL_COMERCIO')">
-                    <!-- small box -->
-                    <div class="small-box bg-danger">
-                      <div class="inner">
-                        <h3 th:text="${ordenespendientes}">65</h3>
-                        <p>PEDIDOS PENDIENTES</p>
-                      </div>
-                      <div class="icon">
-                        <i class="fas fa-check"></i>
-                      </div>
-                      <a href="#" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
-                    </div>
-                  </div>
-                  <!-- ./col -->
                 </div>
-                <!-- /.row -->
-              </div><!-- /.container-fluid -->
+              </div>
+              <div class="container-fluid">
+                <div class="card card-primary card-outline">
+                  <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-edit"></i>BUSQUEDA DE PRODUCTOS PARA REALIZAR ORDEN</h3>
+                  </div>
+                  <div class="card-body">
+                    
+                  </div>
+                </div>
+              </div>
             </section>
-            <!-- /.content -->
         </div>
         <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
     </div>

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 import com.mandados.Entidades.Authority;
 import com.mandados.Entidades.CategoriasEntity;
@@ -47,7 +48,7 @@ import com.mandados.config.Passgenerator;
 
 @Controller
 @RequestMapping
-public class ControladorPrincipal {
+public class ControladorRegistrarDatos {
     @Autowired
     private AuthorityRepository authorityRepository;
     @Autowired
@@ -294,8 +295,25 @@ public class ControladorPrincipal {
     }
     //////////////// REGISTRAR USUARIO/////////////////////
     @PostMapping("/registrousuario")
-    public String registrousuario(Model model){
-        return "home";
+    public String registrousuario(@Validated User usuario, @RequestParam("file") MultipartFile imagen, Model model){
+        Passgenerator ps = new Passgenerator();
+        usuario.setPassword(ps.getPassword(usuario.getPassword()));
+        if (!imagen.isEmpty()) {
+            Path directorioImagenes = Paths.get("src//main//resources//static//logos");
+            String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
+            try {
+                byte[] bytesImgenes = imagen.getBytes();
+                Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + usuario.getUsername()+".jpg");
+                Files.write(rutaCompleta,bytesImgenes);
+                usuario.setImagen(usuario.getUsername().split("@")[0]);
+            } catch (Exception e) {System.out.println(e);}
+        }else{
+            System.out.println("////////////////////////////////////////////////////////////////////////////////////////////////////////");
+            System.out.println("////////////LA IMAGEN ESTÁ VACIA////////////////////////////");
+            System.out.println("////////////////////////////////////////////////////////////////////////////////////////////////////////");
+        }
+        serviceuser.save(usuario);
+        return "listar/usuario";
     }
     @GetMapping("/buscarproductoo")
     public String buscarproducto(Model model, @RequestParam("group1") String seleccionado, @RequestParam("com") String comercio,String buscar){

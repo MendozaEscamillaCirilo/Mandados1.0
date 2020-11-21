@@ -1,6 +1,34 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <title>Usuarios</title>
 <div th:replace="includes/head::home"></div>
+<style>
+  .custom-input-file {
+      color: rgb(21, 186, 252);
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+      margin: 0 auto 0;
+      /* min-height: 15px; */
+      overflow: hidden;
+      /* padding: 10px; */
+      position: relative;
+      text-align: center;
+      /* width: 400px; */
+  }
+
+  .custom-input-file .input-file {
+      border: 10000px solid transparent;
+      cursor: pointer;
+      font-size: 10000px;
+      margin: 0;
+      opacity: 0;
+      outline: 0 none;
+      padding: 0;
+      position: absolute;
+      right: -1000px;
+      top: -1000px;
+  }
+</style>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
         <div th:replace="includes/navbar"></div>
@@ -33,7 +61,11 @@
                       <tr th:each="user :${usuarios}">
                         <td><span th:text="${user.username}"> username </span></td>
                         <td><span th:text="${user.enabled}"> enabled </span></td>
-                        <td><span th:text="${user.authority[0].authority}"> enabled </span></td>
+                        <td>
+                          <span th:each="auth : ${user.authority}">
+                            <h5 th:text="${auth.authority}"></h5>
+                          </span>
+                        </td>
                         
                       </tr>
                     </tbody>
@@ -49,7 +81,7 @@
                 <div class="modal fade" id="nuevo" data-backdrop="false">
                   <div class="modal-dialog modal-xl">
                     <div class="modal-content">
-                      <form class="form-signin" th:action="@{/registrousuario}" th:object=${usuario} method="post" novalidate>
+                      <form class="form-signin" th:action="@{/registrousuario}" th:object=${newusuario} enctype="multipart/form-data" method="post" novalidate>
                         <div class="modal-header">
                           <h4 class="modal-title">REGISTRO DE USUARIOS</h4>
                         </div>
@@ -61,11 +93,17 @@
                               <input th:field="*{password}" type="text" class="form-control validate" placeholder="Contraseña" required>
                             </div>
                             <div class="form-group">
-                              <select th:field="*{authority}" multiple="multiple" data-placeholder="Selecciona rol" class="form-control select2 validate" required>
+                              <select th:field="*{authority}" multiple="multiple" data-placeholder="Selecciona rol" class="form-control select2 form-control validate" required>
                                 <option th:each="tipo :${roles}" th:value="${tipo.id}" th:text="${tipo.authority}"></option>
                               </select>
                             </div>
-        
+                            <!-- <div class="form-group">
+                              <input type="file" name="file" class="file-input form-control validate" id="file" required>
+                            </div> -->
+                            <div class="form-group custom-input-file btn btn-outline-primary col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto">
+                              <input type="file" name="file" id="file" class="input-file form-control validate" value="" onchange="myFunction()" required>
+                              <p id="div">Subir archivo</p>
+                            </div>
                         </div>
                         <div class="modal-footer justify-content-between">
                           <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
@@ -82,6 +120,12 @@
         <div th:replace="includes/footer::script2"></div>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
         <script src="scripts/funciones.js"></script>
+        <script>
+          function myFunction() {
+            var x = document.getElementById("file").value;
+            document.getElementById("div").textContent = x.split("fakepath");
+          }
+        </script>
     </div>
 </body>
 </html>

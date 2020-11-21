@@ -5,7 +5,46 @@
     <div th:replace="includes/navbar"></div>
     <div th:replace="includes/sidebar"></div>
     <div class="content-wrapper">
-
+      <div class="card card-rotating bg-gradient-light">
+        <div class="card-header">
+          <h3 class="card-title">CALL CENTER</h3>
+          <div class="card-tools">
+            <ul class="nav nav-pills ml-auto">
+              <!-- <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#nuevo">
+                Nuevo
+              </button> -->
+            </ul>
+          </div>
+        </div>
+        <div class="card-body">
+          <table id="tabla1" class="table table-bordered table-striped">
+            <thead>
+            <tr>
+              <th>NOMBRE</th>
+              <th>HABILITADO</th>
+              <th>ROL</th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr th:if="${usuarios.empty}">
+                <td colspan="3"> No hay usuarios registrados </td>
+              </tr>
+              <tr th:each="user :${usuarios}">
+                <!-- <td><span th:text="${user.username}"> username </span></td> -->
+                <!-- <td><span th:text="${user.enabled}"> enabled </span></td> -->
+                <!-- <td><span >ROL_CALLCENTER</span></td> -->
+              </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+              <th>NOMBRE</th>
+              <th>HABILITADO</th>
+              <th>ROL</th>
+            </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
     </div>
     <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
   </div>

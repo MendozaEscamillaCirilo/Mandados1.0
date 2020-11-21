@@ -7,6 +7,8 @@ import com.mandados.Entidades.CategoriasEntity;
 import com.mandados.Entidades.ComerciosEntity;
 import com.mandados.Entidades.ProductosEntity;
 import com.mandados.Entidades.RepartidoresEntity;
+import com.mandados.Entidades.User;
+import com.mandados.Repository.AuthorityRepository;
 import com.mandados.Repository.CategoriaRepository;
 import com.mandados.Repository.ComercioRepository;
 import com.mandados.Repository.PedidoRepository;
@@ -14,6 +16,7 @@ import com.mandados.Repository.ProductoRepository;
 import com.mandados.Repository.RepartidorRepository;
 import com.mandados.config.MetodosExtra;
 import com.mandados.Repository.SucursalRepository;
+import com.mandados.Repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -27,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping
 public class ControladorListarDatos {
     @Autowired
+    private AuthorityRepository authorityrepository;
+    @Autowired
     private ComercioRepository comerciorepository;
     @Autowired
     private RepartidorRepository repartidorRepository;
@@ -38,6 +43,8 @@ public class ControladorListarDatos {
     private ProductoRepository productorepository;
     @Autowired
     private SucursalRepository sucursalrepository;
+    @Autowired
+    private UserRepository userrepository;
     @Autowired
     private MetodosExtra metodosextra;
     @GetMapping("/listacomercio")
@@ -124,6 +131,9 @@ public class ControladorListarDatos {
     }
     @GetMapping("/callcenter")
     public String listarcallcenter(Model model) {
+        model.addAttribute("usuarios", userrepository.findByUsername("ROL_CALLCENTER"));
+        model.addAttribute("roles", authorityrepository.findAll());
+        model.addAttribute("usuario", new User());
         metodosextra.obtUsuario(model);
         return "listar/callcenter";	    
     }
