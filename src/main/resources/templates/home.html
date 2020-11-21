@@ -94,13 +94,43 @@
                   </div>
                 </div>
               </div>
-              <div class="container-fluid">
+              <div sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')" class="container-fluid">
                 <div class="card card-primary card-outline">
                   <div class="card-header">
                     <h3 class="card-title"><i class="fas fa-edit"></i>BUSQUEDA DE PRODUCTOS PARA REALIZAR ORDEN</h3>
                   </div>
                   <div class="card-body">
-                    
+                    <form action="/getproductosabc">
+                      <div class="input-group mb-3">
+                        <input type="text" name="search" id="search" class="form-control" placeholder="Buscar platillo o producto">
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-primary" type="submit">Buscar</button>
+                        </div>
+                      </div>
+                    </form>
+                    <div th:if="${tablavisible}">
+                      <table id="tabla1" class="table table-bordered table-striped">
+                        <thead>
+                          <tr>
+                            <th>Nombre</th>
+                            <th>Costo</th>
+                            <th>Comercio</th>
+                            <th>Descripción</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${productos.empty}"><td colspan="3"> No hay resultados </td></tr>
+                            <tr th:each="prod :${productos}">
+                                <td><span th:text="${prod.nombre}"></span></td>
+                                <td><span th:text="${prod.precio}"></span></td>
+                                <td><span th:text="${prod.comercio.nombre}"></span></td>
+                                <td><span th:text="${prod.descripcion}"></span></td>
+                                <td><a href="/home"><i class="fas fa-cart-plus"></i></a></td>
+                            </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -120,8 +150,29 @@
     <script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
     <script src="plugins/summernote/summernote-bs4.min.js"></script>
     <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
     <script src="dist/js/adminlte.js"></script>
     <script src="dist/js/pages/dashboard.js"></script>
     <script src="dist/js/demo.js"></script>
+    <script>
+      $(function () {
+        $("#tabla1").DataTable({
+          "responsive": true,
+          "autoWidth": false,
+        });
+        $('#example2').DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": false,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false,
+          "responsive": true,
+        });
+      });
+    </script>
   </body>
 </html>

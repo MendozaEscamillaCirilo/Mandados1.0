@@ -12,12 +12,12 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
+        <!-- <div class="image">
           <img th:src="${(usuario.imagen != null && !#strings.isEmpty(usuario.imagen)) ? foto : 'imagenes/logoazul.png'}" class="img-circle elevation-2" alt="User Image"/>
         </div>
         <div class="info">
           <a href="#" class="d-block" sec:authentication="name"></a>
-        </div>
+        </div> -->
       </div>
       <!-- <span th:text="${usuario.imagen}"></span> -->
       <!-- Sidebar Menu -->
@@ -110,7 +110,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
               </p>
             </a>
           </li>
-          <li class="nav-item" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')">
+          <li class="nav-item" sec:authorize="hasAnyAuthority('ROL_ADMIN')">
             <a href="/callcenter" class="nav-link">
               <i class="nav-icon fas fa-object-group"></i>
               <p>
