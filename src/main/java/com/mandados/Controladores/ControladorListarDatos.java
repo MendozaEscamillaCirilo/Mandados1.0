@@ -42,6 +42,8 @@ public class ControladorListarDatos {
     @Autowired
     private ProductoRepository productorepository;
     @Autowired
+    private RepartidorRepository repartidorrepository;
+    @Autowired
     private SucursalRepository sucursalrepository;
     @Autowired
     private UserRepository userrepository;
@@ -136,5 +138,14 @@ public class ControladorListarDatos {
         model.addAttribute("usuario", new User());
         metodosextra.obtUsuario(model);
         return "listar/callcenter";	    
+    }
+    @GetMapping("/home")
+    public String userPage(Authentication authentication, Model model) {
+        model.addAttribute("totalcomercios", comerciorepository.count());
+        model.addAttribute("totalrepartidores", repartidorrepository.count());
+        model.addAttribute("ordenescompletadas", metodosextra.getDatesOnListNoExist(pedidorepository.findAll()).size());
+        model.addAttribute("ordenespendientes", metodosextra.getDatesOnListExist(pedidorepository.findAll()).size());
+        metodosextra.obtUsuario(model);
+        return "home";	    
     }
 }

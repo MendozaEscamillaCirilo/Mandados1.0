@@ -31,7 +31,6 @@ import com.mandados.Entidades.User;
 import com.mandados.Repository.TipoComercioRepository;
 import com.mandados.Repository.AuthorityRepository;
 import com.mandados.Repository.ComercioRepository;
-import com.mandados.Repository.PedidoRepository;
 import com.mandados.Repository.CategoriaRepository;
 import com.mandados.Repository.ProductoRepository;
 import com.mandados.Repository.RepartidorRepository;
@@ -50,23 +49,21 @@ import com.mandados.config.Passgenerator;
 @RequestMapping
 public class ControladorRegistrarDatos {
     @Autowired
-    private AuthorityRepository authorityRepository;
+    private AuthorityRepository authorityrepository;
     @Autowired
     private CategoriaRepository categoriarepository;
     @Autowired
     private ComercioRepository comerciorepository;
     @Autowired
-    private PedidoRepository pedidorepository;
-    @Autowired
     private ProductoRepository productorepository;
     @Autowired
-    private RepartidorRepository repartidorRepository;
+    private RepartidorRepository repartidorrepository;
     @Autowired
     private TipoComercioRepository tipocomerciorepository;
     @Autowired
     private IAuthorityService authorityservice;
     @Autowired
-    private IComercioService servicecomercio;
+    private IComercioService comercioservice;
 	@Autowired
     private ICategoriaService categoriaservice;
     @Autowired
@@ -76,7 +73,7 @@ public class ControladorRegistrarDatos {
     @Autowired
     private ISucursalService sucursalservice;
     @Autowired
-    private IUserService serviceuser;
+    private IUserService userservice;
     @Autowired
     private MetodosExtra metodosextra;
     //////////////// REGISTRAR COMERCIO/////////////////////
@@ -115,7 +112,7 @@ public class ControladorRegistrarDatos {
             String password = ps.getPassword(generada);
             newuser.setPassword(password);
     
-            List<Authority> lista = authorityRepository.findAll();
+            List<Authority> lista = authorityrepository.findAll();
             ArrayList<Authority> list = new ArrayList<Authority>();
             for(int i=0;i<lista.size();i++){
                 if(lista.get(i).getAuthority().equals("ROL_COMERCIO")){
@@ -128,7 +125,7 @@ public class ControladorRegistrarDatos {
             sucursalesEntity.setEmail(comercio.getEmail());
             try {
                 newuser.setEnabled(true);
-                serviceuser.save(newuser);
+                userservice.save(newuser);
             } catch (Exception e) {
                 System.out.println("ERROR AL GUARDAR");
                 model.addAttribute("comercio", comercio);
@@ -139,7 +136,7 @@ public class ControladorRegistrarDatos {
             }
             try {
                 comercio.setEstatus(true);
-                servicecomercio.save(comercio);
+                comercioservice.save(comercio);
                 sucursalesEntity.setComercio(comercio);
                 sucursalesEntity.setEstatus(true);
                 sucursalservice.save(sucursalesEntity);
@@ -174,19 +171,19 @@ public class ControladorRegistrarDatos {
     @PostMapping("/registrorepartidor")
     public String registrorepartidorguardar(@Validated RepartidoresEntity rEntity, Model model){
         User user = new User();
-        List<Authority> lista = authorityRepository.findAll();
+        List<Authority> lista = authorityrepository.findAll();
         ArrayList<Authority> list = new ArrayList<Authority>();
         for(int i=0;i<lista.size();i++){
             if(lista.get(i).getAuthority().equals("ROL_REPARTIDOR")){
                 list.add(lista.get(i));
             }
         }
-        user.setAuthority(authorityRepository.findByAuthority("ROL_REPARTIDOR"));
+        user.setAuthority(authorityrepository.findByAuthority("ROL_REPARTIDOR"));
         user.setUsername(rEntity.getEmail());
         user.setEnabled(true);
         user.setPassword(new Passgenerator().getPassword("password98"));
         try{
-            serviceuser.save(user);
+            userservice.save(user);
             rEntity.setEstatus(true);
             repartidorservice.save(rEntity);
             model.addAttribute("noerror", true);
@@ -197,7 +194,7 @@ public class ControladorRegistrarDatos {
             System.out.println("///////////////////////////////////////////////////////////////////");
             System.out.println(e.getMessage());
         }
-        model.addAttribute("repartidores", repartidorRepository.findAll());
+        model.addAttribute("repartidores", repartidorrepository.findAll());
         model.addAttribute("repartidor", new RepartidoresEntity());
         metodosextra.obtUsuario(model);
         return "listar/repartidor";
@@ -241,7 +238,7 @@ public class ControladorRegistrarDatos {
             cat.add(categorias);
             comerciosEntity.setCategorias(cat);
             comerciosEntity.setEstatus(true);
-            servicecomercio.save(comerciosEntity);
+            comercioservice.save(comerciosEntity);
         }catch(Exception e){
             System.out.println("ERROR AL REGISTRAR CATEGORIA");
             System.out.println(e);
@@ -289,7 +286,7 @@ public class ControladorRegistrarDatos {
     public String registroauthority(@Validated Authority authority,Model model){
         // System.out.println(authority);
         authorityservice.save(authority);
-        model.addAttribute("roles", authorityRepository.findAll());
+        model.addAttribute("roles", authorityrepository.findAll());
         model.addAttribute("rol", new Authority());
         return "listar/authority";
     }
@@ -312,7 +309,7 @@ public class ControladorRegistrarDatos {
             System.out.println("////////////LA IMAGEN ESTÁ VACIA////////////////////////////");
             System.out.println("////////////////////////////////////////////////////////////////////////////////////////////////////////");
         }
-        serviceuser.save(usuario);
+        userservice.save(usuario);
         return "listar/usuario";
     }
     @GetMapping("/buscarproductoo")
@@ -356,13 +353,4 @@ public class ControladorRegistrarDatos {
         return "resultadodebusqueda";
     }
     /////////////////////// HOME///////////////////////////////
-    @GetMapping("/home")
-    public String userPage(Authentication authentication, Model model) {
-        model.addAttribute("totalcomercios", comerciorepository.count());
-        model.addAttribute("totalrepartidores", repartidorRepository.count());
-        model.addAttribute("ordenescompletadas", metodosextra.getDatesOnListNoExist(pedidorepository.findAll()).size());
-        model.addAttribute("ordenespendientes", metodosextra.getDatesOnListExist(pedidorepository.findAll()).size());
-        metodosextra.obtUsuario(model);
-        return "home";	    
-    }
 }

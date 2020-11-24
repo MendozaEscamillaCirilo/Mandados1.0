@@ -102,7 +102,7 @@
                   <div class="card-body">
                     <form action="/getproductosabc">
                       <div class="input-group mb-3">
-                        <input type="text" name="search" id="search" class="form-control" placeholder="Buscar platillo o producto">
+                        <input type="text" name="search" id="search" class="form-control" placeholder="Buscar platillo o producto" required>
                         <div class="input-group-append">
                           <button class="btn btn-outline-primary" type="submit">Buscar</button>
                         </div>
@@ -134,6 +134,12 @@
                   </div>
                 </div>
               </div>
+              <!-- <select data-placeholder="Selecciona categoria" class="form-control select2 validate" required>
+                <option th:each="tipo :${allproductos}" th:value="${tipo.nombre}" th:text="${tipo.nombre}"></option>
+              </select>
+              <div th:each="productos : ${allproductos}">
+                <div th:text="productos.nombre"></div>
+              </div> -->
             </section>
         </div>
         <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
