@@ -32,9 +32,7 @@ public class Authority {
 		this.id = id;
 	}
 
-	@Override
 	public String toString() {
 		return "Authority [authority=" + authority + ", id=" + id + "]";
 	}
-	
 }

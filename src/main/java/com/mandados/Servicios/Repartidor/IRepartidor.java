@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.mandados.Entidades.RepartidoresEntity;
 
 @Repository
-public interface IRepartidor extends CrudRepository<RepartidoresEntity, Integer>{
+public interface IRepartidor extends CrudRepository<RepartidoresEntity, Long>{
 
 }

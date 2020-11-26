@@ -6,51 +6,63 @@
         <div th:replace="includes/navbar"></div>
         <div th:replace="includes/sidebar"></div>
         <div class="content-wrapper">
-            <div class="card card-rotating bg-gradient-light">
-                <div class="card-header">
-                  <h3 class="card-title">REPARTIDORES</h3>
-                  <div class="card-tools">
-                    <ul class="nav nav-pills ml-auto">
-                      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#nuevo">
-                        Nuevo
-                      </button>
-                    </ul>
+          <div class="card card-rotating bg-gradient-light">
+            <div class="card-body">
+              <div class="card card-primary card-outline">
+                  <div class="card-header">
+                    <h3 class="card-title">REPARTIDORES</h3>
+                    <div class="card-tools">
+                      <ul class="nav nav-pills ml-auto">
+                        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#nuevo">
+                          Nuevo
+                        </button>
+                      </ul>
+                    </div>
                   </div>
-                </div>
-                <div class="card-body table-responsive p-0" style="height: 300px;">
-                  <table class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>nombre</th>
-                        <th>calle</th>
-                        <th>numero</th>
-                        <th>colonia</th>
-                        <th>municipio</th>
-                        <th>telefono</th>
-                        <th>email</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr th:if="${repartidores.empty}">
-                        <td colspan="9"> No hay repartidores registrados </td>
-                      </tr>
-                      <tr th:each="r :${repartidores}">
-                        <td>
-                          <span th:text="${r.nombre}"> Authority </span>
-                          <span th:text="${r.primer_apellido}"> Authority </span>
-                          <span th:text="${r.segundo_apellido}"> Authority </span>
-                        </td>
-                        <td><span th:text="${r.calle}"> Authority </span></td>
-                        <td><span th:text="${r.numero}"> Authority </span></td>
-                        <td><span th:text="${r.colonia}"> Authority </span></td>
-                        <td><span th:text="${r.municipio}"> Authority </span></td>
-                        <td><span th:text="${r.telefono}"> Authority </span></td>
-                        <td><span th:text="${r.email}"> Authority </span></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                  <div class="card-body table-responsive p-0" style="height: 300px;">
+                    <table class="table table-bordered table-striped">
+                      <thead>
+                        <tr>
+                          <th>nombre</th>
+                          <th>calle</th>
+                          <th>numero</th>
+                          <th>colonia</th>
+                          <th>municipio</th>
+                          <th>telefono</th>
+                          <th>email</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr th:if="${repartidores.empty}">
+                          <td colspan="9"> No hay repartidores registrados </td>
+                        </tr>
+                        <tr th:each="r :${repartidores}">
+                          <td>
+                            <span th:text="${r.nombre}"> Authority </span>
+                            <span th:text="${r.primer_apellido}"> Authority </span>
+                            <span th:text="${r.segundo_apellido}"> Authority </span>
+                          </td>
+                          <td><span th:text="${r.calle}"> Authority </span></td>
+                          <td><span th:text="${r.numero}"> Authority </span></td>
+                          <td><span th:text="${r.colonia}"> Authority </span></td>
+                          <td><span th:text="${r.municipio}"> Authority </span></td>
+                          <td><span th:text="${r.telefono}"> Authority </span></td>
+                          <td><span th:text="${r.email}"> Authority </span></td>
+                          <td class="text-center py-0 align-middle">
+                            <div class="btn-group btn-group-sm">
+                              <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                              <a href="#" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                              <a th:onclick="eliminarRepartidor([[${r.id}]])" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
             </div>
+          </div>
         </div>
         <div class="modal fade" id="nuevo" data-backdrop="false">
           <div class="modal-dialog modal-xl">
@@ -112,6 +124,14 @@
         <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
         <div th:replace="includes/footer::home"></div>
         <div th:replace="includes/footer::script2"></div>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <script src="scripts/funciones.js"></script>
+        <script th:if="${error}">
+          Swal.fire({title:'No se pudo registrar!', text:'correo repetido', allowOutsideClick: false, icon:'error'})
+        </script>
+        <script th:if="${noerror}">
+          window.location.href = "/listarepartidor";
+        </script>
     </div>
 </body>
 </html>

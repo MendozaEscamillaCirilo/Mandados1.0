@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CategoriaRepository extends CrudRepository<CategoriasEntity, Long>  {
     public List<CategoriasEntity> findAll();
+    public CategoriasEntity findByNombre(String nombre);
 }

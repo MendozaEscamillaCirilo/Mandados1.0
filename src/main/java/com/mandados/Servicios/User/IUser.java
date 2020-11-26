@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.mandados.Entidades.User;
 
 @Repository
-public interface IUser extends CrudRepository<User, Integer>{
+public interface IUser extends CrudRepository<User, Long>{
 
 }

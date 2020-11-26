@@ -1,23 +1,198 @@
-<!--Modal: modalConfirmDelete-->
-<div th:fragment="index" class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-    <!--Content-->
-        <div class="modal-content text-center">
-        <!--Header-->
-            <div class="modal-header d-flex justify-content-center">
-                <p class="heading">Are you sure?</p>
-            </div>
-            <!--Body-->
-            <div class="modal-body">
-                <i class="fas fa-times fa-4x animated rotateIn"></i>
-            </div>
-            <!--Footer-->
-            <div class="modal-footer flex-center">
-                <a href="" class="btn  btn-outline-danger">Yes</a>
-                <a type="button" class="btn  btn-danger waves-effect" data-dismiss="modal">No</a>
-            </div>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Resultado</title>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+      <link rel="stylesheet" href="main.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div th:if="${porproducto}">
+      <div class="card text-center">
+        <nav class="navbar navbar-dark white">
+          <a class="navbar-brand">
+            <img src="imagenes/logo3.png" height="30" alt="mdb logo">
+          </a>
+          <h4 class="navbar-toggler text-dark" th:text="${buscar}">"Hola"</h4>
+          <div class="items cart">
+            <button type="submit" class="btn btn-primary">
+              <i class="fa fa-shopping-cart"></i>
+              <span>ADD TO CART</span>
+            </button>
+          </div>
+        </nav>
+        <div th:if="${unacategoria}" class="inline">
+          <button data-filter="all" type="button" class="btn btn-link active">Todos</button>
+          <button th:each="categoria:${categorias}" th:data-filter="${categoria.id}" th:text="${categoria.nombre}" type="button" class="btn btn-link select">Categoria 1</button>
         </div>
-    <!--/.Content-->
+      </div>
+      <div class="card filter-container">
+        <div th:if="${porproducto}">
+          <div th:if="${productos.empty}">
+              <h3> No hay productos relacionados con su busqueda</h3>
+          </div>
+        </div>
+        <div class="filter-container row">
+          <div th:each="producto:${productos}" class="filtr-item col-xl-3 col-md-4 col-sm-6 mx-auto" th:data-category="${producto.categoria.id}" data-sort="value">
+            <div class="container-card" th:style="'background-image: url(' + ${producto.imagen} + '); background-repeat: no-repeat; background-size: cover; background-position: center center;'">
+              <div class="overlay">
+                <div class = "items"></div>
+                <div class = "items head">
+                  <p th:text="${producto.nombre}">Flower Embroidery Hoop Art</p>
+                  <hr>
+                </div>
+                <div class = "items price">
+                  <p th:text="'$' + ${producto.precio} + 2" class="old">$699</p>
+                  <p th:text="'$' + ${producto.precio}" class="new">$345</p>
+                </div>
+                <div th:if="${carrito}" class="items cart">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-shopping-cart"></i>
+                    <span>ADD TO CART</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
-<!--Modal: modalConfirmDelete-->
+    <div th:if="${porcomercio}">
+      <div class="card text-center">
+        <nav class="navbar navbar-dark white">
+          <a class="navbar-brand">
+            <img src="imagenes/logo3.png" height="30" alt="mdb logo">
+          </a>
+          <h4 class="navbar-toggler text-dark" th:text="${buscar}">"Hola"</h4>
+          <div class="items cart">
+            <button type="submit" class="btn btn-primary">
+              <i class="fa fa-shopping-cart"></i>
+              <span>ADD TO CART</span>
+            </button>
+          </div>
+        </nav>
+        <div th:if="${porcomercio}" class="card text-center" >
+          <div th:if="${comercios.empty}" class="text-center" >
+            <center>
+              <h3> No hay productos relacionados con su busqueda</h3>
+              <h4> Intenta buscar algo diferente</h4>
+              <form class="text-center" style="color: #757575;" action="buscarproductoo">
+                <!-- Radio -->
+                <div class="form-check mb-4">
+                  <input class="form-check-input" name="group1" type="radio" id="radio-179" value="mandado" checked>
+                  <label class="form-check-label" for="radio-179">Mandado</label>
+                </div>
+                <div class="form-check mb-4">
+                  <input class="form-check-input" name="group1" type="radio" id="radio-279" value="comida">
+                  <label class="form-check-label" for="radio-279">Comida</label>
+                </div>
+                <!-- Radio -->
+                <p class="text-center">
+                  <strong>Producto o platillo</strong>
+                </p>
+                <div class="md-form">
+                  <input type="hidden" name="com" id="com" value="no">
+                </div>
+                <div class="md-form">
+                  <input name="buscar" type="text" id="form79textarea" class="md-text form-control" required></input>
+                  <label for="form79textarea">Ingrese para buscar</label>
+                </div>
+                <div class="md-form">
+                  <button type="submit" class="btn btn-default" >Buscar</button>
+                </div>
+              </form>
+            </center>
+          </div>
+        </div>
+      </div>
+      <div class="card filter-container">
+        <div class="row container">
+          <div  th:each="comercio:${comercios}" class="profile-card-4 text-center col-xl-3 col-md-4 col-sm-6 mx-auto ">
+            <form action="buscarproductoo">
+              <input type="hidden" name="group1" id="group1" value="noObtain">
+              <input type="hidden" name="buscar" id="buscar" th:value="${buscar}">
+              <input type="hidden" name="com" id="com" th:value="${comercio.nombre}">
+              <button type="submit">
+                <img th:src="'logos/' + ${comercio.email} + '.jpg'" class="img img-responsive" width="100%">
+              </button>
+            </form>
+            <div class="profile-content">
+              <div class="profile-name">
+                <p th:text="${comercio.sucursales[0].calle} + ' ' + ${comercio.sucursales[0].colonia}">Direccion del comercio</p>
+              </div>
+            </div>
+            <h4 th:text="${comercio.nombre}">Tambien nombre</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer  class="main-footer page-footer font-small unique-color-dark">
+      <div class="primary-color">
+          <div class="container">
+              <div class="row py-4 d-flex align-items-center">
+                  <div class="col-md-6 col-lg-5 text-center text-md-left mb-4 mb-md-0">
+                      <h6 class="mb-0 text-white">Siguenos en nuestras redes sociales.</h6>
+                  </div>
+                  <div class="col-md-6 col-lg-7 text-center text-md-right">
+                      <a class="fb-ic ml-0"> <i class="fab fa-facebook text-white mr-4"> </i> </a>
+                      <a class="tw-ic"> <i class="fab fa-twitter text-white mr-4"> </i> </a>
+                      <a class="ins-ic"> <i class="fab fa-instagram text-white mr-lg-4"> </i> </a>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="container mt-5 mb-4 text-center text-md-left">
+          <div class="row mt-3">
+              <div class="col-md-3 col-lg-4 col-xl-3 mb-4">
+                  <h6 class="text-uppercase font-weight-bold"> <strong>MANDADOS DE MAMÁ</strong> </h6>
+                  <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto">
+              </div>
+              <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                  <h6 class="text-uppercase font-weight-bold"> <strong>Productos</strong> </h6>
+                  <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" >
+                  <p> <a href="#!">Reparto de comida</a> </p>
+                  <p> <a href="#!">Entrega de mandados</a> </p>
+              </div>
+              <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                  <h6 class="text-uppercase font-weight-bold"> <strong>Se parte del equipo</strong> </h6>
+                  <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto">
+                  <p> <a href="/home">Tu cuenta</a> </p>
+                  <p> <a href="/registrocomercio">Registra tu comercio</a> </p>
+                  <p> <a href="#!">Ayuda</a> </p>
+              </div>
+              <div class="col-md-4 col-lg-3 col-xl-3">
+                  <h6 class="text-uppercase font-weight-bold"> <strong>Contacto</strong> </h6>
+                  <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto">
+                  <p> <i class="fas fa-home"></i></i> Oaxaca de Juarez, Oaxaca</p>
+                  <!-- <p> <i class="fa fa-envelope mr-3"></i> info@mandadosdemama.com</p> -->
+                  <!-- <p> <i class="fa fa-phone mr-3"></i> 951 000 0000</p> -->
+                  <!-- <p> <i class="fa fa-print mr-3"></i> 951 000 0000</p> -->
+              </div>
+          </div>
+      </div>
+      <div class="footer-copyright text-center py-3">© 2020 Copyright: <a href="">Mandados de mamá</a> </div>
+    </footer>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script th:if="${unacategoria}" type="text/javascript" src="scripts/filterizr.min.js"></script>
+    <script th:if="${unacategoria}" type="text/javascript" src="scripts/vanilla.filterizr.min.js"></script>
+    <script th:if="${unacategoria}" type="text/javascript" src="scripts/jquery.filterizr.min.js"></script>
+    <script th:if="${unacategoria}">
+      $(function () {
+        $('.filter-container').filterizr({gutterPixels: 4});
+        $('.btn[data-filter]').on('click', function() {
+          $('.btn[data-filter]').removeClass('active');
+          $(this).addClass('active');
+        });
+      })
+    </script>
+  </body>
+</html>
+
+<!--    _____     __    __   __    __    __     ______ -->
+<!--  |  _____|  |__|  |  |_/  /  |__|  |  |   |  __  | -->
+<!-- |  |         __   |    _ /    __   |  |  |  |  |  | -->
+<!-- |  |_____   |  |  |  |       |  |  |  |  |  |__|  | -->
+<!--  |______ |  |__|  |__|       |__|  |__|   |______| -->

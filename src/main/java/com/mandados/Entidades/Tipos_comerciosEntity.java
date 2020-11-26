@@ -57,9 +57,9 @@ public class Tipos_comerciosEntity {
 		this.comercios = comercios;
 	}
 
-	@Override
 	public String toString() {
-		return "Tipos_comerciosEntity [descripcion=" + descripcion + ", id=" + id
+		return "Tipos_comerciosEntity [comercios=" + comercios + ", descripcion=" + descripcion + ", id=" + id
 				+ ", nombre=" + nombre + "]";
 	}
+
 }

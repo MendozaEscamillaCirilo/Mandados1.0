@@ -24,7 +24,9 @@ public class SucursalesEntity {
     private String telefono;
     @Column
     private String email;
-
+	@Column
+    private Boolean estatus;
+    
 	@ManyToOne()
 	@JoinColumn(name = "comercio_id")
     private ComerciosEntity comercio;
@@ -109,14 +111,18 @@ public class SucursalesEntity {
         this.comercio = comercio;
     }
 
-    @Override
     public String toString() {
         return "SucursalesEntity [calle=" + calle + ", codigopostal=" + codigopostal + ", colonia=" + colonia
                 + ", comercio=" + comercio + ", email=" + email + ", id=" + id + ", municipio=" + municipio
                 + ", nombre=" + nombre + ", numero=" + numero + ", telefono=" + telefono + "]";
     }
 
+    public Boolean getEstatus() {
+        return estatus;
+    }
 
-    
+    public void setEstatus(Boolean estatus) {
+        this.estatus = estatus;
+    }
     
 }

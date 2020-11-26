@@ -38,5 +38,4 @@ public class ProductoService implements IProductoService{
 	public void delete(int id) {
 		data.deleteById(id);
 	}
-
 }

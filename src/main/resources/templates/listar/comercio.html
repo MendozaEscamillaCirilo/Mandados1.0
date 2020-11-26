@@ -1,47 +1,135 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <title>Comercios</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <div th:replace="includes/head::home"></div>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
         <div th:replace="includes/navbar"></div>
         <div th:replace="includes/sidebar"></div>
         <div class="content-wrapper">
-            <div class="card card-rotating bg-gradient-light">
-                <div class="card-header">
-                  <h3 class="card-title">COMERCIOS</h3>
-                </div>
-                <div class="card-body">
-                  <table id="tabla1" class="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                      <th>nombre</th>
-                      <th>email</th>
-                      <th>tipo comercio</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:if="${comercios.empty}">
-                            <td colspan="3"> No hay comercios registrados </td>
-                        </tr>
-                        <tr th:each="comercio :${comercios}">
-                            <td><span th:text="${comercio.nombre}"> Authority </span></td>
-                            <td><span th:text="${comercio.email}"> Authority </span></td>
-                            <td><span th:text="${comercio.tipoComercio.nombre}"> Authority </span></td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                    <tr>
+          <section class="content">
+            <div class="container-fluid">
+              <div class="card card-rotating bg-gradient-light">
+                  <div class="card-header">
+                    <h3 class="card-title">COMERCIOS</h3>
+                  </div>
+                  <div class="card-body">
+                    <table id="tabla1" class="table table-bordered table-striped">
+                      <thead>
+                      <tr>
                         <th>nombre</th>
                         <th>email</th>
                         <th>tipo comercio</th>
-                    </tr>
-                    </tfoot>
-                  </table>
-                </div>
+                        <th></th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                          <tr th:if="${comercios.empty}">
+                              <td colspan="3"> No hay comercios registrados </td>
+                          </tr>
+                          <tr th:each="comercio :${sucursales}">
+                            <td><span th:text="${comercio.nombre}"> Authority </span></td>
+                            <td><span th:text="${comercio.email}"> Authority </span></td>
+                            <td><span th:text="${comercio.comercio.tipocomercio.nombre}"> Authority </span></td>
+                            <td class="text-center py-0 align-middle">
+                              <div class="btn-group btn-group-sm">
+                                <a class="btn btn-info" data-toggle="modal" th:data-target="'#modal-' + ${comercio.id}"><i class="fas fa-eye"></i></a>
+                                <a class="btn btn-warning" data-toggle="modal" th:data-target="'#modal-editar-' + ${comercio.id}"><i class="fas fa-edit"></i></a>
+                                <a th:onclick="eliminar([[${comercio.id}]])" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                <div class="modal fade" th:id="'modal-' + ${comercio.id}" data-backdrop="false">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <div class="modal-header text-center">
+                                        <h4 class="modal-title col-12 text-center" th:text="${comercio.nombre}">Default Modal</h4>
+                                      </div>
+                                      <div class="modal-body">
+                                        <h5>INFORMACION</h5>
+                                        <form action=""></form>
+                                        <p> <b> Direccion </b> </p>
+                                        <p th:text="${'Calle '+comercio.calle+' #'+comercio.numero+', Colonia '+comercio.colonia}">One fine body&hellip;</p>
+                                        <p> <b> Telefono </b> </p>
+                                        <p th:text="${comercio.telefono}">One fine body&hellip;</p>
+                                        <p> <b> Correo </b> </p>
+                                        <p th:text="${comercio.email}">One fine body&hellip;</p>
+                                        <!-- <p th:text="$comercio.sucursales.size">One fine body&hellip;</p> -->
+                                      </div>
+                                      <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">CATALOGO</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="modal fade" th:id="'modal-editar-' + ${comercio.id}" data-backdrop="false">
+                                  <div class="modal-dialog modal-xl">
+                                    <div class="modal-content">
+                                      <form class="form-signin" th:action="@{/editarcomercio(id=${comercio.id})}" th:object=${comercio} method="post" novalidate>
+                                        <div class="modal-header">
+                                          <h4 class="modal-title">EDITAR COMERCIO <p th:text="${comercio.nombre}"></p></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto">
+                                                        <!-- <input th:field="${comercio.nombre}" type="text" class="form-control validate" placeholder="Nombre" required> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                              <div class="row">
+                                                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                                      <!-- <input th:field="${comercio.sucursales[0].calle}" type="text" name="calle" id="calle" class="form-control validate" placeholder="Calle" required> -->
+                                                  </div>
+                                                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                                      <!-- <input th:field="${comercio.sucursales[0].numero}" type="number" name="numero" id="numero" class="form-control validate" placeholder="Numero" min="0" max="9000" required> -->
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="form-group">
+                                              <div class="row">
+                                                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                                      <!-- <input th:field="${comercio.sucursales[0].codigopostal}" type="number" name="cp" id="cp" class="form-control validate" placeholder="Codigo postal" min="67000" max="80000" required> -->
+                                                  </div>
+                                                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                                      <!-- <input th:field="${comercio.sucursales[0].colonia}" type="text" name="colonia" id="colonia" class="form-control validate" placeholder="Colonia" required> -->
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="form-group">
+                                            <!-- <input th:field="${comercio.sucursales[0].telefono}" type="tel" class="form-control validate" data-inputmask='"mask": "(999) 999-9999"' data-mask placeholder="Numero telefonico del comercio" required> -->
+                                          </div>
+                                        </div>
+                                        <div class="modal-footer justify-content-between">
+                                          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                          <button type="submit" class="btn btn-primary">Registrar</button>
+                                        </div>
+                                      </form>
+                                      </div>
+                                    </div>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                      </tbody>
+                      <tfoot>
+                      <tr>
+                          <th>nombre</th>
+                          <th>email</th>
+                          <th>tipo comercio</th>
+                          <th></th>
+                      </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+              </div>
             </div>
+          </section>
         </div>
         <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
-        <div th:replace="includes/footer::home"></div>
     </div>
+    <div th:replace="includes/footer::home"></div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="scripts/funciones.js"></script>
 </body>
 </html>

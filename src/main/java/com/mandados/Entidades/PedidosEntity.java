@@ -12,11 +12,11 @@ public class PedidosEntity {
     @Column
     private java.sql.Date fecha;
     @Column
-    private java.sql.Time hora_pedido;
+    private java.sql.Time horaPedido;
     @Column
-    private java.sql.Time hora_recoleeccion;
+    private java.sql.Time horaRecoleccion;
     @Column
-    private java.sql.Time hora_entrega;
+    private java.sql.Time horaEntrega;
     @Column
     private Double total;
 
@@ -57,28 +57,28 @@ public class PedidosEntity {
         this.fecha = fecha;
     }
 
-    public java.sql.Time getHora_pedido() {
-        return hora_pedido;
+    public java.sql.Time getHoraPedido() {
+        return horaPedido;
     }
 
-    public void setHora_pedido(java.sql.Time hora_pedido) {
-        this.hora_pedido = hora_pedido;
+    public void setHoraPedido(java.sql.Time horaPedido) {
+        this.horaPedido = horaPedido;
     }
 
-    public java.sql.Time getHora_recoleeccion() {
-        return hora_recoleeccion;
+    public java.sql.Time getHoraRecoleccion() {
+        return horaRecoleccion;
     }
 
-    public void setHora_recoleeccion(java.sql.Time hora_recoleeccion) {
-        this.hora_recoleeccion = hora_recoleeccion;
+    public void setHoraRecoleccion(java.sql.Time horaRecoleccion) {
+        this.horaRecoleccion = horaRecoleccion;
     }
 
-    public java.sql.Time getHora_entrega() {
-        return hora_entrega;
+    public java.sql.Time getHoraEntrega() {
+        return horaEntrega;
     }
 
-    public void setHora_entrega(java.sql.Time hora_entrega) {
-        this.hora_entrega = hora_entrega;
+    public void setHoraEntrega(java.sql.Time horaEntrega) {
+        this.horaEntrega = horaEntrega;
     }
 
     public Double getTotal() {
@@ -113,11 +113,9 @@ public class PedidosEntity {
         this.repartidor = repartidor;
     }
 
-
-	@Override
 	public String toString() {
-		return "PedidosEntity [destino=" + destino + ", fecha=" + fecha + ", hora_entrega=" + hora_entrega
-				+ ", hora_pedido=" + hora_pedido + ", hora_recoleeccion=" + hora_recoleeccion + ", id=" + id
+		return "PedidosEntity [destino=" + destino + ", fecha=" + fecha + ", horaEntrega=" + horaEntrega
+				+ ", horaPedido=" + horaPedido + ", horaRecoleccion=" + horaRecoleccion + ", id=" + id
 				+ ", operador=" + operador + ", productos=" + productos + ", repartidor=" + repartidor + ", total="
 				+ total + "]";
 	}

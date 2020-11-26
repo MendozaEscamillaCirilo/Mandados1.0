@@ -26,6 +26,8 @@ public class RepartidoresEntity {
     private String telefono;
     @Column
     private String email;
+    @Column
+	private Boolean estatus;
 
     @OneToMany(mappedBy = "repartidor",cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<PedidosEntity> pedidos;
@@ -118,12 +120,19 @@ public class RepartidoresEntity {
         this.pedidos = pedidos;
     }
 
-	@Override
-	public String toString() {
-		return "RepartidoresEntity [calle=" + calle + ", colonia=" + colonia + ", email=" + email + ", id=" + id
-				+ ", municipio=" + municipio + ", nombre=" + nombre + ", numero=" + numero + ", pedidos=" + pedidos
-				+ ", primer_apellido=" + primer_apellido + ", segundo_apellido=" + segundo_apellido + ", telefono="
-				+ telefono + "]";
-	}
+    public String toString() {
+        return "RepartidoresEntity [calle=" + calle + ", colonia=" + colonia + ", email=" + email + ", id=" + id
+                + ", municipio=" + municipio + ", nombre=" + nombre + ", numero=" + numero + ", pedidos=" + pedidos
+                + ", primer_apellido=" + primer_apellido + ", segundo_apellido=" + segundo_apellido + ", telefono="
+                + telefono + "]";
+    }
+
+    public Boolean getEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(Boolean estatus) {
+        this.estatus = estatus;
+    }
 
 }

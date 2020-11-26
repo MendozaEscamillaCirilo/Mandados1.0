@@ -15,11 +15,19 @@ public class ProductosEntity {
 	@Column
 	private String descripcion;
 	@Column
-    private Double precio;
+	private Double precio;
+	@Column 
+	private String imagen;
+	@Column
+	private Boolean estatus;
 	
 	@ManyToOne()
 	@JoinColumn(name = "categoria_id")
 	private CategoriasEntity categoria;
+
+	@ManyToOne()
+	@JoinColumn(name = "comercio_id")
+	private ComerciosEntity comercio;
 
 	public Long getId() {
 		return id;
@@ -69,12 +77,35 @@ public class ProductosEntity {
 		this.categoria = categoria;
 	}
 
-	@Override
-	public String toString() {
-		return "ProductosEntity [categoria=" + categoria + ", contenido=" + contenido + ", descripcion=" + descripcion
-				+ ", id=" + id + ", nombre=" + nombre + ", precio=" + precio + "]";
+	
+
+	public String getImagen() {
+		return imagen;
 	}
 
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
+	}
 
-	
+	public ComerciosEntity getComercio() {
+		return comercio;
+	}
+
+	public void setComercio(ComerciosEntity comercio) {
+		this.comercio = comercio;
+	}
+
+	public String toString() {
+		return "ProductosEntity [contenido=" + contenido + ", descripcion=" + descripcion + ", id=" + id + ", imagen="
+				+ imagen + ", nombre=" + nombre + ", precio=" + precio + "]";
+	}
+
+	public Boolean getEstatus() {
+		return estatus;
+	}
+
+	public void setEstatus(Boolean estatus) {
+		this.estatus = estatus;
+	}
+
 }

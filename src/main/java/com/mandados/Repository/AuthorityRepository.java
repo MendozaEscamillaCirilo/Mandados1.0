@@ -10,4 +10,5 @@ import com.mandados.Entidades.Authority;
 @Repository
 public interface AuthorityRepository extends CrudRepository<Authority, Long>  {
     public List<Authority> findAll();
+    public List<Authority> findByAuthority(String authority);
 }

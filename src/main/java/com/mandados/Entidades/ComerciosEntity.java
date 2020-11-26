@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -28,7 +30,7 @@ public class ComerciosEntity {
 	private Tipos_comerciosEntity tipocomercio;
 
 	@OneToMany(mappedBy = "comercio",cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<SucursalesEntity> sucursales;
+	private List<SucursalesEntity> sucursales;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(
@@ -36,7 +38,19 @@ public class ComerciosEntity {
             joinColumns = {@JoinColumn(name = "comercio_id")},
             inverseJoinColumns = {@JoinColumn(name = "categoria_id")}
     )
-    private Set<CategoriasEntity> categorias;
+	private List<CategoriasEntity> categorias;
+	
+	@OneToMany(mappedBy = "comercio",cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<ProductosEntity> productos;
+
+	@Column
+	private Boolean estatus;
+
+	@Column
+	private java.sql.Time horaApertura;
+	
+	@Column
+    private java.sql.Time horaCierre;
 
 	public Long getId() {
 		return id;
@@ -71,27 +85,64 @@ public class ComerciosEntity {
 		this.email = email;
 	}
 
-	@Override
-	public String toString() {
-		return "ComerciosEntity [categorias=" + categorias + ", email=" + email + ", id=" + id + ", nombre=" + nombre
-				+ ", sucursales=" + sucursales + ", tipoComercio=" + tipocomercio + "]";
-	}
-
-	public Set<SucursalesEntity> getSucursales() {
+	public List<SucursalesEntity> getSucursales() {
 		return sucursales;
 	}
 
-	public void setSucursales(Set<SucursalesEntity> sucursales) {
+	public void setSucursales(List<SucursalesEntity> sucursales) {
 		this.sucursales = sucursales;
 	}
 
-	public Set<CategoriasEntity> getCategorias() {
+	public List<CategoriasEntity> getCategorias() {
 		return categorias;
 	}
 
-	public void setCategorias(Set<CategoriasEntity> categorias) {
+	public void setCategorias(List<CategoriasEntity> categorias) {
 		this.categorias = categorias;
 	}
 
-	
+
+	public Set<ProductosEntity> getProductos() {
+		return productos;
+	}
+
+	public void setProductos(Set<ProductosEntity> productos) {
+		this.productos = productos;
+	}
+
+	public String toString() {
+		return "Comercio => id = " + id + ", nombre = " + nombre + ", email = " + email;
+	}
+
+	public Tipos_comerciosEntity getTipocomercio() {
+		return tipocomercio;
+	}
+
+	public void setTipocomercio(Tipos_comerciosEntity tipocomercio) {
+		this.tipocomercio = tipocomercio;
+	}
+
+	public Boolean getEstatus() {
+		return estatus;
+	}
+
+	public void setEstatus(Boolean estatus) {
+		this.estatus = estatus;
+	}
+
+	public java.sql.Time getHoraApertura() {
+		return horaApertura;
+	}
+
+	public void setHoraApertura(java.sql.Time horaApertura) {
+		this.horaApertura = horaApertura;
+	}
+
+	public java.sql.Time getHoraCierre() {
+		return horaCierre;
+	}
+
+	public void setHoraCierre(java.sql.Time horaCierre) {
+		this.horaCierre = horaCierre;
+	}
 }
