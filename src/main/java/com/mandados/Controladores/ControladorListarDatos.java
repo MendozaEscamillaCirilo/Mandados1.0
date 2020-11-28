@@ -2,9 +2,12 @@ package com.mandados.Controladores;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import com.mandados.Entidades.CategoriasEntity;
 import com.mandados.Entidades.ComerciosEntity;
+import com.mandados.Entidades.PedidosEntity;
 import com.mandados.Entidades.ProductosEntity;
 import com.mandados.Entidades.RepartidoresEntity;
 import com.mandados.Entidades.User;
@@ -29,6 +32,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping
 public class ControladorListarDatos {
+    @Autowired
+    private EntityManager em;
     @Autowired
     private AuthorityRepository authorityrepository;
     @Autowired
@@ -104,10 +109,28 @@ public class ControladorListarDatos {
         model.addAttribute("categoria", new CategoriasEntity());
         return "listar/categoria";
     }
+    
     @GetMapping("/listaorden")
-    public String listarorden(Model model) {
+    public String listarorden(Authentication authentication, Model model) {
+        if((authentication.getAuthorities().toArray()[0]+"").equals("ROL_REPARTIDOR")){
+            model.addAttribute("pedidos", new ArrayList<PedidosEntity>());
+        }
+        if((authentication.getAuthorities().toArray()[0]+"").equals("ROL_COMERCIO")){
+            // UserDetails ud = (UserDetails)authentication.getPrincipal();
+            // String comercio = comerciorepository.findByEmail(ud.getUsername()).getNombre();
+            model.addAttribute("establecerhorario", true);
+            // Query pedidos = em.createNativeQuery("SELECT pe.fecha, hora_pedido, hora_recoleeccion, hora_entrega, total FROM pedidos AS pe INNER JOIN pedidos_productos AS pp ON pp.pedido_id = pe.id INNER JOIN productos AS p ON pp.producto_id = p.id INNER JOIN comercios AS c ON c.id = p.comercio_id where c.nombre like '%" + comercio + "%'");
+            // List<Object[]> results = pedidos.getResultList();
+            // List<PedidosEntity> result =  results
+            //                                 .stream()
+            //                                 .map(result -> new PedidosEntity((String) result[0]))
+            //                                 .collect(Collectors.toList());
+            // List<String> lista = pedidos.getResultList();
+            model.addAttribute("pedidos", pedidorepository.findAll());
+        }else{
+            model.addAttribute("pedidos", pedidorepository.findAll());
+        }
         metodosextra.obtUsuario(model);
-        model.addAttribute("pedidos", pedidorepository.findAll());
         return "listar/orden";	    
     }
     @GetMapping("/listaproducto")
@@ -141,10 +164,23 @@ public class ControladorListarDatos {
     }
     @GetMapping("/home")
     public String userPage(Authentication authentication, Model model) {
-        model.addAttribute("totalcomercios", comerciorepository.count());
-        model.addAttribute("totalrepartidores", repartidorrepository.count());
-        model.addAttribute("ordenescompletadas", metodosextra.getDatesOnListNoExist(pedidorepository.findAll()).size());
-        model.addAttribute("ordenespendientes", metodosextra.getDatesOnListExist(pedidorepository.findAll()).size());
+        if((authentication.getAuthorities().toArray()[0]+"").equals("ROL_COMERCIO")){
+            UserDetails ud = (UserDetails)authentication.getPrincipal();
+            String comercio = comerciorepository.findByEmail(ud.getUsername()).getNombre();
+            model.addAttribute("establecerhorario", true);
+            Query pendientes = em.createNativeQuery("SELECT hora_entrega FROM comercios as c inner join productos as p on p.comercio_id = c.id inner join pedidos_productos as pp on pp.producto_id = p.id inner join pedidos as pe on pe.id = pp.pedido_id where c.nombre like '%" + comercio + "%' and hora_entrega is NULL");
+            Query entregados = em.createNativeQuery("SELECT hora_entrega FROM comercios as c inner join productos as p on p.comercio_id = c.id inner join pedidos_productos as pp on pp.producto_id = p.id inner join pedidos as pe on pe.id = pp.pedido_id where c.nombre like '%" + comercio + "%' and hora_entrega is not NULL");
+            model.addAttribute("ordenespendientes", pendientes.getResultList().size());
+            model.addAttribute("ordenescompletadas", entregados.getResultList().size());
+            model.addAttribute("apertura", comerciorepository.findByNombre(comercio).getHoraApertura());
+            model.addAttribute("cierre", comerciorepository.findByNombre(comercio).getHoraCierre());
+        }
+        if((authentication.getAuthorities().toArray()[0]+"").equals("ROL_ADMIN")||(authentication.getAuthorities().toArray()[0]+"").equals("ROL_CALLCENTER")){
+            model.addAttribute("totalcomercios", comerciorepository.count());
+            model.addAttribute("totalrepartidores", repartidorrepository.count());
+            model.addAttribute("ordenescompletadas", metodosextra.getDatesOnListNoExist(pedidorepository.findAll()).size());
+            model.addAttribute("ordenespendientes", metodosextra.getDatesOnListExist(pedidorepository.findAll()).size());
+        }
         metodosextra.obtUsuario(model);
         return "home";	    
     }

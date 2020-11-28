@@ -19,8 +19,12 @@
         <li class="user-header">
           <img th:src="${(usuario.imagen != null && !#strings.isEmpty(usuario.imagen)) ? foto : 'imagenes/logoazul.png'}" class="img-circle" alt="User Image">
           <p> 
-            <h6 th:text="${usuario.username} + ' - ' + ${usuario.authority[0].authority}"></h6>
-            <small>Member since Nov. 2012</small>
+            <h6 th:text="${usuario.username}"></h6>
+            <h6 th:if="${usuario.authority[0].authority == 'ROL_CALLCENTER'}">CALL CENTER</h6>
+            <h6 th:if="${usuario.authority[0].authority == 'ROL_ADMIN'}">ADMINISTRADOR</h6>
+            <h6 th:if="${usuario.authority[0].authority == 'ROL_COMERCIO'}">COMERCIO</h6>
+            <h6 th:if="${usuario.authority[0].authority == 'ROL_REPARTIDOR'}">REPARTIDOR</h6>
+            <!-- <small>Member since Nov. 2012</small> -->
           </p>
         </li>
         <li class="user-footer">

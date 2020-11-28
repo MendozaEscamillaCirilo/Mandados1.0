@@ -28,11 +28,11 @@
                           <tr th:if="${pedidos.empty}">
                               <td colspan="5"> No hay ordenes registrados </td>
                           </tr>
-                          <tr th:each="pedido :${pedidos}">
+                          <tr th:each="pedido :${pedidos}" th:class="${pedido.horaEntrega}?table-primary:table-warning">
                               <td><span th:text="${pedido.fecha}"> Authority </span></td>
-                              <td><span th:text="${pedido.hora_pedido}"> Authority </span></td>
-                              <td><span th:text="${pedido.hora_recoleeccion}"> Authority </span></td>
-                              <td><span th:text="${pedido.hora_entrega}"> Authority </span></td>
+                              <td><span th:text="${pedido.horaPedido}"> Authority </span></td>
+                              <td><span th:text="${pedido.horaRecoleccion}"> Authority </span></td>
+                              <td><span th:text="${pedido.horaEntrega}"> Authority </span></td>
                               <td><span th:text="${pedido.total}"> Authority </span></td>
                               <td class="text-center py-0 align-middle">
                                 <div class="btn-group btn-group-sm">

@@ -13,18 +13,25 @@
                     <h3 class="card-title">CATEGORIAS HABILITADAS PARA EL COMERCIO</h3>
                     <div class="card-tools">
                       <ul class="nav nav-pills ml-auto">
-                        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#nuevo">
-                          Nueva categoria
-                        </button>
+                        <div class="row">
+                          <div class="col-xl-2 col-md-2 col-sm-2"></div>
+                          <div class="col-xl-3 col-md-3 col-sm-3">
+                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#nuevo">
+                              Nueva categoria
+                            </button>
+                          </div>
+                          <div class="col-xl-7 col-md-7 col-sm-7">
+                            <button sec:authorize="hasAuthority('ROL_COMERCIO')" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#agregaralcomercio">
+                              Agregar una nueva categoria al comercio
+                            </button>
+                          </div>
+                        </div>
                       </ul>
                     </div>
-                    <div class="card-tools">
+                    <!-- <div class="card-tools">
                       <ul class="nav nav-pills ml-auto">
-                        <button sec:authorize="hasAuthority('ROL_COMERCIO')" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#agregaralcomercio">
-                          Agregar una nueva categoria al comercio
-                        </button>
                       </ul>
-                    </div>
+                    </div> -->
                   </div>
                   <div class="card-body table-responsive p-0" style="height: 300px;">
                     <table class="table table-bordered table-striped">

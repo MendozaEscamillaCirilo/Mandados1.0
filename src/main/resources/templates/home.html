@@ -20,18 +20,14 @@
         <div th:replace="includes/navbar"></div>
         <div th:replace="includes/sidebar"></div>
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
             <div class="content-header">
               <div class="container-fluid">
                 <div class="row mb-2">
                   <div class="col-sm-6">
                     <h1 class="m-0 text-dark"></h1>
-                  </div><!-- /.col -->
+                  </div>
                   <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                      <!-- <li class="breadcrumb-item"><a href="#">Home</a></li>
-                      <li class="breadcrumb-item active">Dashboard v1</li> -->
-                    </ol>
+                    <ol class="breadcrumb float-sm-right"></ol>
                   </div>
                 </div>
               </div>
@@ -40,7 +36,6 @@
               <div class="container-fluid">
                 <div class="row">
                   <div class="col-lg-3 col-6" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')">
-                    <!-- small box -->
                     <div class="small-box bg-info">
                       <div class="inner">
                         <h3 th:text="${totalcomercios}">150</h3>
@@ -53,10 +48,8 @@
                     </div>
                   </div>
                   <div class="col-lg-3 col-6" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')">
-                    <!-- small box -->
                     <div class="small-box bg-success">
                       <div class="inner">
-                        <!-- <h3>53<sup style="font-size: 20px">%</sup></h3> -->
                         <h3 th:text="${totalrepartidores}">53</h3>
                         <p>REPARTIDORES REGISTRADOS</p>
                       </div>
@@ -66,8 +59,7 @@
                       <a href="/listarepartidor" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                   </div>
-                  <div class="col-lg-3 col-6" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER','ROL_REPARTIDOR')">
-                    <!-- small box -->
+                  <div class="col-lg-3 col-6">
                     <div class="small-box bg-warning">
                       <div class="inner">
                         <h3 th:text="${ordenescompletadas}">44</h3>
@@ -80,7 +72,6 @@
                     </div>
                   </div>
                   <div class="col-lg-3 col-6" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER','ROL_COMERCIO')">
-                    <!-- small box -->
                     <div class="small-box bg-danger">
                       <div class="inner">
                         <h3 th:text="${ordenespendientes}">65</h3>
@@ -90,6 +81,32 @@
                         <i class="fas fa-check"></i>
                       </div>
                       <a href="#" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div th:if="${establecerhorario}" sec:authorize="hasAuthority('ROL_COMERCIO')" class="container-fluid">
+                <div class="card card-primary card-outline">
+                  <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-edit"></i>ESTABLECE TU HORARIO</h3>
+                  </div>
+                  <div class="card-body">
+                    <form action="/configurar">
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-xl-5 col-md-5 col-sm-5">
+                            <input type="text" th:text="${apertura}" class="form-control validate" placeholder="Hora de apertura" data-inputmask='"mask": "##:##"' data-mask required>
+                          </div>
+                          <div class="col-xl-5 col-md-5 col-sm-5">
+                            <input type="text" th:text="${cierre}" class="form-control validate" placeholder="Hora de cierre" required>
+                          </div>
+                          <div class="col-xl-2 col-md-2 col-sm-2">
+                            <button class="btn btn-outline-primary" type="submit">Establecer</button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                    <div th:if="${tablavisible}">
                     </div>
                   </div>
                 </div>
@@ -134,12 +151,6 @@
                   </div>
                 </div>
               </div>
-              <!-- <select data-placeholder="Selecciona categoria" class="form-control select2 validate" required>
-                <option th:each="tipo :${allproductos}" th:value="${tipo.nombre}" th:text="${tipo.nombre}"></option>
-              </select>
-              <div th:each="productos : ${allproductos}">
-                <div th:text="productos.nombre"></div>
-              </div> -->
             </section>
         </div>
         <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
