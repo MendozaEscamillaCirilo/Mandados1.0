@@ -18,7 +18,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.web.multipart.MultipartFile;
 import com.mandados.Entidades.Authority;
@@ -29,6 +31,7 @@ import com.mandados.Entidades.RepartidoresEntity;
 import com.mandados.Entidades.SucursalesEntity;
 import com.mandados.Entidades.User;
 import com.mandados.Repository.TipoComercioRepository;
+import com.mandados.Repository.UserRepository;
 import com.mandados.Repository.AuthorityRepository;
 import com.mandados.Repository.ComercioRepository;
 import com.mandados.Repository.CategoriaRepository;
@@ -61,6 +64,8 @@ public class ControladorRegistrarDatos {
     @Autowired
     private TipoComercioRepository tipocomerciorepository;
     @Autowired
+    private UserRepository userrepository;
+    @Autowired
     private IAuthorityService authorityservice;
     @Autowired
     private IComercioService comercioservice;
@@ -76,6 +81,8 @@ public class ControladorRegistrarDatos {
     private IUserService userservice;
     @Autowired
     private MetodosExtra metodosextra;
+    @Autowired
+    private ControladorListarDatos clistar;
     //////////////// REGISTRAR COMERCIO/////////////////////
     @GetMapping("/registrocomercio")
     public String principal(Model model){
@@ -194,10 +201,7 @@ public class ControladorRegistrarDatos {
             System.out.println("///////////////////////////////////////////////////////////////////");
             System.out.println(e.getMessage());
         }
-        model.addAttribute("repartidores", repartidorrepository.findAll());
-        model.addAttribute("repartidor", new RepartidoresEntity());
-        metodosextra.obtUsuario(model);
-        return "listar/repartidor";
+        return clistar.listarrepartidor(model);
     }
 	//////////////// REGISTRAR CATEGORIA /////////////////////
     @PostMapping("/registrocategoria")
@@ -216,10 +220,8 @@ public class ControladorRegistrarDatos {
         }else{
             model.addAttribute("categoriasseleccionadas", comerciosEntity.getCategorias());
         }
-        model.addAttribute("categorias", categoriarepository.findAll());
-        model.addAttribute("categoria", new CategoriasEntity());
-        metodosextra.obtUsuario(model);
-        return "listar/categoria";
+        
+        return clistar.listarcategoria(model, auth);
     }
 	//////////////// ASIGNAR CATEGORIA A COMERCIO/////////////////////
     @PostMapping("/asignarcategoria")
@@ -227,14 +229,9 @@ public class ControladorRegistrarDatos {
         UserDetails userDetail = (UserDetails) auth.getPrincipal();
         ComerciosEntity comerciosEntity =  comerciorepository.findByEmail(userDetail.getUsername());
         try{
+            System.out.println("'/////////////////////'");
             System.out.println(categorias);
-            // List<CategoriasEntity> cat = (comerciosEntity.getCategorias().size()!=0)?comerciosEntity.getCategorias() : new ArrayList<CategoriasEntity>();
-            List<CategoriasEntity> cat = new ArrayList<CategoriasEntity>();
-            if (comerciosEntity.getCategorias().size()>0) {
-                for(int i=0;i<comerciosEntity.getCategorias().size();i++){
-                    cat.add(comerciosEntity.getCategorias().get(i));
-                }
-            }
+            Set<CategoriasEntity> cat = comerciosEntity.getCategorias();
             cat.add(categorias);
             comerciosEntity.setCategorias(cat);
             comerciosEntity.setEstatus(true);
@@ -243,14 +240,7 @@ public class ControladorRegistrarDatos {
             System.out.println("ERROR AL REGISTRAR CATEGORIA");
             System.out.println(e);
         }
-        // ///////////////////////////
-        metodosextra.obtUsuario(model);
-        model.addAttribute("categoriastotales", categoriarepository.findAll());
-        model.addAttribute("categoriasseleccionadas", comerciosEntity.getCategorias());
-        model.addAttribute("categoria", new CategoriasEntity());
-        return "listar/categoria";
-        // ///////////////////////////
-        // return "";
+        return clistar.listarcategoria(model, auth);
     }
     //////////////// REGISTRAR PRODUCTO/////////////////////
     @PostMapping("/registroproducto")
@@ -292,7 +282,8 @@ public class ControladorRegistrarDatos {
     }
     //////////////// REGISTRAR USUARIO/////////////////////
     @PostMapping("/registrousuario")
-    public String registrousuario(@Validated User usuario, @RequestParam("file") MultipartFile imagen, Model model){
+    public String registrousuario(@Validated User usuario, @RequestParam("file") MultipartFile imagen, @RequestParam("select") Long select, Model model){
+        System.out.println("ESTE ES EL RESULTADO =>" + select);
         Passgenerator ps = new Passgenerator();
         usuario.setPassword(ps.getPassword(usuario.getPassword()));
         if (!imagen.isEmpty()) {
@@ -303,13 +294,19 @@ public class ControladorRegistrarDatos {
                 Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + usuario.getUsername()+".jpg");
                 Files.write(rutaCompleta,bytesImgenes);
                 usuario.setImagen(usuario.getUsername().split("@")[0]);
-            } catch (Exception e) {System.out.println(e);}
+            } catch (Exception e) {System.out.println("/////////////////////////ERROR///////////////////////");System.out.println(e);}
         }else{
             System.out.println("////////////////////////////////////////////////////////////////////////////////////////////////////////");
             System.out.println("////////////LA IMAGEN ESTÁ VACIA////////////////////////////");
             System.out.println("////////////////////////////////////////////////////////////////////////////////////////////////////////");
         }
+        List<Authority> lista = new ArrayList<Authority>();
+        lista.add(authorityrepository.findById(select).get());
+        usuario.setAuthority(lista);
         userservice.save(usuario);
+        metodosextra.obtUsuario(model);
+        model.addAttribute("usuarios", userrepository.findAll());
+        model.addAttribute("newusuario", new User());
         return "listar/usuario";
     }
     @GetMapping("/buscarproductoo")

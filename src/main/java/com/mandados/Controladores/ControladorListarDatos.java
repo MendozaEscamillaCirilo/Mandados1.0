@@ -116,8 +116,7 @@ public class ControladorListarDatos {
             model.addAttribute("pedidos", new ArrayList<PedidosEntity>());
         }
         if((authentication.getAuthorities().toArray()[0]+"").equals("ROL_COMERCIO")){
-            // UserDetails ud = (UserDetails)authentication.getPrincipal();
-            // String comercio = comerciorepository.findByEmail(ud.getUsername()).getNombre();
+            // String comercio = metodosextra.getComercioLogueado(authentication).getNombre();
             model.addAttribute("establecerhorario", true);
             // Query pedidos = em.createNativeQuery("SELECT pe.fecha, hora_pedido, hora_recoleeccion, hora_entrega, total FROM pedidos AS pe INNER JOIN pedidos_productos AS pp ON pp.pedido_id = pe.id INNER JOIN productos AS p ON pp.producto_id = p.id INNER JOIN comercios AS c ON c.id = p.comercio_id where c.nombre like '%" + comercio + "%'");
             // List<Object[]> results = pedidos.getResultList();

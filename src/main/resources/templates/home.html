@@ -95,13 +95,13 @@
                       <div class="form-group">
                         <div class="row">
                           <div class="col-xl-5 col-md-5 col-sm-5">
-                            <input type="text" th:text="${apertura}" class="form-control validate" placeholder="Hora de apertura" data-inputmask='"mask": "##:##"' data-mask required>
+                            <input type="text" name="apertura" class="form-control validate" th:value="${apertura}!=null?${apertura}" th:placeholder="${apertura}==null?'Hora de apertura'" data-inputmask='"mask": "##:##:##"' data-mask required>
                           </div>
                           <div class="col-xl-5 col-md-5 col-sm-5">
-                            <input type="text" th:text="${cierre}" class="form-control validate" placeholder="Hora de cierre" required>
+                            <input type="text" name="cierre" class="form-control validate" th:value="${cierre}!=null?${cierre}" th:placeholder="${cierre}==null?'Hora de cierre'" data-inputmask='"mask": "##:##:##"' data-mask required>
                           </div>
                           <div class="col-xl-2 col-md-2 col-sm-2">
-                            <button class="btn btn-outline-primary" type="submit">Establecer</button>
+                            <button th:text="${apertura}==null or ${cierre}==null ? 'Establecer' : 'Cambiar'" class="btn btn-outline-primary" type="submit">Establecer</button>
                           </div>
                         </div>
                       </div>
@@ -171,6 +171,7 @@
     <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
     <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
     <script src="plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
     <script src="dist/js/adminlte.js"></script>
     <script src="dist/js/pages/dashboard.js"></script>
     <script src="dist/js/demo.js"></script>
@@ -190,6 +191,11 @@
           "responsive": true,
         });
       });
+    </script>
+    <script>
+      $(function () {
+        $('[data-mask]').inputmask()
+      })
     </script>
   </body>
 </html>

@@ -9,18 +9,23 @@ import com.mandados.Entidades.CategoriasEntity;
 import com.mandados.Entidades.ComerciosEntity;
 import com.mandados.Entidades.PedidosEntity;
 import com.mandados.Entidades.User;
+import com.mandados.Repository.ComercioRepository;
 import com.mandados.Repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 @Service
 public class MetodosExtra {
     @Autowired
     public UserRepository userrepository;
+    @Autowired
+    public ComercioRepository comerciorepository;
     @Autowired
     private JavaMailSender javaMailSender;
 
@@ -115,6 +120,11 @@ public class MetodosExtra {
         simpleMailMessage.setSubject("¡¡¡¡GRACIAS!!!!");
         simpleMailMessage.setText(body);
         javaMailSender.send(simpleMailMessage);
+        System.out.println(generada);
         System.out.println("Send message...");
     } 
+    public ComerciosEntity getComercioLogueado(Authentication authentication){
+        UserDetails ud = (UserDetails)authentication.getPrincipal();
+        return comerciorepository.findByEmail(ud.getUsername());
+    }
 }

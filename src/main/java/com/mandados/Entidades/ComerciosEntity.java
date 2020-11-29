@@ -38,7 +38,7 @@ public class ComerciosEntity {
             joinColumns = {@JoinColumn(name = "comercio_id")},
             inverseJoinColumns = {@JoinColumn(name = "categoria_id")}
     )
-	private List<CategoriasEntity> categorias;
+	private Set<CategoriasEntity> categorias;
 	
 	@OneToMany(mappedBy = "comercio",cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<ProductosEntity> productos;
@@ -93,11 +93,11 @@ public class ComerciosEntity {
 		this.sucursales = sucursales;
 	}
 
-	public List<CategoriasEntity> getCategorias() {
+	public Set<CategoriasEntity> getCategorias() {
 		return categorias;
 	}
 
-	public void setCategorias(List<CategoriasEntity> categorias) {
+	public void setCategorias(Set<CategoriasEntity> categorias) {
 		this.categorias = categorias;
 	}
 
