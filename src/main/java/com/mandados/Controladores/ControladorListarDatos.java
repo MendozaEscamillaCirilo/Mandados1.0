@@ -169,16 +169,24 @@ public class ControladorListarDatos {
             model.addAttribute("establecerhorario", true);
             Query pendientes = em.createNativeQuery("SELECT hora_entrega FROM comercios as c inner join productos as p on p.comercio_id = c.id inner join pedidos_productos as pp on pp.producto_id = p.id inner join pedidos as pe on pe.id = pp.pedido_id where c.nombre like '%" + comercio + "%' and hora_entrega is NULL");
             Query entregados = em.createNativeQuery("SELECT hora_entrega FROM comercios as c inner join productos as p on p.comercio_id = c.id inner join pedidos_productos as pp on pp.producto_id = p.id inner join pedidos as pe on pe.id = pp.pedido_id where c.nombre like '%" + comercio + "%' and hora_entrega is not NULL");
+            model.addAttribute("activo", metodosextra.getComercioLogueado(authentication).getEstatus());
+            System.out.println(metodosextra.getComercioLogueado(authentication).getEstatus());
             model.addAttribute("ordenespendientes", pendientes.getResultList().size());
             model.addAttribute("ordenescompletadas", entregados.getResultList().size());
             model.addAttribute("apertura", comerciorepository.findByNombre(comercio).getHoraApertura());
             model.addAttribute("cierre", comerciorepository.findByNombre(comercio).getHoraCierre());
         }
+        // System.out.println("/////////////////////////RESULTADO//////////////////////////////////////");
+        // System.out.println(authentication.getAuthorities().toArray());
         if((authentication.getAuthorities().toArray()[0]+"").equals("ROL_ADMIN")||(authentication.getAuthorities().toArray()[0]+"").equals("ROL_CALLCENTER")){
             model.addAttribute("totalcomercios", comerciorepository.count());
             model.addAttribute("totalrepartidores", repartidorrepository.count());
             model.addAttribute("ordenescompletadas", metodosextra.getDatesOnListNoExist(pedidorepository.findAll()).size());
             model.addAttribute("ordenespendientes", metodosextra.getDatesOnListExist(pedidorepository.findAll()).size());
+            model.addAttribute("activo", true);
+        }
+        if((authentication.getAuthorities().toArray()[0]+"").equals("ROL_REPARTIDOR")){
+            model.addAttribute("activo", true);
         }
         metodosextra.obtUsuario(model);
         return "home";	    

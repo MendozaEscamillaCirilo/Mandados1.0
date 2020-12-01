@@ -1,5 +1,33 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <title>Productos</title>
+<style>
+  .custom-input-file {
+      color: rgb(21, 186, 252);
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+      margin: 0 auto 0;
+      /* min-height: 15px; */
+      overflow: hidden;
+      /* padding: 10px; */
+      position: relative;
+      text-align: center;
+      /* width: 400px; */
+  }
+
+  .custom-input-file .input-file {
+      border: 10000px solid transparent;
+      cursor: pointer;
+      font-size: 10000px;
+      margin: 0;
+      opacity: 0;
+      outline: 0 none;
+      padding: 0;
+      position: absolute;
+      right: -1000px;
+      top: -1000px;
+  }
+</style>
 <div th:replace="includes/head::home"></div>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
@@ -135,8 +163,12 @@
                     <div class="form-group">
                         <input th:field="*{descripcion}" type="text" name="descripcion" id="descripcion" class="form-control validate" placeholder="Descripción" required>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <input type="file" name="file" class="file-input form-control validate" id="file" required>
+                    </div> -->
+                    <div class="form-group custom-input-file btn btn-outline-primary col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto">
+                      <input type="file" name="file" id="file" class="input-file form-control validate" value="" onchange="myFunction()" required>
+                      <p id="div">Subir archivo</p>
                     </div>
                     <div class="form-group">
                       <select th:field="*{categoria}" data-placeholder="Selecciona rol" class="form-control validate" required>
@@ -162,6 +194,12 @@
           $(document).ready(function () {
             bsCustomFileInput.init();
           });
+      </script>
+      <script>
+        function myFunction() {
+          var x = document.getElementById("file").value;
+          document.getElementById("div").textContent = x.split("fakepath");
+        }
       </script>
     </div>
 </body>

@@ -18,7 +18,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -36,7 +35,7 @@ import com.mandados.Repository.AuthorityRepository;
 import com.mandados.Repository.ComercioRepository;
 import com.mandados.Repository.CategoriaRepository;
 import com.mandados.Repository.ProductoRepository;
-import com.mandados.Repository.RepartidorRepository;
+// import com.mandados.Repository.RepartidorRepository;
 import com.mandados.Servicios.Authorities.IAuthorityService;
 import com.mandados.Servicios.Comercio.IComercioService;
 import com.mandados.Servicios.Categoria.ICategoriaService;
@@ -59,8 +58,8 @@ public class ControladorRegistrarDatos {
     private ComercioRepository comerciorepository;
     @Autowired
     private ProductoRepository productorepository;
-    @Autowired
-    private RepartidorRepository repartidorrepository;
+    // @Autowired
+    // private RepartidorRepository repartidorrepository;
     @Autowired
     private TipoComercioRepository tipocomerciorepository;
     @Autowired

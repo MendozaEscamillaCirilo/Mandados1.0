@@ -59,7 +59,7 @@
                       <a href="/listarepartidor" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                   </div>
-                  <div class="col-lg-3 col-6">
+                  <div th:if="${activo}" class="col-lg-3 col-6">
                     <div class="small-box bg-warning">
                       <div class="inner">
                         <h3 th:text="${ordenescompletadas}">44</h3>
@@ -71,7 +71,7 @@
                       <a href="#" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                   </div>
-                  <div class="col-lg-3 col-6" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER','ROL_COMERCIO')">
+                  <div th:if="${activo}" class="col-lg-3 col-6" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER','ROL_COMERCIO')">
                     <div class="small-box bg-danger">
                       <div class="inner">
                         <h3 th:text="${ordenespendientes}">65</h3>
@@ -85,30 +85,40 @@
                   </div>
                 </div>
               </div>
-              <div th:if="${establecerhorario}" sec:authorize="hasAuthority('ROL_COMERCIO')" class="container-fluid">
-                <div class="card card-primary card-outline">
-                  <div class="card-header">
-                    <h3 class="card-title"><i class="fas fa-edit"></i>ESTABLECE TU HORARIO</h3>
-                  </div>
-                  <div class="card-body">
-                    <form action="/configurar">
-                      <div class="form-group">
-                        <div class="row">
-                          <div class="col-xl-5 col-md-5 col-sm-5">
-                            <input type="text" name="apertura" class="form-control validate" th:value="${apertura}!=null?${apertura}" th:placeholder="${apertura}==null?'Hora de apertura'" data-inputmask='"mask": "##:##:##"' data-mask required>
-                          </div>
-                          <div class="col-xl-5 col-md-5 col-sm-5">
-                            <input type="text" name="cierre" class="form-control validate" th:value="${cierre}!=null?${cierre}" th:placeholder="${cierre}==null?'Hora de cierre'" data-inputmask='"mask": "##:##:##"' data-mask required>
-                          </div>
-                          <div class="col-xl-2 col-md-2 col-sm-2">
-                            <button th:text="${apertura}==null or ${cierre}==null ? 'Establecer' : 'Cambiar'" class="btn btn-outline-primary" type="submit">Establecer</button>
+              <div th:if="${activo}">
+                <div th:if="${establecerhorario}" sec:authorize="hasAuthority('ROL_COMERCIO')" class="container-fluid">
+                  <div class="card card-primary card-outline">
+                    <div class="card-header">
+                      <h3 class="card-title"><i class="fas fa-edit"></i>ESTABLECE TU HORARIO</h3>
+                    </div>
+                    <div class="card-body">
+                      <form action="/configurar">
+                        <div class="form-group">
+                          <div class="row">
+                            <div class="col-xl-5 col-md-5 col-sm-5">
+                              <input type="text" name="apertura" class="form-control validate" th:value="${apertura}!=null?${apertura}" th:placeholder="${apertura}==null?'Hora de apertura'" data-inputmask='"mask": "##:##:##"' data-mask required>
+                            </div>
+                            <div class="col-xl-5 col-md-5 col-sm-5">
+                              <input type="text" name="cierre" class="form-control validate" th:value="${cierre}!=null?${cierre}" th:placeholder="${cierre}==null?'Hora de cierre'" data-inputmask='"mask": "##:##:##"' data-mask required>
+                            </div>
+                            <div class="col-xl-2 col-md-2 col-sm-2">
+                              <button th:text="${apertura}==null or ${cierre}==null ? 'Establecer' : 'Cambiar'" class="btn btn-outline-primary" type="submit">Establecer</button>
+                            </div>
                           </div>
                         </div>
+                      </form>
+                      <div th:if="${tablavisible}">
                       </div>
-                    </form>
-                    <div th:if="${tablavisible}">
                     </div>
                   </div>
+                </div>
+              </div>
+              <div th:if="${activo}==false">
+                <div class="card card-primary card-outline">
+                  <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-edit"></i>ERROR</h3>
+                  </div>
+                  <div class="card-body"><h1>Estimado usuario su mensualidad no ha sido pagada.</h1></div>
                 </div>
               </div>
               <div sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')" class="container-fluid">

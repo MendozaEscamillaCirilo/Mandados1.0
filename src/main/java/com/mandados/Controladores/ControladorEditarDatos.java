@@ -1,7 +1,6 @@
 package com.mandados.Controladores;
 
 import com.mandados.Entidades.ComerciosEntity;
-import com.mandados.Repository.ComercioRepository;
 import com.mandados.Servicios.Comercio.ComercioService;
 import com.mandados.config.MetodosExtra;
 

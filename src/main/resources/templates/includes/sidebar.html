@@ -62,7 +62,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
               </p>
             </a>
           </li>
-          <li class="nav-item" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_REPARTIDOR','ROL_CALLCENTER','ROL_COMERCIO')">
+          <li th:if="${activo}" class="nav-item" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_REPARTIDOR','ROL_CALLCENTER','ROL_COMERCIO')">
             <a th:href="@{/listaorden}" class="nav-link">
               <i class="nav-icon fas fa-shopify"></i>
               <p>
@@ -70,7 +70,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
               </p>
             </a>
           </li>
-          <li class="nav-item" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_COMERCIO')">
+          <li th:if="${activo}" class="nav-item" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_COMERCIO')">
             <a th:href="@{/listarcategoria}" class="nav-link">
               <i class="nav-icon fas fa-dice-one"></i>
               <p>
@@ -78,7 +78,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
               </p>
             </a>
           </li>
-          <li class="nav-item" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_COMERCIO')">
+          <li th:if="${activo}" class="nav-item" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_COMERCIO')">
             <a th:href="@{/listaproducto}" class="nav-link">
               <i class="nav-icon fas fa-dice-one"></i>
               <p>
