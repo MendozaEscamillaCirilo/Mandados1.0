@@ -153,7 +153,16 @@
                                 <td><span th:text="${prod.precio}"></span></td>
                                 <td><span th:text="${prod.comercio.nombre}"></span></td>
                                 <td><span th:text="${prod.descripcion}"></span></td>
-                                <td><a href="/home"><i class="fas fa-cart-plus"></i></a></td>
+                                <td class="text-center">
+                                  <form action="/addproducto">
+                                    <input type="hidden" name="search" id="search" th:value="${search}">
+                                    <input type="hidden" name="producto" id="producto" th:value="${producto}">
+                                    <input type="hidden" name="productoadd" id="productoadd" th:value="${prod.id}">
+                                    <button class="btn btn-outline-primary" type="submit">
+                                      <i class="fas fa-cart-plus"></i></a>
+                                    </button>
+                                  </form>
+                                </td>
                             </tr>
                         </tbody>
                       </table>

@@ -27,7 +27,17 @@ public class ControladorDeBusquedas {
     @GetMapping("/getproductosabc")
     public String paraPruebaDeHome(@RequestParam("search") String producto, Model model,Authentication authentication){
         model.addAttribute("tablavisible", true);
+        model.addAttribute("search", producto);
         model.addAttribute("productos", productorepository.findByNombreContaining(producto));
+        metodosextra.obtUsuario(model);
+        return clistar.userPage(authentication, model);
+    }
+    @GetMapping("/addproducto")
+    public String agregarProductoapedido(@RequestParam("search") String search,@RequestParam("producto") String producto,@RequestParam("productoadd") String productoadd, Model model,Authentication authentication){
+        model.addAttribute("tablavisible", true);
+        model.addAttribute("search", search);
+        model.addAttribute("productos", productorepository.findByNombreContaining(search));
+        model.addAttribute("producto", producto + ',' + productoadd);
         metodosextra.obtUsuario(model);
         return clistar.userPage(authentication, model);
     }
