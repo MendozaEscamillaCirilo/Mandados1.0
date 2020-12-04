@@ -109,13 +109,14 @@ public class ControladorListarDatos {
         model.addAttribute("categoria", new CategoriasEntity());
         return "listar/categoria";
     }
-    
     @GetMapping("/listaorden")
     public String listarorden(Authentication authentication, Model model) {
         if((authentication.getAuthorities().toArray()[0]+"").equals("ROL_REPARTIDOR")){
             model.addAttribute("pedidos", new ArrayList<PedidosEntity>());
+            model.addAttribute("activo", true);
         }
         if((authentication.getAuthorities().toArray()[0]+"").equals("ROL_COMERCIO")){
+            model.addAttribute("activo", metodosextra.getComercioLogueado(authentication).getEstatus());
             // String comercio = metodosextra.getComercioLogueado(authentication).getNombre();
             model.addAttribute("establecerhorario", true);
             // Query pedidos = em.createNativeQuery("SELECT pe.fecha, hora_pedido, hora_recoleeccion, hora_entrega, total FROM pedidos AS pe INNER JOIN pedidos_productos AS pp ON pp.pedido_id = pe.id INNER JOIN productos AS p ON pp.producto_id = p.id INNER JOIN comercios AS c ON c.id = p.comercio_id where c.nombre like '%" + comercio + "%'");
@@ -128,6 +129,7 @@ public class ControladorListarDatos {
             model.addAttribute("pedidos", pedidorepository.findAll());
         }else{
             model.addAttribute("pedidos", pedidorepository.findAll());
+            model.addAttribute("activo", true);
         }
         metodosextra.obtUsuario(model);
         return "listar/orden";	    
