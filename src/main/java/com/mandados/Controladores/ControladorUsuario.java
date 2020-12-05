@@ -105,6 +105,7 @@ public class ControladorUsuario {
         model.addAttribute("usuarios", userRepository.findAll());
         model.addAttribute("roles", authorityRepository.findAll());
         model.addAttribute("newusuario", new User());
+        model.addAttribute("activo", true);
         metodosextra.obtUsuario(model);
         return "listar/usuario";	    
     }
@@ -112,6 +113,7 @@ public class ControladorUsuario {
     public String listarrol(Model model) {
         model.addAttribute("roles", authorityRepository.findAll());
         model.addAttribute("rol", new Authority());
+        model.addAttribute("activo", true);
         metodosextra.obtUsuario(model);
         return "listar/authority";
     }

@@ -54,9 +54,16 @@ public class ControladorListarDatos {
     private UserRepository userrepository;
     @Autowired
     private MetodosExtra metodosextra;
+    @GetMapping("/listatipocomercio")
+    public String listatipocomercio(Model model){
+        metodosextra.obtUsuario(model);
+        model.addAttribute("activo", true);
+        return "listar/tipocomercio";
+    }
     @GetMapping("/listacomercio")
     public String listarcomercio(Model model) {
         metodosextra.obtUsuario(model);
+        model.addAttribute("activo", true);
         model.addAttribute("comercios", comerciorepository.findAll());
         model.addAttribute("sucursales", sucursalrepository.findAll());
         model.addAttribute("comercios", comerciorepository.findAll());
@@ -65,6 +72,7 @@ public class ControladorListarDatos {
     @GetMapping("/listarestaurante")
     public String listarcomercior(Model model) {
         metodosextra.obtUsuario(model);
+        model.addAttribute("activo", true);
         List<ComerciosEntity> lista = comerciorepository.findAll();
         List<ComerciosEntity> lista1 = new ArrayList<ComerciosEntity>();
         for(int i=0;i<lista.size();i++){
@@ -78,6 +86,7 @@ public class ControladorListarDatos {
     @GetMapping("/listatienda")
     public String listarcomerciot(Model model) {
         metodosextra.obtUsuario(model);
+        model.addAttribute("activo", true);
         List<ComerciosEntity> lista = comerciorepository.findAll();
         List<ComerciosEntity> lista1 = new ArrayList<ComerciosEntity>();
         for(int i=0;i<lista.size();i++){
@@ -91,12 +100,18 @@ public class ControladorListarDatos {
     @GetMapping("/listarepartidor")
     public String listarrepartidor(Model model) {
         metodosextra.obtUsuario(model);
+        model.addAttribute("activo", true);
         model.addAttribute("repartidores", repartidorRepository.findAll());
         model.addAttribute("repartidor", new RepartidoresEntity());
         return "listar/repartidor";	    
     }
 	@GetMapping("/listarcategoria")
     public String listarcategoria(Model model, Authentication auth) {
+        if((auth.getAuthorities().toArray()[0]+"").equals("ROL_COMERCIO")){
+            model.addAttribute("activo", metodosextra.getComercioLogueado(auth).getEstatus());
+        }else{
+            model.addAttribute("activo", true);
+        }
         UserDetails userDetail = (UserDetails) auth.getPrincipal();
         ComerciosEntity comerciosEntity =  comerciorepository.findByEmail(userDetail.getUsername());
         metodosextra.obtUsuario(model);
@@ -136,6 +151,11 @@ public class ControladorListarDatos {
     }
     @GetMapping("/listaproducto")
     public String listarproducto(Model model, Authentication auth) {
+        if((auth.getAuthorities().toArray()[0]+"").equals("ROL_COMERCIO")){
+            model.addAttribute("activo", metodosextra.getComercioLogueado(auth).getEstatus());
+        }else{
+            model.addAttribute("activo", true);
+        }
         UserDetails userDetail = (UserDetails) auth.getPrincipal();
         ComerciosEntity comerciosEntity =  comerciorepository.findByEmail(userDetail.getUsername());
         if(userDetail.getUsername().equals("admin")){
@@ -150,7 +170,12 @@ public class ControladorListarDatos {
         return "listar/producto";	    
     }
     @GetMapping("/listacatalogo")
-    public String listarcatalogo(Model model) {
+    public String listarcatalogo(Model model,Authentication auth) {
+        if((auth.getAuthorities().toArray()[0]+"").equals("ROL_COMERCIO")){
+            model.addAttribute("activo", metodosextra.getComercioLogueado(auth).getEstatus());
+        }else{
+            model.addAttribute("activo", true);
+        }
         metodosextra.obtUsuario(model);
         // model.addAttribute("comercios", comerciorepository.findAll());
         return "listar/carta";	    
@@ -160,6 +185,7 @@ public class ControladorListarDatos {
         model.addAttribute("usuarios", userrepository.findByUsername("ROL_CALLCENTER"));
         model.addAttribute("roles", authorityrepository.findAll());
         model.addAttribute("usuario", new User());
+        model.addAttribute("activo", true);
         metodosextra.obtUsuario(model);
         return "listar/callcenter";	    
     }
