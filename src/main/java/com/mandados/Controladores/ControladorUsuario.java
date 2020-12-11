@@ -14,6 +14,7 @@ import com.mandados.config.MetodosExtra;
 import com.mandados.config.Passgenerator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +36,8 @@ public class ControladorUsuario {
     private IUserService serviceuser;
     @Autowired
     private MetodosExtra metodosextra;
+    @Autowired
+    private ControladorListarDatos clistar;
     @GetMapping("/editarusuario")
     public String editarusuario(Model model) {
         Optional<User>lista = userRepository.findByUsername(((org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
@@ -44,7 +47,7 @@ public class ControladorUsuario {
         return "editarusuario";	    
     }
     @PostMapping("/editarcontrasenia")
-    public String guardarDatos(@Validated User user, Model model){
+    public String guardarDatos(@Validated User user, Model model,Authentication authentication){
         Optional<User>lista = userRepository.findByUsername(((org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
         User user1 = lista.get();
         Passgenerator ps = new Passgenerator();
@@ -52,7 +55,7 @@ public class ControladorUsuario {
         serviceuser.save(user1);
         metodosextra.sendEmail(user1.getUsername());
         metodosextra.obtUsuario(model);
-        return "home";
+        return clistar.userPage(authentication, model);
     }
     @PostMapping("/editarfoto")
     public String editarfoto(@RequestParam("file") MultipartFile imagen,Model model){
