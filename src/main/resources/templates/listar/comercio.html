@@ -16,7 +16,7 @@
                     <h3 class="card-title">COMERCIOS</h3>
                     <div class="card-tools">                      
                       <ul class="nav nav-pills ml-auto">
-                        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#nuevo">
+                        <button sec:authorize="hasAuthority('ROL_ADMIN')" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#nuevo">
                           Nuevo
                         </button>
                       </ul>
@@ -105,8 +105,8 @@
                             <td class="text-center py-0 align-middle">
                               <div class="btn-group btn-group-sm">
                                 <a class="btn btn-info" data-toggle="modal" th:data-target="'#modal-' + ${comercio.id}"><i class="fas fa-eye"></i></a>
-                                <a class="btn btn-warning" data-toggle="modal" th:data-target="'#modal-editar-' + ${comercio.id}"><i class="fas fa-edit"></i></a>
-                                <a th:onclick="eliminar([[${comercio.id}]])" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                <a sec:authorize="hasAuthority('ROL_ADMIN')" class="btn btn-warning" data-toggle="modal" th:data-target="'#modal-editar-' + ${comercio.id}"><i class="fas fa-edit"></i></a>
+                                <a sec:authorize="hasAuthority('ROL_ADMIN')" th:onclick="eliminar([[${comercio.id}]])" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                                 <div class="modal fade" th:id="'modal-' + ${comercio.id}" data-backdrop="false">
                                   <div class="modal-dialog">
                                     <div class="modal-content">
@@ -134,7 +134,7 @@
                                 <div class="modal fade" th:id="'modal-editar-' + ${comercio.id}" data-backdrop="false">
                                   <div class="modal-dialog modal-xl">
                                     <div class="modal-content">
-                                      <form class="form-signin" th:action="@{/editarcomercio(id=${comercio.id})}" th:object=${comercio} method="post" novalidate>
+                                      <form class="form-signin" th:action="@{/editarcomercio(id=${comercio.id})}" method="post" novalidate>
                                         <div class="modal-header">
                                           <h4 class="modal-title">EDITAR COMERCIO <p th:text="${comercio.nombre}"></p></h4>
                                         </div>
@@ -142,32 +142,32 @@
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto">
-                                                        <!-- <input th:field="${comercio.nombre}" type="text" class="form-control validate" placeholder="Nombre" required> -->
+                                                        <input th:value="${comercio.nombre}" type="text" class="form-control validate" th:placeholder="${comercio.nombre}" required>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                               <div class="row">
                                                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
-                                                      <!-- <input th:field="${comercio.sucursales[0].calle}" type="text" name="calle" id="calle" class="form-control validate" placeholder="Calle" required> -->
+                                                      <input type="text" name="calle" id="calle" class="form-control validate" th:placeholder="${comercio.calle}" th:value="${comercio.calle}" required>
                                                   </div>
                                                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
-                                                      <!-- <input th:field="${comercio.sucursales[0].numero}" type="number" name="numero" id="numero" class="form-control validate" placeholder="Numero" min="0" max="9000" required> -->
+                                                      <input type="number" name="numero" id="numero" class="form-control validate" th:placeholder="${comercio.numero}" th:value="${comercio.numero}" min="0" max="9000" required>
                                                   </div>
                                               </div>
                                           </div>
                                           <div class="form-group">
                                               <div class="row">
                                                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
-                                                      <!-- <input th:field="${comercio.sucursales[0].codigopostal}" type="number" name="cp" id="cp" class="form-control validate" placeholder="Codigo postal" min="67000" max="80000" required> -->
+                                                      <input type="number" name="cp" id="cp" class="form-control validate" th:placeholder="${comercio.codigopostal}" th:value="${comercio.codigopostal}" min="67000" max="80000" required>
                                                   </div>
                                                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
-                                                      <!-- <input th:field="${comercio.sucursales[0].colonia}" type="text" name="colonia" id="colonia" class="form-control validate" placeholder="Colonia" required> -->
+                                                      <input type="text" name="colonia" id="colonia" class="form-control validate" th:placeholder="${comercio.colonia}" th:value="${comercio.colonia}" required>
                                                   </div>
                                               </div>
                                           </div>
                                           <div class="form-group">
-                                            <!-- <input th:field="${comercio.sucursales[0].telefono}" type="tel" class="form-control validate" data-inputmask='"mask": "(999) 999-9999"' data-mask placeholder="Numero telefonico del comercio" required> -->
+                                            <input type="tel" class="form-control validate" data-inputmask='"mask": "(999) 999-9999"' data-mask th:placeholder="${comercio.telefono}" th:value="${comercio.telefono}" required>
                                           </div>
                                         </div>
                                         <div class="modal-footer justify-content-between">
