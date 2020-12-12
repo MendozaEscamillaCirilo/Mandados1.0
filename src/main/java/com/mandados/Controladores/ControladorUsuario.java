@@ -58,7 +58,7 @@ public class ControladorUsuario {
         return clistar.userPage(authentication, model);
     }
     @PostMapping("/editarfoto")
-    public String editarfoto(@RequestParam("file") MultipartFile imagen,Model model){
+    public String editarfoto(@RequestParam("file") MultipartFile imagen,Model model,Authentication authentication){
         if (!imagen.isEmpty()) {
             Path directorioImagenes = Paths.get("src//main//resources//static//logos");
             String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
@@ -72,8 +72,7 @@ public class ControladorUsuario {
                 serviceuser.save(user1);
             } catch (Exception e) {System.out.println(e);}
         }
-        metodosextra.obtUsuario(model);
-        return "home";
+        return clistar.userPage(authentication, model);
     }
     @PostMapping("/reset")
     public String contraseniaolvidada(@RequestParam("username") String username, Model model){

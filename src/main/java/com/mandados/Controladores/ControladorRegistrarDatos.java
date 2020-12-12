@@ -28,6 +28,7 @@ import com.mandados.Entidades.ComerciosEntity;
 import com.mandados.Entidades.ProductosEntity;
 import com.mandados.Entidades.RepartidoresEntity;
 import com.mandados.Entidades.SucursalesEntity;
+import com.mandados.Entidades.Tipos_comerciosEntity;
 import com.mandados.Entidades.User;
 import com.mandados.Repository.TipoComercioRepository;
 import com.mandados.Repository.UserRepository;
@@ -42,6 +43,7 @@ import com.mandados.Servicios.Categoria.ICategoriaService;
 import com.mandados.Servicios.Producto.IProductoService;
 import com.mandados.Servicios.Repartidor.IRepartidorService;
 import com.mandados.Servicios.Sucursal.ISucursalService;
+import com.mandados.Servicios.TipoComercio.TipoComercioService;
 import com.mandados.Servicios.User.IUserService;
 import com.mandados.config.MetodosExtra;
 import com.mandados.config.Passgenerator;
@@ -76,6 +78,8 @@ public class ControladorRegistrarDatos {
     private IRepartidorService repartidorservice;
     @Autowired
     private ISucursalService sucursalservice;
+    @Autowired
+    private TipoComercioService tipocomercioservice;
     @Autowired
     private IUserService userservice;
     @Autowired
@@ -307,6 +311,13 @@ public class ControladorRegistrarDatos {
         model.addAttribute("usuarios", userrepository.findAll());
         model.addAttribute("newusuario", new User());
         return "listar/usuario";
+    }
+    @PostMapping("/registrotipocomercio")
+    public String registrotipocomercio(@Validated Tipos_comerciosEntity tipocomercio, Model model){
+        try {
+            tipocomercioservice.save(tipocomercio);
+        } catch (Exception e) {} 
+        return clistar.listartipocomercio(model);
     }
     @GetMapping("/buscarproductoo")
     public String buscarproducto(Model model, @RequestParam("group1") String seleccionado, @RequestParam("com") String comercio,String buscar){

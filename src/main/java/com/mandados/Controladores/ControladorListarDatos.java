@@ -10,6 +10,8 @@ import com.mandados.Entidades.ComerciosEntity;
 import com.mandados.Entidades.PedidosEntity;
 import com.mandados.Entidades.ProductosEntity;
 import com.mandados.Entidades.RepartidoresEntity;
+import com.mandados.Entidades.SucursalesEntity;
+import com.mandados.Entidades.Tipos_comerciosEntity;
 import com.mandados.Entidades.User;
 import com.mandados.Repository.AuthorityRepository;
 import com.mandados.Repository.CategoriaRepository;
@@ -19,6 +21,7 @@ import com.mandados.Repository.ProductoRepository;
 import com.mandados.Repository.RepartidorRepository;
 import com.mandados.config.MetodosExtra;
 import com.mandados.Repository.SucursalRepository;
+import com.mandados.Repository.TipoComercioRepository;
 import com.mandados.Repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,22 +54,29 @@ public class ControladorListarDatos {
     @Autowired
     private SucursalRepository sucursalrepository;
     @Autowired
+    private TipoComercioRepository tipocomerciorepository;
+    @Autowired
     private UserRepository userrepository;
     @Autowired
     private MetodosExtra metodosextra;
     @GetMapping("/listatipocomercio")
-    public String listatipocomercio(Model model){
+    public String listartipocomercio(Model model){
         metodosextra.obtUsuario(model);
         model.addAttribute("activo", true);
+        model.addAttribute("tiposcomercios", tipocomerciorepository.findAll());
+        model.addAttribute("tipocomercio", new Tipos_comerciosEntity());
         return "listar/tipocomercio";
     }
     @GetMapping("/listacomercio")
     public String listarcomercio(Model model) {
         metodosextra.obtUsuario(model);
         model.addAttribute("activo", true);
+        model.addAttribute("comercio", new ComerciosEntity());
+        model.addAttribute("sucursal", new SucursalesEntity());
         model.addAttribute("comercios", comerciorepository.findAll());
         model.addAttribute("sucursales", sucursalrepository.findAll());
         model.addAttribute("comercios", comerciorepository.findAll());
+        model.addAttribute("tipocomercio",tipocomerciorepository.findAll());
         return "listar/comercio";	    
     }
     @GetMapping("/listarestaurante")

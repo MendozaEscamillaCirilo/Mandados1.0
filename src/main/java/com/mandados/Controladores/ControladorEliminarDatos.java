@@ -4,16 +4,19 @@ import com.mandados.Entidades.CategoriasEntity;
 import com.mandados.Entidades.ComerciosEntity;
 import com.mandados.Entidades.ProductosEntity;
 import com.mandados.Entidades.RepartidoresEntity;
+import com.mandados.Entidades.SucursalesEntity;
 import com.mandados.Repository.CategoriaRepository;
 import com.mandados.Repository.ComercioRepository;
 import com.mandados.Repository.ProductoRepository;
 import com.mandados.Repository.RepartidorRepository;
+import com.mandados.Repository.SucursalRepository;
 import com.mandados.Repository.UserRepository;
 import com.mandados.Servicios.Categoria.ICategoriaService;
 import com.mandados.Servicios.Comercio.IComercioService;
 import com.mandados.Servicios.Pedido.IPedidoService;
 import com.mandados.Servicios.Producto.IProductoService;
 import com.mandados.Servicios.Repartidor.IRepartidorService;
+import com.mandados.Servicios.Sucursal.ISucursalService;
 import com.mandados.Servicios.User.IUserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +36,8 @@ public class ControladorEliminarDatos {
     @Autowired
     public RepartidorRepository repartidorrepository;
     @Autowired
+    private SucursalRepository sucursalrepository;
+    @Autowired
     public UserRepository userrepository;
     @Autowired
     public ICategoriaService categoriaservice;
@@ -45,11 +50,19 @@ public class ControladorEliminarDatos {
     @Autowired
     public IRepartidorService repartidorservice;
     @Autowired
+    private ISucursalService sucursalservice;
+    @Autowired
     public IUserService userservice;
     @GetMapping("/eliminar/{id}")
 	public String eliminarComercio(@PathVariable Long id, Model model) {
-        ComerciosEntity comercio = comerciorepository.findById(id).get();
+        System.out.println("///////////////////////////////////////////////////////");
+        System.out.println(id);
+        System.out.println("///////////////////////////////////////////////////////");
+        SucursalesEntity sucursal = sucursalrepository.findById(id).get();
+        ComerciosEntity comercio = sucursalrepository.findById(id).get().getComercio();
+        sucursal.setEstatus(false);
         comercio.setEstatus(false);
+        sucursalservice.save(sucursal);
 		comercioservice.save(comercio);
 		return "redirect:/listacomercio";
 	}

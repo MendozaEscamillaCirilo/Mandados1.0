@@ -4,10 +4,12 @@ function eliminar(id){
 		text: 'No se va a borrar',
 		showDenyButton: true,
 		confirmButtonText: `Aceptar`,
-		denyButtonText: `Cancelar`,
+		// denyButtonText: `Cancelar`,
 		allowOutsideClick: false
 	  }).then((result) => {
+		  console.log("entró acá");
 		if (result.isConfirmed) {
+			console.log("dentro del if");
 			$.ajax({
 				url:"/eliminar/"+id,
 				success: function(res){
@@ -18,7 +20,8 @@ function eliminar(id){
 				}
 			});
 		} else if (result.isDenied) {
-		  Swal.fire('No se eliminará el comercio', '', 'info')
+			console.log("inside else");
+		  	Swal.fire('No se eliminará el comercio', '', 'info')
 		}
 	  })
 }

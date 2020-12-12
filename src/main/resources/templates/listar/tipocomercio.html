@@ -19,73 +19,45 @@
                               </ul>
                             </div>
                         </div>
+                        <div class="modal fade" id="nuevo" data-backdrop="false">
+                            <div class="modal-dialog modal-xl">
+                                <div class="modal-content">
+                                    <form class="form-signin" th:action="@{/registrotipocomercio}" th:object=${tipocomercio} method="post" novalidate>
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">REGISTRO DE TIPO COMERCIO</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                            <input th:field="*{nombre}" type="text" class="form-control validate" placeholder="Nombre" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <input th:field="*{descripcion}" type="text" id="descripcion" name="descripcion" class="form-control validate" placeholder="Descripción" required>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer justify-content-between">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn btn-primary">Registrar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                         <div class="card-body table-responsive p-0" style="height: 300px;">
                             <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                 <th>ID</th>
-                                <th>User</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Reason</th>
+                                <th>NOMBRE</th>
+                                <th>DESCRIPCION</th>
+                                <th>OPCIONES</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                <td>183</td>
-                                <td>John Doe</td>
-                                <td>11-7-2014</td>
-                                <td><span class="tag tag-success">Approved</span></td>
-                                <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                </tr>
-                                <tr>
-                                <td>219</td>
-                                <td>Alexander Pierce</td>
-                                <td>11-7-2014</td>
-                                <td><span class="tag tag-warning">Pending</span></td>
-                                <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                </tr>
-                                <tr>
-                                <td>657</td>
-                                <td>Bob Doe</td>
-                                <td>11-7-2014</td>
-                                <td><span class="tag tag-primary">Approved</span></td>
-                                <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                </tr>
-                                <tr>
-                                <td>175</td>
-                                <td>Mike Doe</td>
-                                <td>11-7-2014</td>
-                                <td><span class="tag tag-danger">Denied</span></td>
-                                <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                </tr>
-                                <tr>
-                                <td>134</td>
-                                <td>Jim Doe</td>
-                                <td>11-7-2014</td>
-                                <td><span class="tag tag-success">Approved</span></td>
-                                <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                </tr>
-                                <tr>
-                                <td>494</td>
-                                <td>Victoria Doe</td>
-                                <td>11-7-2014</td>
-                                <td><span class="tag tag-warning">Pending</span></td>
-                                <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                </tr>
-                                <tr>
-                                <td>832</td>
-                                <td>Michael Doe</td>
-                                <td>11-7-2014</td>
-                                <td><span class="tag tag-primary">Approved</span></td>
-                                <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                </tr>
-                                <tr>
-                                <td>982</td>
-                                <td>Rocky Doe</td>
-                                <td>11-7-2014</td>
-                                <td><span class="tag tag-danger">Denied</span></td>
-                                <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                                <tr th:each=" tipo: ${tiposcomercios}">
+                                <td th:text="${tipo.id}" ></td>
+                                <td th:text="${tipo.nombre}"></td>
+                                <td th:text="${tipo.descripcion}"></td>
+                                <td></td>
                                 </tr>
                             </tbody>
                             </table>
