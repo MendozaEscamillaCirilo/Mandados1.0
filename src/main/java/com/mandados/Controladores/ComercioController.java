@@ -65,6 +65,7 @@ public class ComercioController {
             user.setAuthority(authorityrepository.findByAuthority("ROL_COMERCIO"));
             userrepository.save(user);
             metodosextra.generarQR(comercio.getNombre());
+            metodosextra.sendEmailNuevoComercio(comercio.getEmail(), generada);
         } catch (Exception e) {
             System.out.println("SUCEDIO UN ERROR");
         }
@@ -96,13 +97,5 @@ public class ComercioController {
         sucursalrepository.save(sucursal);
 		comerciorepository.save(comercio);
 		return listarComercio(model, auth);
-    }
-    @GetMapping("/configurar")
-    public String configurarHoraDeComerios(Authentication authentication, Model model, @RequestParam("apertura") java.sql.Time apertura, @RequestParam("cierre") java.sql.Time cierre){
-        ComerciosEntity comercio = metodosextra.getComercioLogueado(authentication);
-        comercio.setHoraapertura(apertura);
-        comercio.setHoraCierre(cierre);
-        comerciorepository.save(comercio);
-        return listarComercio(model, authentication);
     }
 }

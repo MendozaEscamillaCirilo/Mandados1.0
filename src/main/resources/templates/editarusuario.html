@@ -2,32 +2,46 @@
 <title>Editar usuario</title>
 <div th:replace="includes/head::home"></div>
 <style>
-    .custom-input-file {
-        color: rgb(21, 186, 252);
-        cursor: pointer;
-        font-size: 18px;
-        font-weight: bold;
-        margin: 0 auto 0;
-        min-height: 15px;
-        overflow: hidden;
-        padding: 10px;
-        position: relative;
-        text-align: center;
-        /* width: 400px; */
-    }
+    .center {
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.form-input {
+  width:250px;
+  padding:20px;
+  background:#fff;
+  /* border:2px solid rgb(28, 126, 255); */
+  /* border:solid */
+}
+.form-input input {
+  display:none;
+}
+.form-input label {
+  display:block;
+  width:100%;
+  height:50px;
+  line-height:50px;
+  text-align:center;
+  background:rgb(28, 126, 255);
+  color:#fff;
+  font-size:15px;
+  font-family:"Open Sans",sans-serif;
+  text-transform:Uppercase;
+  font-weight:600;
+  border-radius:10px;
+  cursor:pointer;
+}
 
-    .custom-input-file .input-file {
-        border: 10000px solid transparent;
-        cursor: pointer;
-        font-size: 10000px;
-        margin: 0;
-        opacity: 0;
-        outline: 0 none;
-        padding: 0;
-        position: absolute;
-        right: -1000px;
-        top: -1000px;
-    }
+.form-input img {
+  width:100%;
+  display:none;
+  margin-top:10px;
+}
+.border-line {
+  border:2px solid rgb(28, 126, 255);
+}
 </style>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
@@ -76,27 +90,35 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <form th:object="${usuario}" th:action="@{/editarfoto}" enctype="multipart/form-data" method="post">
-                                        <div class="row">
-                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto">
-                                                <div class="form-group">
-                                                    <label for="exampleInputFile">Cambio de foto</label>
-                                                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 mx-auto">
-                                                        <div class="row">
-                                                            <div class="custom-input-file btn btn-outline-primary col-xl-8 col-lg-8 col-md-8 col-sm-8 mx-auto">
-                                                                <input type="file" name="file" id="fichero" class="input-file" value="" onchange="myFunction()">
-                                                                <p id="div">Subir archivo</p>
-                                                            </div>
-                                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mx-auto">
-                                                                <button type="submit" class="btn btn-block btn-outline-primary">Cambiar foto</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                    <form th:object="${usuario}" th:action="@{/editarfoto}" enctype="multipart/form-data" method="post" class="border-line">
+                                      <div class="form-group">
+                                          <label for="exampleInputFile">Cambio de foto</label>
+                                          <div class="row">
+                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mx-auto">
+                                              <div class="center">
+                                                <div class="form-input">
+                                                  <label for="file-ip-1">Cargar imagen</label>
+                                                  <input type="file" id="file-ip-1" name="file" accept="image/*" onchange="showPreview(event);">
+                                                  <div class="preview">
+                                                    <img id="file-ip-1-preview">
+                                                  </div>
                                                 </div>
+                                              </div>
                                             </div>
-                                        </div>
+                                          </div>
+                                          <div class="row">
+                                              <!-- <div class="custom-input-file btn btn-outline-primary col-xl-8 col-lg-8 col-md-8 col-sm-8 mx-auto">
+                                                  <input type="file" name="file" id="fichero" class="input-file" value="" onchange="myFunction()">
+                                                  <p id="div">Subir archivo</p>
+                                              </div> -->
+                                              <br>
+                                              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mx-auto">
+                                                  <button type="submit" class="btn btn-block btn-outline-primary">Cambiar foto</button>
+                                              </div>
+                                          </div>
+                                      </div>
                                     </form>
-                                    <form th:object="${usuario}" th:action="@{/editarcontrasenia}" method="post">
+                                    <form th:object="${usuario}" th:action="@{/editarcontrasenia}" method="post" class="border-line">
                                         <div class="row">
                                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto">
                                                 <div class="form-group">
@@ -110,13 +132,16 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mx-auto">
-                                                                <div class="input-group">
-                                                                    <div class="text-center">
-                                                                        <button type="submit" class="btn btn-block btn-outline-primary">Cambiar contraseña</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                        <div class="row">
+                                                          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mx-auto">
+                                                              <div class="input-group">
+                                                                  <div class="text-center">
+                                                                      <button type="submit" class="btn btn-block btn-outline-primary">Cambiar contraseña</button>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -133,7 +158,7 @@
         <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
         <div th:replace="includes/footer::home"></div>
     </div>
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
         $(document).ready(function () {
           bsCustomFileInput.init();
         });
@@ -141,6 +166,16 @@
             var x = document.getElementById("fichero").value;
             document.getElementById("div").textContent = x;
         }
+    </script> -->
+    <script>
+      function showPreview(event){
+        if(event.target.files.length > 0){
+          var src = URL.createObjectURL(event.target.files[0]);
+          var preview = document.getElementById("file-ip-1-preview");
+          preview.src = src;
+          preview.style.display = "block";
+        }
+      }
     </script>
 </body>
 </html>

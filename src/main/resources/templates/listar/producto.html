@@ -63,7 +63,7 @@
                           <div class="tab-content" id="vert-tabs-tabContent">
                             <div class="tab-pane text-left fade show active" id="vert-tabs-todo" role="tabpanel" aria-labelledby="todo" >
                               <div class="row d-flex align-items-stretch">
-                                <div th:each="producto :${productos}" class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch fade show">
+                                <div th:each="producto :${productos}" class="col-sm-6 col-md-6 d-flex align-items-stretch fade show">
                                   <div class="card bg-light">
                                     <div class="card-header text-muted border-bottom-0" th:text="${producto.categoria.nombre}"></div>
                                     <div class="card-body pt-0">
@@ -131,7 +131,7 @@
                                             </div>
                                             <div class="modal-footer justify-content-between">
                                               <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                              <button type="submit" class="btn btn-primary">Registrar</button>
+                                              <button type="submit" class="btn btn-primary">Actualizar</button>
                                             </div>
                                           </form>
                                           </div>
@@ -143,7 +143,7 @@
                             </div>
                             <div th:each="categoria:${categorias}" class="tab-pane text-left fade show" th:id="'vert-tabs-' + ${categoria.id}" role="tabpanel" th:aria-labelledby="${categoria.nombre}" >
                               <div class="row d-flex align-items-stretch">
-                                <div th:each="producto :${productos}" th:if="${producto.categoria.id}==${categoria.id}" class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch fade show">
+                                <div th:each="producto :${productos}" th:if="${producto.categoria.id}==${categoria.id}" class="col-sm-6 col-md-6 d-flex align-items-stretch fade show">
                                   <div class="card bg-light">
                                     <div class="card-header text-muted border-bottom-0" th:text="${categoria.nombre}">
                                       Digital Strategist
@@ -217,7 +217,7 @@
                                             </div>
                                             <div class="modal-footer justify-content-between">
                                               <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                              <button type="submit" class="btn btn-primary">Registrar</button>
+                                              <button type="submit" class="btn btn-primary">Actualizar</button>
                                             </div>
                                           </form>
                                           </div>
@@ -286,7 +286,7 @@
         </div>
         <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
         <div th:replace="includes/scripts"></div>
-        <!-- <div th:replace="includes/footer::script2"></div> -->
+        <div th:replace="includes/formulariovalidar"></div>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
         <script src="dist/js/funcionesextra.js"></script>
         <!-- <script src="plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script> -->

@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import com.mandados.Entidades.ComerciosEntity;
 import com.mandados.Entidades.User;
 import com.mandados.Repository.ComercioRepository;
 import com.mandados.Repository.PedidoRepository;
@@ -100,6 +101,19 @@ public class ControladorListarDatos {
         userrepository.save(user1);
         metodosextra.sendEmail(user1.getUsername());
         metodosextra.obtUsuario(model,authentication);
+        return home(authentication, model);
+    }
+    @GetMapping("/generarqr")
+    public String generarNuevoQR(Model model, Authentication auth){
+        metodosextra.generarQR(metodosextra.getComercioLogueado(auth).getNombre());
+        return home(auth, model);
+    }
+    @GetMapping("/configurar")
+    public String configurarHoraDeComerios(Authentication authentication, Model model, @RequestParam("apertura") java.sql.Time apertura, @RequestParam("cierre") java.sql.Time cierre){
+        ComerciosEntity comercio = metodosextra.getComercioLogueado(authentication);
+        comercio.setHoraapertura(apertura);
+        comercio.setHoraCierre(cierre);
+        comerciorepository.save(comercio);
         return home(authentication, model);
     }
 }

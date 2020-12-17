@@ -66,7 +66,7 @@
                           <h3 class="card-title"><i class="fas fa-edit"></i>ESTABLECE TU HORARIO</h3>
                         </div>
                         <div class="card-body">
-                          <form action="/configurar">
+                          <form action="/configurar" novalidate>
                             <div class="form-group">
                               <div class="row">
                                 <div class="col-xl-5 col-md-5 col-sm-5">
@@ -89,11 +89,12 @@
                         <h3 class="card-title"><i class="fas fa-edit"></i>Muestra tu catalogo de productos con tecnología QR</h3>
                       </div>
                       <div class="card-body">
-                        <img th:src="'qrs/'+${nombrecomercio}+'.png'" alt="Girl in a jacket" width="30%">
+                        <img th:src="'qrs/'+${nombrecomercio}+'.png'" alt="" width="30%">
                       </div>
-                      <div class="card-header">
-                        <form action="/descargarqr">
-                          <button class="btn btn-outline-primary" type="submit">Descargar</button>
+                      <div>
+                        <p>¿No aparece tu código QR?</p>
+                        <form action="/generarqr" novalidate>
+                          <button class="btn btn-outline-primary" type="submit">Generar otro</button>
                         </form>
                       </div>
                     </div>
@@ -112,7 +113,7 @@
                             <h3 class="card-title"><i class="fas fa-edit"></i>BUSQUEDA DE PRODUCTOS PARA REALIZAR ORDEN</h3>
                         </div>
                         <div class="card-body">
-                            <form action="/gp">
+                            <form action="/gp" novalidate>
                                 <div class="input-group mb-3">
                                   <input type="text" name="search" id="search" class="form-control" placeholder="Buscar platillo o producto" required>
                                   <div class="input-group-append">
@@ -154,5 +155,6 @@
         </div>
     </div>
     <div th:replace="includes/scripts"></div>
+    <div th:replace="includes/mascara"></div>
 </body>
 </html>

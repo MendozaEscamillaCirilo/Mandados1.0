@@ -73,7 +73,7 @@ public class MetodosExtra {
     }
     public void generarQR(String nombre){
         try {
-            generateQRCodeImage("https://mandadosdevelop.herokuapp.com/buscarproductoo?group1=noObtain&buscar=&com=" + nombre, 350, 350, "./src/main/resources/static/qrs/" + nombre + ".png");
+            generateQRCodeImage("https://mandadosdevelop.herokuapp.com/spr?group1=noObtain&buscar=&com=" + nombre, 350, 350, "./src/main/resources/static/qrs/" + nombre + ".png");
         } catch (WriterException e) {
             System.out.println("Could not generate QR Code, WriterException :: " + e.getMessage());
         } catch (IOException e) {
@@ -136,7 +136,7 @@ public class MetodosExtra {
         }
     }
     // NUEVO COMERCIO REGISTRADO
-    public void sendEmail(String correo,String generada){
+    public void sendEmailNuevoComercio(String correo,String generada){
         System.out.println("Sending message");
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
