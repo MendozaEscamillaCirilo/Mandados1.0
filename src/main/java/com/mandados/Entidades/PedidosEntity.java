@@ -12,11 +12,11 @@ public class PedidosEntity {
     @Column
     private java.sql.Date fecha;
     @Column
-    private java.sql.Time horaPedido;
+    private java.sql.Time horapedido;
     @Column
-    private java.sql.Time horaRecoleccion;
+    private java.sql.Time horarecoleccion;
     @Column
-    private java.sql.Time horaEntrega;
+    private java.sql.Time horaentrega;
     @Column
     private Double total;
 
@@ -57,28 +57,28 @@ public class PedidosEntity {
         this.fecha = fecha;
     }
 
-    public java.sql.Time getHoraPedido() {
-        return horaPedido;
+    public java.sql.Time getHorapedido() {
+        return horapedido;
     }
 
-    public void setHoraPedido(java.sql.Time horaPedido) {
-        this.horaPedido = horaPedido;
+    public void setHorapedido(java.sql.Time horapedido) {
+        this.horapedido = horapedido;
     }
 
-    public java.sql.Time getHoraRecoleccion() {
-        return horaRecoleccion;
+    public java.sql.Time getHorarecoleccion() {
+        return horarecoleccion;
     }
 
-    public void setHoraRecoleccion(java.sql.Time horaRecoleccion) {
-        this.horaRecoleccion = horaRecoleccion;
+    public void setHorarecoleccion(java.sql.Time horarecoleccion) {
+        this.horarecoleccion = horarecoleccion;
     }
 
-    public java.sql.Time getHoraEntrega() {
-        return horaEntrega;
+    public java.sql.Time getHoraentrega() {
+        return horaentrega;
     }
 
-    public void setHoraEntrega(java.sql.Time horaEntrega) {
-        this.horaEntrega = horaEntrega;
+    public void setHoraentrega(java.sql.Time horaentrega) {
+        this.horaentrega = horaentrega;
     }
 
     public Double getTotal() {
@@ -114,8 +114,8 @@ public class PedidosEntity {
     }
 
 	public String toString() {
-		return "PedidosEntity [destino=" + destino + ", fecha=" + fecha + ", horaEntrega=" + horaEntrega
-				+ ", horaPedido=" + horaPedido + ", horaRecoleccion=" + horaRecoleccion + ", id=" + id
+		return "PedidosEntity [destino=" + destino + ", fecha=" + fecha + ", horaentrega=" + horaentrega
+				+ ", horapedido=" + horapedido + ", horarecoleccion=" + horarecoleccion + ", id=" + id
 				+ ", operador=" + operador + ", productos=" + productos + ", repartidor=" + repartidor + ", total="
 				+ total + "]";
 	}

@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="plugins/sweetalert2/sweetalert2.min.css">
-<div th:replace="includes/head::home"></div>
+<div th:replace="includes/css"></div>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
         <div th:replace="includes/navbar"></div>
@@ -22,7 +22,7 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="modal fade" id="nuevo" data-backdrop="false">
+                  <div class="modal fade" id="nuevo">
                     <div class="modal-dialog modal-xl">
                       <div class="modal-content">
                         <form class="form-signin" th:action="@{/registrocomercio}" method="post" novalidate>
@@ -41,8 +41,8 @@
                                     <input th:field="*{email}" type="email" class="form-control validate" id="exampleInputEmail1" placeholder="Correo electronico del comercio" required>
                                   </div>
                                   <div class="form-group">
-                                    <select th:field="*{tipoComercio}" data-placeholder="Selecciona rol" class="form-control validate">
-                                      <option th:each="tipo :${tipocomercio}" th:value="${tipo.id}" th:text="${tipo.nombre}"></option>
+                                    <select th:field="*{tipocomercio}" data-placeholder="Selecciona rol" class="form-control validate">
+                                      <option th:each="tipo :${tiposcomercios}" th:value="${tipo.id}" th:text="${tipo.nombre}"></option>
                                     </select>
                                   </div>
                                 </div>
@@ -98,30 +98,30 @@
                           <tr th:if="${comercios.empty}">
                               <td colspan="3"> No hay comercios registrados </td>
                           </tr>
-                          <tr th:each="comercio :${sucursales}">
-                            <td><span th:text="${comercio.nombre}"> Authority </span></td>
-                            <td><span th:text="${comercio.email}"> Authority </span></td>
-                            <td><span th:text="${comercio.comercio.tipocomercio.nombre}"> Authority </span></td>
+                          <tr th:each="sucursal :${sucursales}" th:class="${sucursal.estatus}?table-primary:table-warning">
+                            <td><span th:text="${sucursal.nombre}"> Authority </span></td>
+                            <td><span th:text="${sucursal.email}"> Authority </span></td>
+                            <td><span th:text="${sucursal.comercio.tipocomercio.nombre}"> Authority </span></td>
                             <td class="text-center py-0 align-middle">
                               <div class="btn-group btn-group-sm">
-                                <a class="btn btn-info" data-toggle="modal" th:data-target="'#modal-' + ${comercio.id}"><i class="fas fa-eye"></i></a>
-                                <a sec:authorize="hasAuthority('ROL_ADMIN')" class="btn btn-warning" data-toggle="modal" th:data-target="'#modal-editar-' + ${comercio.id}"><i class="fas fa-edit"></i></a>
-                                <a sec:authorize="hasAuthority('ROL_ADMIN')" th:onclick="eliminar([[${comercio.id}]])" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                                <div class="modal fade" th:id="'modal-' + ${comercio.id}" data-backdrop="false">
+                                <a class="btn btn-info" data-toggle="modal" th:data-target="'#modal-' + ${sucursal.id}"><i class="fas fa-eye"></i></a>
+                                <a sec:authorize="hasAuthority('ROL_ADMIN')" class="btn btn-warning" data-toggle="modal" th:data-target="'#modal-editar-' + ${sucursal.id}"><i class="fas fa-edit"></i></a>
+                                <a sec:authorize="hasAuthority('ROL_ADMIN')" th:onclick="eliminarcomercio([[${sucursal.id}]])" th:class="${sucursal.estatus}?'btn btn-danger':'btn btn-primary'"><i th:class="${sucursal.estatus}?'fas fa-trash':'fas fa-redo-alt'"></i></a>
+                                <div class="modal fade" th:id="'modal-' + ${sucursal.id}" data-backdrop="false">
                                   <div class="modal-dialog">
                                     <div class="modal-content">
                                       <div class="modal-header text-center">
-                                        <h4 class="modal-title col-12 text-center" th:text="${comercio.nombre}">Default Modal</h4>
+                                        <h4 class="modal-title col-12 text-center" th:text="${sucursal.nombre}">Default Modal</h4>
                                       </div>
                                       <div class="modal-body">
                                         <h5>INFORMACION</h5>
                                         <form action=""></form>
                                         <p> <b> Direccion </b> </p>
-                                        <p th:text="${'Calle '+comercio.calle+' #'+comercio.numero+', Colonia '+comercio.colonia}">One fine body&hellip;</p>
+                                        <p th:text="${'Calle '+sucursal.calle+' #'+sucursal.numero+', Colonia '+sucursal.colonia}">One fine body&hellip;</p>
                                         <p> <b> Telefono </b> </p>
-                                        <p th:text="${comercio.telefono}">One fine body&hellip;</p>
+                                        <p th:text="${sucursal.telefono}">One fine body&hellip;</p>
                                         <p> <b> Correo </b> </p>
-                                        <p th:text="${comercio.email}">One fine body&hellip;</p>
+                                        <p th:text="${sucursal.email}">One fine body&hellip;</p>
                                         <!-- <p th:text="$comercio.sucursales.size">One fine body&hellip;</p> -->
                                       </div>
                                       <div class="modal-footer justify-content-between">
@@ -131,48 +131,49 @@
                                     </div>
                                   </div>
                                 </div>
-                                <div class="modal fade" th:id="'modal-editar-' + ${comercio.id}" data-backdrop="false">
+                                <div class="modal fade" th:id="'modal-editar-' + ${sucursal.id}" data-backdrop="false">
                                   <div class="modal-dialog modal-xl">
                                     <div class="modal-content">
-                                      <form class="form-signin" th:action="@{/editarcomercio(id=${comercio.id})}" method="post" novalidate>
+                                      <form class="form-signin" th:action="@{/editarcomercio(id=${sucursal.id})}" method="post" novalidate>
                                         <div class="modal-header">
-                                          <h4 class="modal-title">EDITAR COMERCIO <p th:text="${comercio.nombre}"></p></h4>
+                                          <h4 class="modal-title">EDITAR COMERCIO <p th:text="${sucursal.nombre}"></p></h4>
+                                          <input type="hidden" name="id" th:value="${sucursal.id}">
                                         </div>
                                         <div class="modal-body">
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto">
-                                                        <input th:value="${comercio.nombre}" type="text" class="form-control validate" th:placeholder="${comercio.nombre}" required>
+                                                        <input th:value="${sucursal.nombre}" id="nombre" name="nombre" type="text" class="form-control validate" placeholder="Nombre" required>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                               <div class="row">
                                                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
-                                                      <input type="text" name="calle" id="calle" class="form-control validate" th:placeholder="${comercio.calle}" th:value="${comercio.calle}" required>
+                                                      <input type="text" name="calle" id="calle" class="form-control validate" placeholder="calle" th:value="${sucursal.calle}" required>
                                                   </div>
                                                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
-                                                      <input type="number" name="numero" id="numero" class="form-control validate" th:placeholder="${comercio.numero}" th:value="${comercio.numero}" min="0" max="9000" required>
+                                                      <input type="number" name="numero" id="numero" class="form-control validate" placeholder="numero" th:value="${sucursal.numero}" min="0" max="9000" required>
                                                   </div>
                                               </div>
                                           </div>
                                           <div class="form-group">
                                               <div class="row">
                                                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
-                                                      <input type="number" name="cp" id="cp" class="form-control validate" th:placeholder="${comercio.codigopostal}" th:value="${comercio.codigopostal}" min="67000" max="80000" required>
+                                                      <input type="number" name="cp" id="cp" class="form-control validate" placeholder="codigopostal" th:value="${sucursal.codigopostal}" min="67000" max="80000" required>
                                                   </div>
                                                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
-                                                      <input type="text" name="colonia" id="colonia" class="form-control validate" th:placeholder="${comercio.colonia}" th:value="${comercio.colonia}" required>
+                                                      <input type="text" name="colonia" id="colonia" class="form-control validate" placeholder="colonia" th:value="${sucursal.colonia}" required>
                                                   </div>
                                               </div>
                                           </div>
                                           <div class="form-group">
-                                            <input type="tel" class="form-control validate" data-inputmask='"mask": "(999) 999-9999"' data-mask th:placeholder="${comercio.telefono}" th:value="${comercio.telefono}" required>
+                                            <input type="tel" name="telefono" class="form-control validate" data-inputmask='"mask": "(999) 999-9999"' data-mask placeholder="telefono" th:value="${sucursal.telefono}" required>
                                           </div>
                                         </div>
                                         <div class="modal-footer justify-content-between">
                                           <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                          <button type="submit" class="btn btn-primary">Registrar</button>
+                                          <button type="submit" class="btn btn-primary">Editar</button>
                                         </div>
                                       </form>
                                       </div>
@@ -194,13 +195,14 @@
                   </div>
               </div>
             </div>
+            <div class="card text-center">
+                <p>Los comercios marcados en amarillo no han realizado su pago mensual.</p>
+            </div>
           </section>
         </div>
-        <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
     </div>
-    <div th:replace="includes/footer::home"></div>
+    <div th:replace="includes/scripts"></div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <!-- <script src="plugins/sweetalert2/sweetalert2.min.js"></script> -->
-    <script src="scripts/funciones.js"></script>
+    <script src="dist/js/funcionesextra.js"></script>
 </body>
 </html>

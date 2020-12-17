@@ -27,7 +27,7 @@ public class ComerciosEntity {
 
 	@ManyToOne()
 	@JoinColumn(name = "tipo_id")
-	private Tipos_comerciosEntity tipocomercio;
+	private TiposcomerciosEntity tipocomercio;
 
 	@OneToMany(mappedBy = "comercio",cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<SucursalesEntity> sucursales;
@@ -47,10 +47,10 @@ public class ComerciosEntity {
 	private Boolean estatus;
 
 	@Column
-	private java.sql.Time horaApertura;
+	private java.sql.Time horaapertura;
 	
 	@Column
-    private java.sql.Time horaCierre;
+    private java.sql.Time horacierre;
 
 	public Long getId() {
 		return id;
@@ -69,11 +69,11 @@ public class ComerciosEntity {
 	}
 	
 
-	public Tipos_comerciosEntity getTipoComercio() {
+	public TiposcomerciosEntity getTipocomercio() {
 		return tipocomercio;
 	}
 
-	public void setTipoComercio(Tipos_comerciosEntity tipocomercio) {
+	public void setTipocomercio(TiposcomerciosEntity tipocomercio) {
 		this.tipocomercio = tipocomercio;
 	}
 
@@ -114,14 +114,6 @@ public class ComerciosEntity {
 		return "Comercio => id = " + id + ", nombre = " + nombre + ", email = " + email;
 	}
 
-	public Tipos_comerciosEntity getTipocomercio() {
-		return tipocomercio;
-	}
-
-	public void setTipocomercio(Tipos_comerciosEntity tipocomercio) {
-		this.tipocomercio = tipocomercio;
-	}
-
 	public Boolean getEstatus() {
 		return estatus;
 	}
@@ -130,19 +122,19 @@ public class ComerciosEntity {
 		this.estatus = estatus;
 	}
 
-	public java.sql.Time getHoraApertura() {
-		return horaApertura;
+	public java.sql.Time getHoraapertura() {
+		return horaapertura;
 	}
 
-	public void setHoraApertura(java.sql.Time horaApertura) {
-		this.horaApertura = horaApertura;
+	public void setHoraapertura(java.sql.Time horaapertura) {
+		this.horaapertura = horaapertura;
 	}
 
-	public java.sql.Time getHoraCierre() {
-		return horaCierre;
+	public java.sql.Time getHoracierre() {
+		return horacierre;
 	}
 
-	public void setHoraCierre(java.sql.Time horaCierre) {
-		this.horaCierre = horaCierre;
+	public void setHoraCierre(java.sql.Time horacierre) {
+		this.horacierre = horacierre;
 	}
 }

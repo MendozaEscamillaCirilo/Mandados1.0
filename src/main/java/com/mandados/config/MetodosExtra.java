@@ -1,6 +1,13 @@
 package com.mandados.config;
 
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +16,11 @@ import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 import com.mandados.Entidades.CategoriasEntity;
 import com.mandados.Entidades.ComerciosEntity;
 import com.mandados.Entidades.PedidosEntity;
@@ -16,18 +28,15 @@ import com.mandados.Entidades.User;
 import com.mandados.Repository.ComercioRepository;
 import com.mandados.Repository.UserRepository;
 
-// import org.slf4j.Logger;
-// import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -41,7 +50,6 @@ public class MetodosExtra {
     private JavaMailSender javaMailSender;
     @Autowired
     private Configuration configuration;
-    // private final static Logger LOG = LoggerFactory.getLogger(MetodosExtra.class);
     
     public boolean obtCodigoPostalValido(String cp){
         String [] cps = {"68050"};
@@ -50,12 +58,27 @@ public class MetodosExtra {
         }
         return false;
     }
-    public void obtUsuario(Model model){
-        Optional<User>lista = userrepository.findByUsername(((org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+    public void obtUsuario(Model model, Authentication auth){
+        Optional<User> lista = userrepository.findByUsername(auth.getName());
         User user1 = lista.get();
         model.addAttribute("usuario", user1);
         model.addAttribute("foto", "logos/"+user1.getUsername() + ".jpg");
-        // model.addAttribute("comercio", comerciorepository.findByEmail(user1.getUsername()));
+    }
+    private static void generateQRCodeImage(String text, int width, int height, String filePath) throws WriterException, IOException {
+        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+        BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height);
+
+        Path path = FileSystems.getDefault().getPath(filePath);
+        MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
+    }
+    public void generarQR(String nombre){
+        try {
+            generateQRCodeImage("https://mandadosdevelop.herokuapp.com/buscarproductoo?group1=noObtain&buscar=&com=" + nombre, 350, 350, "./src/main/resources/static/qrs/" + nombre + ".png");
+        } catch (WriterException e) {
+            System.out.println("Could not generate QR Code, WriterException :: " + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Could not generate QR Code, IOException :: " + e.getMessage());
+        }
     }
     public String aleatorio(){
         char [] chars = "012346789ABCDEFGHJKMNPQRSTUVWXYZ".toCharArray();
@@ -65,22 +88,11 @@ public class MetodosExtra {
         for (int i=0;i<6;i++){
             buffer.append(chars[random.nextInt(charsLength)]);
         }
-        // System.out.println("Random String " + buffer.toString());
         return buffer.toString();
     }
     // RESET DE CONTRASEÑA
     public void sendEmailRemember(String correo,String generada){
         System.out.println("Sending message");
-        // String body = "Estimado usuario, \n     \n " +
-        //         "   Los datos de acceso son: \n     EMAIL: " + correo +" \n " + 
-        //         "    CONTRASEÑA: " + generada;
-        // SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        // simpleMailMessage.setFrom("no-reply@mandados.com");
-        // simpleMailMessage.setTo(correo);
-        // simpleMailMessage.setSubject("¡¡¡¡GRACIAS!!!!");
-        // simpleMailMessage.setText(body);
-        // javaMailSender.send(simpleMailMessage);
-        // System.out.println("Send message...");
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message);
@@ -104,14 +116,6 @@ public class MetodosExtra {
     // CAMBIO DE CONTRASEÑA
     public void sendEmail(String correo){
         System.out.println("Sending message");
-        // String body = "Estimado usuario, \n    Su contraseña ah sido cambiada.. \n ";
-        // SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        // simpleMailMessage.setFrom("no-reply@mandados.com");
-        // simpleMailMessage.setTo(correo);
-        // simpleMailMessage.setSubject("¡¡¡¡ACTUALIZADO!!!!");
-        // simpleMailMessage.setText(body);
-        // javaMailSender.send(simpleMailMessage);
-        // System.out.println("Send message...");
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message);
@@ -159,7 +163,7 @@ public class MetodosExtra {
     public List<PedidosEntity> getDatesOnListExist(List<PedidosEntity> lista){
         List<PedidosEntity> aux = new ArrayList<PedidosEntity>();
         for(int i=0;i<lista.size();i++){
-            if(lista.get(i).getHoraEntrega()!=null){
+            if(lista.get(i).getHoraentrega()==null){
                 aux.add(lista.get(i));
             }
         }
@@ -169,7 +173,7 @@ public class MetodosExtra {
     public List<PedidosEntity> getDatesOnListNoExist(List<PedidosEntity> lista){
         List<PedidosEntity> aux = new ArrayList<PedidosEntity>();
         for(int i=0;i<lista.size();i++){
-            if(lista.get(i).getHoraEntrega()!=null){
+            if(lista.get(i).getHoraentrega()!=null){
                 aux.add(lista.get(i));
             }
         }
@@ -190,5 +194,22 @@ public class MetodosExtra {
     public ComerciosEntity getComercioLogueado(Authentication authentication){
         UserDetails ud = (UserDetails)authentication.getPrincipal();
         return comerciorepository.findByEmail(ud.getUsername());
+    }
+    public String crearImagenDelProducto(String nombreproducto,MultipartFile imagen){
+        Calendar calendario = new GregorianCalendar();
+        String hora = calendario.get(Calendar.HOUR_OF_DAY) +""+ calendario.get(Calendar.MINUTE) +""+ calendario.get(Calendar.SECOND);
+        if (!imagen.isEmpty()) {
+            Path directorioImagenes = Paths.get("src//main//resources//static//productos");
+            String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
+            try {
+                byte[] bytesImgenes = imagen.getBytes();
+                Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + nombreproducto.split(" ")[0]+"_"+hora+".jpg");
+                Files.write(rutaCompleta,bytesImgenes);
+                // producto.setImagen("productos/"+producto.getNombre().split(" ")[0]+"_"+hora+".jpg");
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+        return "productos/"+nombreproducto.split(" ")[0]+"_"+hora+".jpg";
     }
 }

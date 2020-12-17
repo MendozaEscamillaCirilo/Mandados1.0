@@ -5,10 +5,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import com.mandados.Entidades.Tipos_comerciosEntity;
+import com.mandados.Entidades.TiposcomerciosEntity;
 
 @Repository
-public interface TipoComercioRepository extends CrudRepository<Tipos_comerciosEntity, Long>  {
-    public List<Tipos_comerciosEntity> findAll();
-    public Tipos_comerciosEntity findByNombre(String nombre);
+public interface TipoComercioRepository extends CrudRepository<TiposcomerciosEntity, Long>  {
+    public List<TiposcomerciosEntity> findAll();
+    public TiposcomerciosEntity findByNombre(String nombre);
 }

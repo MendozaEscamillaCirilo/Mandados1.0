@@ -13,13 +13,13 @@ public class DestinosEntity {
     @Column
 	private String nombres;
 	@Column
-	private String primer_apellido;
+	private String primerapellido;
 	@Column
-	private String segundo_apellido;
+	private String segundoapellido;
 	@Column
-    private Double calle;
+    private String calle;
     @Column
-    private String numero;
+    private int numero;
     @Column
     private String colonia;
     @Column
@@ -46,35 +46,35 @@ public class DestinosEntity {
         this.nombres = nombres;
     }
 
-    public String getPrimer_apellido() {
-        return primer_apellido;
+    public String getPrimerapellido() {
+        return primerapellido;
     }
 
-    public void setPrimer_apellido(String primer_apellido) {
-        this.primer_apellido = primer_apellido;
+    public void setPrimerapellido(String primerapellido) {
+        this.primerapellido = primerapellido;
     }
 
-    public String getSegundo_apellido() {
-        return segundo_apellido;
+    public String getSegundoapellido() {
+        return segundoapellido;
     }
 
-    public void setSegundo_apellido(String segundo_apellido) {
-        this.segundo_apellido = segundo_apellido;
+    public void setSegundoapellido(String segundoapellido) {
+        this.segundoapellido = segundoapellido;
     }
 
-    public Double getCalle() {
+    public String getCalle() {
         return calle;
     }
 
-    public void setCalle(Double calle) {
+    public void setCalle(String calle) {
         this.calle = calle;
     }
 
-    public String getNumero() {
+    public int getNumero() {
         return numero;
     }
 
-    public void setNumero(String numero) {
+    public void setNumero(int numero) {
         this.numero = numero;
     }
 
@@ -112,7 +112,7 @@ public class DestinosEntity {
 
     public String toString() {
         return "DestinosEntity [calle=" + calle + ", colonia=" + colonia + ", id=" + id + ", municipio=" + municipio
-                + ", nombres=" + nombres + ", numero=" + numero + ", pedidos=" + pedidos + ", primer_apellido="
-                + primer_apellido + ", segundo_apellido=" + segundo_apellido + ", telefono=" + telefono + "]";
+                + ", nombres=" + nombres + ", numero=" + numero + ", pedidos=" + pedidos + ", primerapellido="
+                + primerapellido + ", segundoapellido=" + segundoapellido + ", telefono=" + telefono + "]";
     }
 }

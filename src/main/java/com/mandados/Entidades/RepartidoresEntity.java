@@ -11,9 +11,9 @@ public class RepartidoresEntity {
     @Column
 	private String nombre;
 	@Column
-	private String primer_apellido;
+	private String primerapellido;
 	@Column
-	private String segundo_apellido;
+	private String segundoapellido;
 	@Column
     private String calle;
     @Column
@@ -48,20 +48,20 @@ public class RepartidoresEntity {
         this.nombre = nombre;
     }
 
-    public String getPrimer_apellido() {
-        return primer_apellido;
+    public String getPrimerapellido() {
+        return primerapellido;
     }
 
-    public void setPrimer_apellido(String primer_apellido) {
-        this.primer_apellido = primer_apellido;
+    public void setPrimerapellido(String primerapellido) {
+        this.primerapellido = primerapellido;
     }
 
-    public String getSegundo_apellido() {
-        return segundo_apellido;
+    public String getSegundoapellido() {
+        return segundoapellido;
     }
 
-    public void setSegundo_apellido(String segundo_apellido) {
-        this.segundo_apellido = segundo_apellido;
+    public void setSegundoapellido(String segundoapellido) {
+        this.segundoapellido = segundoapellido;
     }
 
     public String getCalle() {
@@ -123,7 +123,7 @@ public class RepartidoresEntity {
     public String toString() {
         return "RepartidoresEntity [calle=" + calle + ", colonia=" + colonia + ", email=" + email + ", id=" + id
                 + ", municipio=" + municipio + ", nombre=" + nombre + ", numero=" + numero + ", pedidos=" + pedidos
-                + ", primer_apellido=" + primer_apellido + ", segundo_apellido=" + segundo_apellido + ", telefono="
+                + ", primerapellido=" + primerapellido + ", segundoapellido=" + segundoapellido + ", telefono="
                 + telefono + "]";
     }
 

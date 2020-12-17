@@ -1,220 +1,158 @@
-<!doctype html>
-<html lang="en">
-  <head>
-  	<title>Home</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
-    <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-    <link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css">
-    <link rel="stylesheet" href="dist/css/adminlte.min.css">
-    <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-    <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
-    <link rel="stylesheet" href="plugins/summernote/summernote-bs4.css">
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-  </head>
-  <body class="hold-transition sidebar-mini layout-fixed">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<title>Home</title>
+<div th:replace="includes/css"></div>
+<body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
         <div th:replace="includes/navbar"></div>
         <div th:replace="includes/sidebar"></div>
         <div class="content-wrapper">
-            <div class="content-header">
-              <div class="container-fluid">
-                <div class="row mb-2">
-                  <div class="col-sm-6">
-                    <h1 class="m-0 text-dark"></h1>
-                  </div>
-                  <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right"></ol>
-                  </div>
-                </div>
-              </div>
-            </div>
             <section class="content">
-              <div class="container-fluid">
-                <div class="row">
-                  <div class="col-lg-3 col-6" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')">
-                    <div class="small-box bg-info">
-                      <div class="inner">
-                        <h3 th:text="${totalcomercios}">150</h3>
-                        <p>COMERCIOS REGISTRADOS</p>
-                      </div>
-                      <div class="icon">
-                        <i class="ion ion-bag"></i>
-                      </div>
-                      <a href="/listacomercio" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-6" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')">
-                    <div class="small-box bg-success">
-                      <div class="inner">
-                        <h3 th:text="${totalrepartidores}">53</h3>
-                        <p>REPARTIDORES REGISTRADOS</p>
-                      </div>
-                      <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
-                      </div>
-                      <a href="/listarepartidor" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
-                    </div>
-                  </div>
-                  <div th:if="${activo}" class="col-lg-3 col-6">
-                    <div class="small-box bg-warning">
-                      <div class="inner">
-                        <h3 th:text="${ordenescompletadas}">44</h3>
-                        <p>PEDIDOS COMPLETADOS</p>
-                      </div>
-                      <div class="icon">
-                        <i class="fas fa-check-double"></i>
-                      </div>
-                      <a href="#" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
-                    </div>
-                  </div>
-                  <div th:if="${activo}" class="col-lg-3 col-6" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER','ROL_COMERCIO')">
-                    <div class="small-box bg-danger">
-                      <div class="inner">
-                        <h3 th:text="${ordenespendientes}">65</h3>
-                        <p>PEDIDOS PENDIENTES</p>
-                      </div>
-                      <div class="icon">
-                        <i class="fas fa-check"></i>
-                      </div>
-                      <a href="#" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div th:if="${activo}">
-                <div th:if="${establecerhorario}" sec:authorize="hasAuthority('ROL_COMERCIO')" class="container-fluid">
-                  <div class="card card-primary card-outline">
-                    <div class="card-header">
-                      <h3 class="card-title"><i class="fas fa-edit"></i>ESTABLECE TU HORARIO</h3>
-                    </div>
-                    <div class="card-body">
-                      <form action="/configurar">
-                        <div class="form-group">
-                          <div class="row">
-                            <div class="col-xl-5 col-md-5 col-sm-5">
-                              <input type="text" name="apertura" class="form-control validate" th:value="${apertura}!=null?${apertura}" th:placeholder="${apertura}==null?'Hora de apertura'" data-inputmask='"mask": "##:##:##"' data-mask required>
-                            </div>
-                            <div class="col-xl-5 col-md-5 col-sm-5">
-                              <input type="text" name="cierre" class="form-control validate" th:value="${cierre}!=null?${cierre}" th:placeholder="${cierre}==null?'Hora de cierre'" data-inputmask='"mask": "##:##:##"' data-mask required>
-                            </div>
-                            <div class="col-xl-2 col-md-2 col-sm-2">
-                              <button th:text="${apertura}==null or ${cierre}==null ? 'Establecer' : 'Cambiar'" class="btn btn-outline-primary" type="submit">Establecer</button>
-                            </div>
+                <div class="container-fluid">
+                    <div class="row">
+                      <div class="col-lg-3 col-6" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')">
+                        <div class="small-box bg-info">
+                          <div class="inner">
+                            <h3 th:text="${totalcomercios}">150</h3>
+                            <p>COMERCIOS REGISTRADOS</p>
                           </div>
-                        </div>
-                      </form>
-                      <div th:if="${tablavisible}">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div th:if="${activo}==false">
-                <div class="card card-primary card-outline">
-                  <div class="card-header">
-                    <h3 class="card-title"><i class="fas fa-edit"></i>ERROR</h3>
-                  </div>
-                  <div class="card-body"><h1>Estimado usuario su mensualidad no ha sido pagada.</h1></div>
-                </div>
-              </div>
-              <div sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')" class="container-fluid">
-                <div class="card card-primary card-outline">
-                  <div class="card-header">
-                    <h3 class="card-title"><i class="fas fa-edit"></i>BUSQUEDA DE PRODUCTOS PARA REALIZAR ORDEN</h3>
-                  </div>
-                  <div class="card-body">
-                    <form action="/getproductosabc">
-                      <div class="input-group mb-3">
-                        <input type="text" name="search" id="search" class="form-control" placeholder="Buscar platillo o producto" required>
-                        <div class="input-group-append">
-                          <button class="btn btn-outline-primary" type="submit">Buscar</button>
+                          <div class="icon">
+                            <i class="ion ion-bag"></i>
+                          </div>
+                          <a href="/listacomercio" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                       </div>
-                    </form>
-                    <div th:if="${tablavisible}">
-                      <table id="tabla1" class="table table-bordered table-striped">
-                        <thead>
-                          <tr>
-                            <th>Nombre</th>
-                            <th>Costo</th>
-                            <th>Comercio</th>
-                            <th>Descripción</th>
-                            <th></th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:if="${productos.empty}"><td colspan="3"> No hay resultados </td></tr>
-                            <tr th:each="prod :${productos}">
-                                <td><span th:text="${prod.nombre}"></span></td>
-                                <td><span th:text="${prod.precio}"></span></td>
-                                <td><span th:text="${prod.comercio.nombre}"></span></td>
-                                <td><span th:text="${prod.descripcion}"></span></td>
-                                <td class="text-center">
-                                  <form action="/addproducto">
-                                    <input type="hidden" name="search" id="search" th:value="${search}">
-                                    <input type="hidden" name="producto" id="producto" th:value="${producto}">
-                                    <input type="hidden" name="productoadd" id="productoadd" th:value="${prod.id}">
-                                    <button class="btn btn-outline-primary" type="submit">
-                                      <i class="fas fa-cart-plus"></i></a>
-                                    </button>
-                                  </form>
-                                </td>
-                            </tr>
-                        </tbody>
-                      </table>
+                      <div class="col-lg-3 col-6" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')">
+                        <div class="small-box bg-success">
+                          <div class="inner">
+                            <h3 th:text="${totalrepartidores}">53</h3>
+                            <p>REPARTIDORES REGISTRADOS</p>
+                          </div>
+                          <div class="icon">
+                            <i class="ion ion-stats-bars"></i>
+                          </div>
+                          <a href="/listarepartidor" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                      </div>
+                      <div th:if="${activo}" class="col-lg-3 col-6">
+                        <div class="small-box bg-warning">
+                          <div class="inner">
+                            <h3 th:text="${ordenescompletadas}">44</h3>
+                            <p>PEDIDOS COMPLETADOS</p>
+                          </div>
+                          <div class="icon">
+                            <i class="fas fa-check-double"></i>
+                          </div>
+                          <a href="#" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                      </div>
+                      <div th:if="${activo}" class="col-lg-3 col-6" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER','ROL_COMERCIO')">
+                        <div class="small-box bg-danger">
+                          <div class="inner">
+                            <h3 th:text="${ordenespendientes}">65</h3>
+                            <p>PEDIDOS PENDIENTES</p>
+                          </div>
+                          <div class="icon">
+                            <i class="fas fa-check"></i>
+                          </div>
+                          <a href="#" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                      </div>
                     </div>
-                  </div>
                 </div>
-              </div>
+                <div th:if="${activo}">
+                    <div th:if="${establecerhorario}" sec:authorize="hasAuthority('ROL_COMERCIO')" class="container-fluid">
+                      <div class="card card-primary card-outline">
+                        <div class="card-header">
+                          <h3 class="card-title"><i class="fas fa-edit"></i>ESTABLECE TU HORARIO</h3>
+                        </div>
+                        <div class="card-body">
+                          <form action="/configurar">
+                            <div class="form-group">
+                              <div class="row">
+                                <div class="col-xl-5 col-md-5 col-sm-5">
+                                  <input type="text" name="apertura" class="form-control validate" th:value="${apertura}!=null?${apertura}" th:placeholder="${apertura}==null?'Hora de apertura'" data-inputmask='"mask": "##:##:##"' data-mask required>
+                                </div>
+                                <div class="col-xl-5 col-md-5 col-sm-5">
+                                  <input type="text" name="cierre" class="form-control validate" th:value="${cierre}!=null?${cierre}" th:placeholder="${cierre}==null?'Hora de cierre'" data-inputmask='"mask": "##:##:##"' data-mask required>
+                                </div>
+                                <div class="col-xl-2 col-md-2 col-sm-2">
+                                  <button th:text="${apertura}==null or ${cierre}==null ? 'Establecer' : 'Cambiar'" class="btn btn-outline-primary" type="submit">Establecer</button>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                    <div sec:authorize="hasAuthority('ROL_COMERCIO')" class="card card-primary card-outline text-center">
+                      <div class="card-header text-center">
+                        <h3 class="card-title"><i class="fas fa-edit"></i>Muestra tu catalogo de productos con tecnología QR</h3>
+                      </div>
+                      <div class="card-body">
+                        <img th:src="'qrs/'+${nombrecomercio}+'.png'" alt="Girl in a jacket" width="30%">
+                      </div>
+                      <div class="card-header">
+                        <form action="/descargarqr">
+                          <button class="btn btn-outline-primary" type="submit">Descargar</button>
+                        </form>
+                      </div>
+                    </div>
+                </div>
+                <div th:if="${activo}==false">
+                    <div class="card card-primary card-outline">
+                      <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-edit"></i>ERROR</h3>
+                      </div>
+                      <div class="card-body"><h1>Estimado usuario su mensualidad no ha sido pagada.</h1></div>
+                    </div>
+                </div>
+                <div sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')" class="container-fluid">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-edit"></i>BUSQUEDA DE PRODUCTOS PARA REALIZAR ORDEN</h3>
+                        </div>
+                        <div class="card-body">
+                            <form action="/gp">
+                                <div class="input-group mb-3">
+                                  <input type="text" name="search" id="search" class="form-control" placeholder="Buscar platillo o producto" required>
+                                  <div class="input-group-append">
+                                    <button class="btn btn-outline-primary" type="submit">Buscar</button>
+                                  </div>
+                                </div>
+                            </form>
+                            <div th:if="${tablavisible}">
+                                <table id="tabla1" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Costo</th>
+                                            <th>Comercio</th>
+                                            <th>Descripción</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:if="${productos.empty}"><td colspan="5"> No hay resultados </td></tr>
+                                        <tr th:each="prod :${productos}">
+                                            <td><span th:text="${prod.nombre}"></span></td>
+                                            <td><span th:text="${prod.precio}"></span></td>
+                                            <td><span th:text="${prod.comercio.nombre}"></span></td>
+                                            <td><span th:text="${prod.descripcion}"></span></td>
+                                            <td class="text-center">
+                                                <button class="btn btn-outline-primary" type="submit">
+                                                  <i class="fas fa-cart-plus"></i></a>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
         </div>
-        <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
     </div>
-    <script src="plugins/jquery/jquery.min.js"></script>
-    <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
-    <script> $.widget.bridge('uibutton', $.ui.button) </script>
-    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="plugins/chart.js/Chart.min.js"></script>
-    <script src="plugins/sparklines/sparkline.js"></script>
-    <script src="plugins/jquery-knob/jquery.knob.min.js"></script>
-    <script src="plugins/moment/moment.min.js"></script>
-    <script src="plugins/daterangepicker/daterangepicker.js"></script>
-    <script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-    <script src="plugins/summernote/summernote-bs4.min.js"></script>
-    <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-    <script src="plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
-    <script src="dist/js/adminlte.js"></script>
-    <script src="dist/js/pages/dashboard.js"></script>
-    <script src="dist/js/demo.js"></script>
-    <script>
-      $(function () {
-        $("#tabla1").DataTable({
-          "responsive": true,
-          "autoWidth": false,
-        });
-        $('#example2').DataTable({
-          "paging": true,
-          "lengthChange": false,
-          "searching": false,
-          "ordering": true,
-          "info": true,
-          "autoWidth": false,
-          "responsive": true,
-        });
-      });
-    </script>
-    <script>
-      $(function () {
-        $('[data-mask]').inputmask()
-      })
-    </script>
-  </body>
+    <div th:replace="includes/scripts"></div>
+</body>
 </html>

@@ -1,131 +1,95 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <title>Usuarios</title>
-<div th:replace="includes/head::home"></div>
-<style>
-  .custom-input-file {
-      color: rgb(21, 186, 252);
-      cursor: pointer;
-      font-size: 18px;
-      font-weight: bold;
-      margin: 0 auto 0;
-      /* min-height: 15px; */
-      overflow: hidden;
-      /* padding: 10px; */
-      position: relative;
-      text-align: center;
-      /* width: 400px; */
-  }
-
-  .custom-input-file .input-file {
-      border: 10000px solid transparent;
-      cursor: pointer;
-      font-size: 10000px;
-      margin: 0;
-      opacity: 0;
-      outline: 0 none;
-      padding: 0;
-      position: absolute;
-      right: -1000px;
-      top: -1000px;
-  }
-</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="plugins/sweetalert2/sweetalert2.min.css">
+<div th:replace="includes/css"></div>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
         <div th:replace="includes/navbar"></div>
         <div th:replace="includes/sidebar"></div>
         <div class="content-wrapper">
-            <div class="card card-rotating bg-gradient-light">
-                <div class="card-header">
-                  <h3 class="card-title">USUARIOS</h3>
-                  <div class="card-tools">
-                    <ul class="nav nav-pills ml-auto">
-                      <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#nuevo">
-                        Nuevo
-                      </button>
-                    </ul>
+          <section class="content">
+            <div class="container-fluid">
+              <div class="card card-rotating bg-gradient-light">
+                  <div class="card-header">
+                    <h3 class="card-title">USUARIOS</h3>
+                    <div class="card-tools">                      
+                      <ul class="nav nav-pills ml-auto">
+                        <button sec:authorize="hasAuthority('ROL_ADMIN')" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#nuevo">
+                          Nuevo callcenter
+                        </button>
+                      </ul>
+                    </div>
                   </div>
-                </div>
-                <div class="card-body">
-                  <table id="tabla1" class="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                      <th>NOMBRE</th>
-                      <th>HABILITADO</th>
-                      <th>ROL</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                      <tr th:if="${usuarios.empty}">
-                        <td colspan="2"> No hay usuarios registrados </td>
-                      </tr>
-                      <tr th:each="user :${usuarios}">
-                        <td><span th:text="${user.username}"> username </span></td>
-                        <td><span th:text="${user.enabled}"> enabled </span></td>
-                        <td>
-                          <span th:each="auth : ${user.authority}">
-                            <h5 th:text="${auth.authority}"></h5>
-                          </span>
-                        </td>
-                        
-                      </tr>
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                      <th>NOMBRE</th>
-                      <th>HABILITADO</th>
-                      <th>ROL</th>
-                    </tr>
-                    </tfoot>
-                  </table>
-                </div>
-                <div class="modal fade" id="nuevo" data-backdrop="false">
-                  <div class="modal-dialog modal-xl">
-                    <div class="modal-content">
-                      <form class="form-signin" th:action="@{/registrousuario}" th:object=${newusuario} enctype="multipart/form-data" method="post" novalidate>
-                        <div class="modal-header">
-                          <h4 class="modal-title">REGISTRO DE USUARIOS</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                              <input th:field="*{username}" type="text" class="form-control validate" placeholder="Usuario" required>
+                  <div class="modal fade" id="nuevo">
+                    <div class="modal-dialog modal-xl">
+                      <div class="modal-content">
+                        <form class="form-signin" th:action="@{/registrousuario}" th:object="${user}" method="post" novalidate>
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 mx-auto">
+                                <div class="form-group">
+                                  <h3>Registra un nuevo callcenter</h3>
+                                </div>
+                                <div >
+                                  <div class="form-group">
+                                    <div th:if="${repetido}" class="alert alert-danger" role="alert">Correo electronico ya registrado</div>
+                                    <input th:field="*{username}" type="text" class="form-control validate" id="exampleInputEmail1" placeholder="Nombre de usuario" required>
+                                  </div>
+                                  <div class="form-group">
+                                    <input type="text" class="form-control validate" id="password" name="password" placeholder="Contraseña" required>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <div class="text-center">
+                                    <button type="submit" class="btn btn-block btn-outline-primary swalDefaultInfo">Registrar</button>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
-                            <div class="form-group">
-                              <input th:field="*{password}" type="text" class="form-control validate" placeholder="Contraseña" required>
-                            </div>
-                            <div class="form-group">
-                              <select name="select" id="select" data-placeholder="Selecciona rol" class="form-control select2 form-control validate" required>
-                                <option th:each="tipo :${roles}" th:value="${tipo.id}" th:text="${tipo.authority}"></option>
-                              </select>
-                            </div>
-                            <!-- <div class="form-group">
-                              <input type="file" name="file" class="file-input form-control validate" id="file" required>
-                            </div> -->
-                            <div class="form-group custom-input-file btn btn-outline-primary col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto">
-                              <input type="file" name="file" id="file" class="input-file form-control validate" value="" onchange="myFunction()" required>
-                              <p id="div">Subir archivo</p>
-                            </div>
-                        </div>
-                        <div class="modal-footer justify-content-between">
-                          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                          <button type="submit" class="btn btn-primary">Registrar</button>
-                        </div>
-                      </form>
+                          </div>
+                        </form>
                       </div>
                     </div>
-                </div>
+                  </div>
+                  <div class="card-body">
+                    <table id="tabla1" class="table table-bordered table-striped">
+                      <thead>
+                      <tr>
+                        <th>nombre</th>
+                        <th>habilitados</th>
+                        <th>imagen establecida</th>
+                        <th></th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                          <tr th:if="${usuarios.empty}">
+                              <td colspan="3"> No hay usuarios registrados </td>
+                          </tr>
+                          <tr th:each="usuario :${usuarios}" th:class="${usuario.enabled}?table-primary:table-warning">
+                            <td><span th:text="${usuario.username}"> Authority </span></td>
+                            <td><span th:text="${usuario.enabled}?'SI':'NO'"> Authority </span></td>
+                            <td><span th:text="${usuario.imagen}==null?'NO':'SI'"> Authority </span></td>
+                            <td class="text-center py-0 align-middle">
+                              <div class="btn-group btn-group-sm">
+                                <a sec:authorize="hasAuthority('ROL_ADMIN')" th:onclick="eliminarusuario([[${usuario.id}]])" th:class="${usuario.enabled}?'btn btn-danger':'btn btn-primary'"><i th:class="${usuario.enabled}?'fas fa-trash':'fas fa-redo-alt'"></i></a>
+                              </div>
+                            </td>
+                          </tr>
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
             </div>
+            <div class="card text-center">
+                <p>Los usuario marcados en amarillo no están habilitados.</p>
+            </div>
+          </section>
         </div>
-        <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
-        <div th:replace="includes/footer::home"></div>
-        <div th:replace="includes/footer::script2"></div>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-        <script src="scripts/funciones.js"></script>
-        <script>
-          function myFunction() {
-            var x = document.getElementById("file").value;
-            document.getElementById("div").textContent = x.split("fakepath");
-          }
-        </script>
     </div>
+    <div th:replace="includes/scripts"></div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="dist/js/funcionesextra.js"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <title>Pedidos</title>
-<div th:replace="includes/head::home"></div>
+<div th:replace="includes/css"></div>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
         <div th:replace="includes/navbar"></div>
@@ -28,17 +28,17 @@
                           <tr th:if="${pedidos.empty}">
                               <td colspan="5"> No hay ordenes registrados </td>
                           </tr>
-                          <tr th:each="pedido :${pedidos}" th:class="${pedido.horaEntrega}?table-primary:table-warning">
+                          <tr th:each="pedido :${pedidos}" th:class="${pedido.horaentrega}?table-primary:table-warning">
                               <td><span th:text="${pedido.fecha}"> Authority </span></td>
-                              <td><span th:text="${pedido.horaPedido}"> Authority </span></td>
-                              <td><span th:text="${pedido.horaRecoleccion}"> Authority </span></td>
-                              <td><span th:text="${pedido.horaEntrega}"> Authority </span></td>
+                              <td><span th:text="${pedido.horapedido}"> Authority </span></td>
+                              <td><span th:text="${pedido.horarecoleccion}"> Authority </span></td>
+                              <td><span th:text="${pedido.horaentrega}"> Authority </span></td>
                               <td><span th:text="${pedido.total}"> Authority </span></td>
                               <td class="text-center py-0 align-middle">
                                 <div class="btn-group btn-group-sm">
                                   <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                                  <a href="#" class="btn btn-warning"><i class="fas fa-edit"></i></a>
-                                  <a th:onclick="eliminarOrden([[${pedido.id}]])" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                  <a sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')" href="#" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                  <a sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')" th:onclick="eliminarOrden([[${pedido.id}]])" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                                 </div>
                               </td>
                           </tr>
@@ -59,11 +59,7 @@
             </div>
           </div>
         </div>
-        <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
-        <div th:replace="includes/footer::home"></div>
-        <div th:replace="includes/footer::script2"></div>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-        <script src="scripts/funciones.js"></script>
+        <div th:replace="includes/scripts"></div>
     </div>
 </body>
 </html>

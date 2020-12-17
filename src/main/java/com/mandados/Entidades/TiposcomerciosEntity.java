@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 @Entity
 @Table(name = "Tipos_comercios")
-public class Tipos_comerciosEntity {
+public class TiposcomerciosEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;

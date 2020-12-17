@@ -79,7 +79,7 @@
             <center>
               <h3> No hay productos relacionados con su busqueda</h3>
               <h4> Intenta buscar algo diferente</h4>
-              <form class="text-center" style="color: #757575;" action="buscarproductoo">
+              <form class="text-center" style="color: #757575;" action="spr">
                 <!-- Radio -->
                 <div class="form-check mb-4">
                   <input class="form-check-input" name="group1" type="radio" id="radio-179" value="mandado" checked>
@@ -111,7 +111,7 @@
       <div class="card filter-container">
         <div class="row container">
           <div  th:each="comercio:${comercios}" class="profile-card-4 text-center col-xl-3 col-md-4 col-sm-6 mx-auto ">
-            <form action="buscarproductoo">
+            <form action="spr">
               <input type="hidden" name="group1" id="group1" value="noObtain">
               <input type="hidden" name="buscar" id="buscar" th:value="${buscar}">
               <input type="hidden" name="com" id="com" th:value="${comercio.nombre}">

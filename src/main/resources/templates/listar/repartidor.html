@@ -1,137 +1,209 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<title>Repartidores</title>
-<div th:replace="includes/head::home"></div>
+<title>Repartidor</title>
+<div th:replace="includes/css"></div>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
         <div th:replace="includes/navbar"></div>
         <div th:replace="includes/sidebar"></div>
         <div class="content-wrapper">
-          <div class="card card-rotating bg-gradient-light">
-            <div class="card-body">
-              <div class="card card-primary card-outline">
-                  <div class="card-header">
-                    <h3 class="card-title">REPARTIDORES</h3>
-                    <div class="card-tools">
-                      <ul class="nav nav-pills ml-auto">
-                        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#nuevo">
-                          Nuevo
-                        </button>
-                      </ul>
+            <div class="card card-rotating bg-gradient-light">
+                <div class="card-body">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                          <h3 class="card-title">REPARTIDORES</h3>
+                          <div class="card-tools">
+                            <ul class="nav nav-pills ml-auto">
+                              <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#nuevo">
+                                Nuevo
+                              </button>
+                            </ul>
+                          </div>
+                        </div>
+                        <div class="card-body table-responsive p-0" style="height: 300px;">
+                          <table class="table table-bordered table-striped">
+                            <thead>
+                              <tr>
+                                <th>nombre</th>
+                                <th>calle</th>
+                                <th>numero</th>
+                                <th>colonia</th>
+                                <th>municipio</th>
+                                <th>telefono</th>
+                                <th>email</th>
+                                <th></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr th:if="${repartidores.empty}">
+                                <td colspan="9"> No hay repartidores registrados </td>
+                              </tr>
+                              <tr th:each="r :${repartidores}" th:class="${r.estatus}?table-primary:table-warning">
+                                <td>
+                                  <span th:text="${r.nombre}"> Authority </span>
+                                  <span th:text="${r.primerapellido}"> Authority </span>
+                                  <span th:text="${r.segundoapellido}"> Authority </span>
+                                </td>
+                                <td><span th:text="${r.calle}"> Authority </span></td>
+                                <td><span th:text="${r.numero}"> Authority </span></td>
+                                <td><span th:text="${r.colonia}"> Authority </span></td>
+                                <td><span th:text="${r.municipio}"> Authority </span></td>
+                                <td><span th:text="${r.telefono}"> Authority </span></td>
+                                <td><span th:text="${r.email}"> Authority </span></td>
+                                <td class="text-center py-0 align-middle">
+                                  <div class="btn-group btn-group-sm">
+                                    <a class="btn btn-info" data-toggle="modal" th:data-target="'#modal-' + ${r.id}"><i class="fas fa-eye"></i></a>
+                                    <a class="btn btn-warning" data-toggle="modal" th:data-target="'#modal-editar-' + ${r.id}"><i class="fas fa-edit"></i></a>
+                                    <a th:onclick="eliminarRepartidor([[${r.id}]])" th:class="${r.estatus}?'btn btn-danger':'btn btn-primary'"><i th:class="${r.estatus}?'fas fa-trash':'fas fa-redo-alt'"></i></a>
+                                  </div>
+                                  <div class="modal fade" th:id="'modal-' + ${r.id}" data-backdrop="false">
+                                    <div class="modal-dialog">
+                                      <div class="modal-content">
+                                        <div class="modal-header text-center">
+                                          <h4 class="modal-title col-12 text-center" th:text="${r.nombre+' '+r.primerapellido+' '+r.segundoapellido}">Default Modal</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                          <h5>INFORMACION</h5>
+                                          <form action=""></form>
+                                          <p> <b> Direccion </b> </p>
+                                          <p th:text="${'Calle '+r.calle+' #'+r.numero+', Colonia '+r.colonia}">One fine body&hellip;</p>
+                                          <p> <b> Telefono </b> </p>
+                                          <p th:text="${r.telefono}">One fine body&hellip;</p>
+                                          <p> <b> Correo </b> </p>
+                                          <p th:text="${r.email}">One fine body&hellip;</p>
+                                          <!-- <p th:text="$comercio.sucursales.size">One fine body&hellip;</p> -->
+                                        </div>
+                                        <div class="modal-footer justify-content-between">
+                                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="modal fade" th:id="'modal-editar-' + ${r.id}" data-backdrop="false">
+                                    <div class="modal-dialog modal-xl">
+                                      <div class="modal-content">
+                                        <form class="form-signin" th:action="@{/editarrepartidor(id=${r.id})}" method="post" novalidate>
+                                          <div class="modal-header">
+                                            <h4 class="modal-title col-12 text-center">EDITAR REPARTIDOR <p th:text="${r.nombre}"></p></h4>
+                                            <input type="hidden" name="id" th:value="${r.id}">
+                                          </div>
+                                          <div class="modal-body">
+                                              <div class="form-group">
+                                                  <div class="row">
+                                                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mx-auto">
+                                                          <input th:value="${r.nombre}" id="nombre" name="nombre" type="text" class="form-control validate" placeholder="Nombre" required>
+                                                      </div>
+                                                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mx-auto">
+                                                          <input th:value="${r.primerapellido}" id="primerapellido" name="primerapellido" type="text" class="form-control validate" placeholder="Primer apellido" required>
+                                                      </div>
+                                                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mx-auto">
+                                                          <input th:value="${r.segundoapellido}" id="segundoapellido" name="segundoapellido" type="text" class="form-control validate" placeholder="Segundo apellido" required>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                              <div class="form-group">
+                                                <input th:value="${r.telefono}" id="telefono" name="telefono" type="tel" class="form-control validate" data-inputmask='"mask": "(999) 999-9999"' data-mask  placeholder="Telefono" required>
+                                              </div>
+                                              <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                                        <input th:value="${r.calle}" type="text" name="calle" id="calle" class="form-control validate" placeholder="Calle" required>
+                                                    </div>
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                                        <input th:value="${r.numero}" type="number" name="numero" id="numero" class="form-control validate" placeholder="Numero" required>
+                                                    </div>
+                                                </div>
+                                              </div>
+                                              <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                                        <input th:value="${r.colonia}" type="text" name="colonia" id="colonia" class="form-control validate" placeholder="Colonia" required>
+                                                    </div>
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                                        <input th:value="${r.municipio}"type="text" name="municipio" id="municipio" class="form-control validate" placeholder="Municipio" required>
+                                                    </div>
+                                                </div>
+                                              </div>
+                                          </div>
+                                          <div class="modal-footer justify-content-between">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn btn-primary">Editar</button>
+                                          </div>
+                                        </form>
+                                        </div>
+                                      </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                     </div>
-                  </div>
-                  <div class="card-body table-responsive p-0" style="height: 300px;">
-                    <table class="table table-bordered table-striped">
-                      <thead>
-                        <tr>
-                          <th>nombre</th>
-                          <th>calle</th>
-                          <th>numero</th>
-                          <th>colonia</th>
-                          <th>municipio</th>
-                          <th>telefono</th>
-                          <th>email</th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr th:if="${repartidores.empty}">
-                          <td colspan="9"> No hay repartidores registrados </td>
-                        </tr>
-                        <tr th:each="r :${repartidores}">
-                          <td>
-                            <span th:text="${r.nombre}"> Authority </span>
-                            <span th:text="${r.primer_apellido}"> Authority </span>
-                            <span th:text="${r.segundo_apellido}"> Authority </span>
-                          </td>
-                          <td><span th:text="${r.calle}"> Authority </span></td>
-                          <td><span th:text="${r.numero}"> Authority </span></td>
-                          <td><span th:text="${r.colonia}"> Authority </span></td>
-                          <td><span th:text="${r.municipio}"> Authority </span></td>
-                          <td><span th:text="${r.telefono}"> Authority </span></td>
-                          <td><span th:text="${r.email}"> Authority </span></td>
-                          <td class="text-center py-0 align-middle">
-                            <div class="btn-group btn-group-sm">
-                              <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                              <a href="#" class="btn btn-warning"><i class="fas fa-edit"></i></a>
-                              <a th:onclick="eliminarRepartidor([[${r.id}]])" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-              </div>
+                </div>
             </div>
+            <div class="modal fade" id="nuevo" data-backdrop="false">
+                <div class="modal-dialog modal-xl">
+                  <div class="modal-content">
+                    <form class="form-signin" th:action="@{/registrorepartidor}" th:object=${repartidor} method="post" novalidate>
+                      <div class="modal-header">
+                        <h4 class="modal-title">REGISTRO DE REPARTIDOR</h4>
+                      </div>
+                      <div class="modal-body">
+                          <div class="form-group">
+                              <div class="row">
+                                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mx-auto">
+                                      <input th:field="*{nombre}" type="text" class="form-control validate" placeholder="Nombre" required>
+                                  </div>
+                                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mx-auto">
+                                      <input th:field="*{primerapellido}" type="text" name="primer_apellido" id="primer_apellido" class="form-control validate" placeholder="Primer apellido" required>
+                                  </div>
+                                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mx-auto">
+                                      <input th:field="*{segundoapellido}" type="text" name="segundo_apellido" id="segundo_apellido" class="form-control validate" placeholder="Segundo apellido">
+                                  </div>
+                              </div>
+                          </div>
+                          <div th:if="${repetido}" class="alert alert-danger" role="alert">Correo electronico ya registrado</div>
+                          <div class="form-group">
+                              <input th:field="*{email}" type="email" id="email" name="email" class="form-control validate" placeholder="Correo" required>
+                          </div>
+                          <div class="form-group">
+                              <input th:field="*{telefono}" type="tel" class="form-control validate" data-inputmask='"mask": "(999) 999-9999"' data-mask  placeholder="Telefono" required>
+                          </div>
+                          <div class="form-group">
+                              <div class="row">
+                                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                      <input th:field="*{calle}" type="text" name="calle" id="calle" class="form-control validate" placeholder="Calle" required>
+                                  </div>
+                                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                      <input th:field="*{numero}" type="number" name="numero" id="numero" class="form-control validate" placeholder="Numero" required>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <div class="row">
+                                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                      <input th:field="*{colonia}" type="text" name="colonia" id="colonia" class="form-control validate" placeholder="Colonia" required>
+                                  </div>
+                                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                      <input th:field="*{municipio}" type="text" name="municipio" id="municipio" class="form-control validate" placeholder="Municipio" required>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Registrar</button>
+                      </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+            <div class="card text-center">
+              <p>Los repartidores marcados en amarillo están inactivos.</p>
           </div>
         </div>
-        <div class="modal fade" id="nuevo" data-backdrop="false">
-          <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-              <form class="form-signin" th:action="@{/registrorepartidor}" th:object=${repartidor} method="post" novalidate>
-                <div class="modal-header">
-                  <h4 class="modal-title">REGISTRO DE REPARTIDOR</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mx-auto">
-                                <input th:field="*{nombre}" type="text" class="form-control validate" placeholder="Nombre" required>
-                            </div>
-                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mx-auto">
-                                <input th:field="*{primer_apellido}" type="text" name="primer_apellido" id="primer_apellido" class="form-control validate" placeholder="Primer apellido" required>
-                            </div>
-                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mx-auto">
-                                <input th:field="*{segundo_apellido}" type="text" name="segundo_apellido" id="segundo_apellido" class="form-control validate" placeholder="Segundo apellido">
-                            </div>
-                        </div>
-                    </div>
-                    <div th:if="${repetido}" class="alert alert-danger" role="alert">Correo electronico ya registrado</div>
-                    <div class="form-group">
-                        <input th:field="*{email}" type="email" id="email" name="email" class="form-control validate" placeholder="Correo" required>
-                    </div>
-                    <div class="form-group">
-                        <input th:field="*{telefono}" type="tel" class="form-control validate" data-inputmask='"mask": "(999) 999-9999"' data-mask  placeholder="Telefono" required>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
-                                <input th:field="*{calle}" type="text" name="calle" id="calle" class="form-control validate" placeholder="Calle" required>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
-                                <input th:field="*{numero}" type="number" name="numero" id="numero" class="form-control validate" placeholder="Numero" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
-                                <input th:field="*{colonia}" type="text" name="colonia" id="colonia" class="form-control validate" placeholder="Colonia" required>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
-                                <input th:field="*{municipio}" type="text" name="municipio" id="municipio" class="form-control validate" placeholder="Municipio" required>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                  <button type="submit" class="btn btn-primary">Registrar</button>
-                </div>
-              </form>
-              </div>
-            </div>
-        </div>
-        <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
-        <div th:replace="includes/footer::home"></div>
-        <div th:replace="includes/footer::script2"></div>
+        <div th:replace="includes/scripts"></div>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-        <script src="scripts/funciones.js"></script>
-        <script th:if="${error}">
-          Swal.fire({title:'No se pudo registrar!', text:'correo repetido', allowOutsideClick: false, icon:'error'})
-        </script>
-        <script th:if="${noerror}">
-          window.location.href = "/listarepartidor";
-        </script>
+        <script src="dist/js/funcionesextra.js"></script>
     </div>
 </body>
 </html>

@@ -1,66 +1,110 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<title>Roles</title>
-<div th:replace="includes/head::home"></div>
+<title>Authorities</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="plugins/sweetalert2/sweetalert2.min.css">
+<div th:replace="includes/css"></div>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
         <div th:replace="includes/navbar"></div>
         <div th:replace="includes/sidebar"></div>
         <div class="content-wrapper">
-            <div class="card card-rotating bg-gradient-light">
-                <div class="card-header">
-                  <h3 class="card-title">ROLES(AUTHORITIES)</h3>
-                  <div class="card-tools">
-                    <ul class="nav nav-pills ml-auto">
-                      <li class="nav-item">
-                        <!-- <button type="button" class="btn btn-default" data-toggle="modal" data-target="#nuevo">
+          <section class="content">
+            <div class="container-fluid">
+              <div class="card card-rotating bg-gradient-light">
+                  <div class="card-header">
+                    <h3 class="card-title">ROLES</h3>
+                    <div class="card-tools">                      
+                      <ul class="nav nav-pills ml-auto">
+                        <button sec:authorize="hasAuthority('ROL_ADMIN')" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#nuevo">
                           Nuevo
-                        </button> -->
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="card-body">
-                  <table id="tabla1" class="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                      <th>authority</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:if="${roles.empty}">
-                            <td colspan="2"> No hay roles registrados </td>
-                        </tr>
-                        <tr th:each="rol :${roles}">
-                            <td><span th:text="${rol.authority}"> Authority </span></td>
-                        </tr>
-                    </tbody>
-                  </table>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="nuevo" data-backdrop="false">
-          <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-              <form class="form-signin" th:action="@{/registroauthority}" th:object=${rol} method="post" novalidate>
-                <div class="modal-header">
-                  <h4 class="modal-title">REGISTRO DE ROLES</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <input th:field="*{authority}" type="text" class="form-control validate" placeholder="Rol" required>
+                        </button>
+                      </ul>
                     </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                  <button type="submit" class="btn btn-primary">Registrar</button>
-                </div>
-              </form>
+                  </div>
+                  <div class="modal fade" id="nuevo">
+                    <div class="modal-dialog modal-xl">
+                      <div class="modal-content">
+                        <form class="form-signin" th:action="@{/registroauthority}" th:object="${authority}" method="post" novalidate>
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 mx-auto">
+                                <div class="form-group">
+                                  <h3>Registrar roles</h3>
+                                </div>
+                                <div >
+                                  <div class="form-group">
+                                    <input id="nombre" name="nombre" type="text" class="form-control validate" placeholder="Nombre" required>
+                                  </div>
+                                  <!-- <div class="form-group">
+                                    <input id="descripcion" name="descripcion" type="text" class="form-control validate" placeholder="Descripcion" required>
+                                  </div> -->
+                                </div>
+                                <div class="form-group">
+                                  <div class="text-center">
+                                    <button type="submit" class="btn btn-block btn-outline-primary swalDefaultInfo">Registrar</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <table id="tabla1" class="table table-bordered table-striped">
+                      <thead>
+                      <tr>
+                        <th>nombre</th>
+                        <th></th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                          <tr th:if="${authorities.empty}">
+                              <td colspan="3"> No hay authorities registrados </td>
+                          </tr>
+                          <tr th:each="auth :${authorities}">
+                            <td><span th:text="${auth.authority}"> Authority </span></td>
+                            <td class="text-center py-0 align-middle">
+                              <div class="btn-group btn-group-sm">
+                                <a sec:authorize="hasAuthority('ROL_ADMIN')" class="btn btn-warning" data-toggle="modal" th:data-target="'#modal-editar-' + ${auth.id}"><i class="fas fa-edit"></i></a>
+                                <div class="modal fade" th:id="'modal-editar-' + ${auth.id}" data-backdrop="false">
+                                  <div class="modal-dialog modal-xl">
+                                    <div class="modal-content">
+                                      <form class="form-signin" th:action="@{/editarauthority(id=${auth.id})}" method="post" novalidate>
+                                        <div class="modal-header">
+                                          <h4 class="modal-title">EDITAR AUTHORITIES <p th:text="${auth.authority}"></p></h4>
+                                          <input type="hidden" name="id" th:value="${auth.id}">
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto">
+                                                        <input th:value="${auth.authority}" id="nombre" name="nombre" type="text" class="form-control validate" placeholder="Nombre" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer justify-content-between">
+                                          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                          <button type="submit" class="btn btn-primary">Editar</button>
+                                        </div>
+                                      </form>
+                                      </div>
+                                    </div>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                      </tbody>
+                    </table>
+                  </div>
               </div>
             </div>
+          </section>
         </div>
-        <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
-        <div th:replace="includes/footer::home"></div>
-        <div th:replace="includes/footer::script2"></div>
     </div>
+    <div th:replace="includes/scripts"></div>
 </body>
 </html>
