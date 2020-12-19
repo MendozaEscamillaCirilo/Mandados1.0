@@ -81,4 +81,16 @@ public class ProductoController {
         productorepository.save(producto);
         return listarProducto(model, auth);
     }
+
+    @GetMapping("/catalogoo")
+    public String catalogoo(Model model, @RequestParam("email") String comercio, Authentication auth){
+        System.out.println("HOLAAAAAAAAAAAAAAA"+comercio);
+        ComerciosEntity comerciosEntity =  comerciorepository.findByEmail(comercio);
+        model.addAttribute("productos", productorepository.findByComercio(comerciosEntity));
+        model.addAttribute("categorias", comerciosEntity.getCategorias());
+        model.addAttribute("activo", true);
+        model.addAttribute("producto", new ProductosEntity());
+        metodosextra.obtUsuario(model, auth);
+        return "listar/producto"; 
+    }
 }

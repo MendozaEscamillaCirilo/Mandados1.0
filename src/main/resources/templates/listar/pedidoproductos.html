@@ -1,0 +1,309 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<title>Productos</title>
+<style>
+  .custom-input-file {
+      color: rgb(21, 186, 252);
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+      margin: 0 auto 0;
+      /* min-height: 15px; */
+      overflow: hidden;
+      /* padding: 10px; */
+      position: relative;
+      text-align: center;
+      /* width: 400px; */
+  }
+
+  .custom-input-file .input-file {
+      border: 10000px solid transparent;
+      cursor: pointer;
+      font-size: 10000px;
+      margin: 0;
+      opacity: 0;
+      outline: 0 none;
+      padding: 0;
+      position: absolute;
+      right: -1000px;
+      top: -1000px;
+  }
+</style>
+<div th:replace="includes/css"></div>
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+        <div th:replace="includes/navbar"></div>
+        <div th:replace="includes/sidebar"></div>
+        <div class="content-wrapper">
+            <div class="card card-rotating bg-gradient-light">
+                <div class="card-body">
+                  <div class="card card-primary card-outline">
+                    <div class="card-header">
+                      <h3 class="card-title"><i class="fas fa-edit"></i>PRODUCTOS</h3>
+                      <div class="card-tools">
+                        <ul class="nav nav-pills ml-auto">
+                          <li class="nav-item">
+                            <button sec:authorize="hasAuthority('ROL_COMERCIO')" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#nuevo">
+                              Nuevo
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <h4>Categorias</h4>
+                      <div class="row">
+                        <div class="col-5 col-sm-3">
+                          <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+                            <a class="nav-link" th:id="todo" data-toggle="pill" href="#vert-tabs-todo" role="tab" aria-controls="vert-tabs-todo" aria-selected="false">TODO</a>
+                            <a th:each="categoria:${categorias}" class="nav-link" th:id="${categoria.nombre}" data-toggle="pill" th:href="'#vert-tabs-' + ${categoria.id}" 
+                                role="tab" th:aria-controls="'vert-tabs-' + ${categoria.id}" aria-selected="false" th:text=${categoria.nombre}>Settings</a>
+                          </div>
+                        </div>
+                        <div class="col-7 col-sm-9">
+                          <div class="tab-content" id="vert-tabs-tabContent">
+                            <div class="tab-pane text-left fade show active" id="vert-tabs-todo" role="tabpanel" aria-labelledby="todo" >
+                              <div class="row d-flex align-items-stretch">
+                                <div th:each="producto :${productos}" class="col-sm-6 col-md-6 d-flex align-items-stretch fade show">
+                                  <div class="card bg-light">
+                                    <div class="card-header text-muted border-bottom-0" th:text="${producto.categoria.nombre}"></div>
+                                    <div class="card-body pt-0">
+                                      <div class="row">
+                                        <div class="col-7">
+                                          <h2 class="lead"><b th:text="${producto.nombre}"></b></h2>
+                                          <p class="text-muted text-sm" th:text="${producto.descripcion}"><b></b></p>
+                                          <p sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')" class="text-muted text-sm" th:text="${producto.comercio.nombre}"><b></b></p>
+                                        </div>
+                                        <div class="col-5 text-center">
+                                          <img th:src="${producto.imagen}" alt="" class="img-circle img-fluid">
+                                        </div>
+                                      </div>
+                                      <p th:class="${producto.estatus}?table-primary:table-warning" th:text="${producto.estatus}?'Este producto se muestra a los clientes':'Este producto no se muestra a los clientes'"></p>
+                                    </div>
+                                    <div class="card-footer">
+                                      <div sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_COMERCIO')" class="text-right">
+                                        <a class="btn btn-sm bg-teal" data-toggle="modal" th:data-target="'#modal-editart-' + ${producto.id}">
+                                          <i class="fas fa-edit"></i>Editar
+                                        </a>
+                                        <a th:onclick="eliminarProducto([[${producto.id}]])" th:class="${producto.estatus}?'btn btn-sm btn-danger':'btn btn-sm btn-primary'">
+                                          <i class="fas fa-trash"></i><strong th:text="${producto.estatus}?'Inhabilitar':'Habilitar'"></strong>
+                                        </a>
+                                      </div>
+                                    </div>
+                                    <div class="modal fade" th:id="'modal-editart-' + ${producto.id}" data-backdrop="false">
+                                      <div class="modal-dialog modal-xl">
+                                        <div class="modal-content">
+                                          <form class="form-signin" th:action="@{/editarproducto}" enctype="multipart/form-data" method="post" novalidate>
+                                            <div class="modal-header">
+                                              <h4 class="modal-title">EDITAR PRODUCTOS(PLATILLOS, PRODUCTOS)</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto">
+                                                            <input type="hidden" name="id" th:value="${producto.id}">
+                                                            <input type="text" th:value="${producto.nombre}" id="nombre" name="nombre" class="form-control validate" placeholder="Nombre" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input th:value="${producto.precio}" type="number" id="precio" name="precio" data-inputmask-regex="[1-9]*.99" data-mask class="form-control validate" placeholder="Precio" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input th:value="${producto.contenido}" type="text" id="contenido" name="contenido" class="form-control validate" placeholder="Contenido" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input th:value="${producto.descripcion}" type="text" name="descripcion" id="descripcion" class="form-control validate" placeholder="Descripción" required>
+                                                </div>
+                                                <!-- <div class="form-group">
+                                                    <input type="file" name="file" class="file-input form-control validate" id="file" required>
+                                                </div> -->
+                                                <div class="form-group">
+                                                  <div class="row">
+                                                    <div class="btn btn-outline-primary col-xl-4 col-lg-4 col-md-4 col-sm-4 mx-auto">
+                                                      <img th:src="${producto.imagen}" width="40" alt="" class="img-circle img-fluid">
+                                                    </div>
+                                                    <div class="custom-input-file btn btn-outline-primary col-xl-8 col-lg-8 col-md-8 col-sm-8 mx-auto">
+                                                      <input type="file" name="file" id="file" class="input-file form-control validate" value="" onchange="myFunction()" required>
+                                                      <p id="div">Subir archivo</p>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer justify-content-between">
+                                              <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                              <button type="submit" class="btn btn-primary">Actualizar</button>
+                                            </div>
+                                          </form>
+                                          </div>
+                                        </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div th:each="categoria:${categorias}" class="tab-pane text-left fade show" th:id="'vert-tabs-' + ${categoria.id}" role="tabpanel" th:aria-labelledby="${categoria.nombre}" >
+                              <div class="row d-flex align-items-stretch">
+                                <div th:each="producto :${productos}" th:if="${producto.categoria.id}==${categoria.id}" class="col-sm-6 col-md-6 d-flex align-items-stretch fade show">
+                                  <div class="card bg-light">
+                                    <div class="card-header text-muted border-bottom-0" th:text="${categoria.nombre}">
+                                      Digital Strategist
+                                    </div>
+                                    <div class="card-body pt-0">
+                                      <div class="row">
+                                        <div class="col-7">
+                                          <h2 class="lead"><b th:text="${producto.nombre}">Nicole Pearson</b></h2>
+                                          <p class="text-muted text-sm" th:text="${producto.descripcion}"><b></b> Web Designer / UX / Graphic Artist / Coffee Lover </p>
+                                          <p sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')" class="text-muted text-sm" th:text="${producto.comercio.nombre}"><b></b></p>
+                                          <!-- <ul class="ml-4 mb-0 fa-ul text-muted">
+                                            <li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span> Address: Demo Street 123, Demo City 04312, NJ</li>
+                                            <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> Phone #: + 800 - 12 12 23 52</li>
+                                          </ul> -->
+                                        </div>
+                                        <div class="col-5 text-center">
+                                          <img th:src="${producto.imagen}" alt="" class="img-circle img-fluid">
+                                        </div>
+                                      </div>
+                                      <p th:class="${producto.estatus}?table-primary:table-warning" th:text="${producto.estatus}?'Este producto se muestra a los clientes':'Este producto no se muestra a los clientes'"></p>
+                                    </div>
+                                    <div class="card-footer">
+                                      <div sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_COMERCIO')" class="text-right">
+                                        <a class="btn btn-sm bg-teal" data-toggle="modal" th:data-target="'#modal-editar-' + ${producto.id}">
+                                          <i class="fas fa-edit"></i>Editar
+                                        </a>
+                                        <a th:onclick="eliminarProducto([[${producto.id}]])" th:class="${producto.estatus}?'btn btn-sm btn-danger':'btn btn-sm btn-primary'">
+                                          <i class="fas fa-trash"></i><strong th:text="${producto.estatus}?'Inhabilitar':'Habilitar'"></strong>
+                                        </a>
+                                        <button class="btn btn-outline-primary" type="submit" th:onclick="addacarrito([[${prod.id}]],[[${prod.nombre}]],[[${prod.comercio.nombre}]],[[${prod.precio}]])">
+                                            <i class="fas fa-cart-plus"></i></a>
+                                          </button>
+                                      </div>
+                                    </div>
+                                    <div class="modal fade" th:id="'modal-editar-' + ${producto.id}" data-backdrop="false">
+                                      <div class="modal-dialog modal-xl">
+                                        <div class="modal-content">
+                                          <form class="form-signin" th:action="@{/editarproducto}" enctype="multipart/form-data" method="post" novalidate>
+                                            <div class="modal-header">
+                                              <h4 class="modal-title">EDITAR PRODUCTOS(PLATILLOS, PRODUCTOS)</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto">
+                                                            <input type="hidden" name="id" th:value="${producto.id}">
+                                                            <input th:value="${producto.nombre}" id="nombre" name="nombre" type="text" class="form-control validate" placeholder="Nombre" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input th:value="${producto.precio}" type="number" id="precio" name="precio" data-inputmask-regex="[1-9]*.99" data-mask class="form-control validate" placeholder="Precio" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input th:value="${producto.contenido}" type="text" id="contenido" name="contenido" class="form-control validate" placeholder="Contenido" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input th:value="${producto.descripcion}" type="text" name="descripcion" id="descripcion" class="form-control validate" placeholder="Descripción" required>
+                                                </div>
+                                                <!-- <div class="form-group">
+                                                    <input type="file" name="file" class="file-input form-control validate" id="file" required>
+                                                </div> -->
+                                                <div class="form-group">
+                                                  <div class="row">
+                                                    <div class="btn btn-outline-primary col-xl-4 col-lg-4 col-md-4 col-sm-4 mx-auto">
+                                                      <img th:src="${producto.imagen}" width="40" alt="" class="img-circle img-fluid">
+                                                    </div>
+                                                    <div class="custom-input-file btn btn-outline-primary col-xl-8 col-lg-8 col-md-8 col-sm-8 mx-auto">
+                                                      <input type="file" name="file" id="file" class="input-file form-control validate" value="" onchange="myFunction()" required>
+                                                      <p id="div">Subir archivo</p>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer justify-content-between">
+                                              <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                              <button type="submit" class="btn btn-primary">Actualizar</button>
+                                            </div>
+                                          </form>
+                                          </div>
+                                        </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- ///////////////////////////////////////////////////////// -->
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="nuevo" data-backdrop="false">
+          <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+              <form class="form-signin" th:action="@{/registroproducto}" th:object=${producto} enctype="multipart/form-data" method="post" novalidate>
+                <div class="modal-header">
+                  <h4 class="modal-title">REGISTRO DE PRODUCTOS(PLATILLOS, PRODUCTOS)</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto">
+                                <input th:field="*{nombre}" type="text" class="form-control validate" placeholder="Nombre" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input th:field="*{precio}" type="number" id="precio" name="precio" data-inputmask-regex="[1-9]*.99" data-mask class="form-control validate" placeholder="Precio" required>
+                    </div>
+                    <div class="form-group">
+                        <input th:field="*{contenido}" type="text" id="contenido" name="contenido" class="form-control validate" placeholder="Contenido" required>
+                    </div>
+                    <div class="form-group">
+                        <input th:field="*{descripcion}" type="text" name="descripcion" id="descripcion" class="form-control validate" placeholder="Descripción" required>
+                    </div>
+                    <!-- <div class="form-group">
+                        <input type="file" name="file" class="file-input form-control validate" id="file" required>
+                    </div> -->
+                    <div class="form-group custom-input-file btn btn-outline-primary col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto">
+                      <input type="file" name="file" id="file" class="input-file form-control validate" value="" onchange="myFunction()" required>
+                      <p id="div">Subir archivo</p>
+                    </div>
+                    <div class="form-group">
+                      <select th:field="*{categoria}" data-placeholder="Selecciona rol" class="form-control validate" required>
+                          <option th:each="tipo :${categorias}" th:value="${tipo.id}" th:text="${tipo.nombre}"></option>
+                      </select>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary">Registrar</button>
+                </div>
+              </form>
+              </div>
+            </div>
+            <div class="card text-center">
+              <p>Los productos marcados en amarillo no se muestran a los clientes.</p>
+          </div>
+        </div>
+        <div th:replace="includes/footer::footer">&copy; 2016 The Static Templates</div>
+        <div th:replace="includes/scripts"></div>
+        <div th:replace="includes/formulariovalidar"></div>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <script src="dist/js/funcionesextra.js"></script>
+        <!-- <script src="plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script> -->
+        <script type="text/javascript">
+          $(document).ready(function () {
+            bsCustomFileInput.init();
+          });
+      </script>
+      <script>
+        function myFunction() {
+          var x = document.getElementById("file").value;
+          document.getElementById("div").textContent = x.split("fakepath");
+        }
+      </script>
+    </div>
+</body>
+</html>
