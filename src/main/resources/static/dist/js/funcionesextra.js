@@ -132,7 +132,7 @@ function addacarrito(id, nombre,comercio,precio){
 	Swal.fire({
 		title: 'Ingresa la cantidad',
 		input: 'number',
-		inputAttributes: { min: 1, max: 20 },
+		inputAttributes: { min: 1, max: 20, required: true },
 		showCancelButton: true,
 		confirmButtonText: 'Aceptar',
 		showLoaderOnConfirm: true,
@@ -220,10 +220,27 @@ function addacarrito(id, nombre,comercio,precio){
 	//   })
 }
 function confirmarPedido(){
-	Swal.fire('Aún esto no funciona', '', 'info')
+	// Swal.fire('Aún esto no funciona', '', 'info')
 	var tabla = document.getElementById("tablapedido");
-	console.log(tabla.children.cuerpo.innerText);
-	console.log(tabla.children.cuerpo.innerText.split('	'));
+	// var array = tabla.children.cuerpo.innerText.split('	');
+	var array = tabla.children.cuerpo.innerText;
+	const regex = /	/gi;
+	const regex2 = /\n/gi;
+	var final = array.replace(regex,'-');
+	var fin2 = final.replace(regex2,'&')
+	// console.log(tabla.children.cuerpo.innerText);
+	console.log(fin2);
+
+	$.ajax({
+		url:"/registrarpedido/"+fin2,
+		success: function(res){
+			Swal.fire('insertado correctamente!', '', 'success');
+			window.location.href = "/listapedido";
+		},
+		error: function(res){
+			Swal.fire('Sucedió un error!', '', 'error')
+		}
+	});
 	// gelatina de fresa	comercio 1	2	20
 	// document.getElementsByTagName("tablapedido")[0].setAttribute("id", "tableid");
     // document.getElementById("tableid").deleteRow(0);

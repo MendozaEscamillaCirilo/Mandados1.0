@@ -1,13 +1,22 @@
 package com.mandados.Controladores;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.mandados.Entidades.ComerciosEntity;
+import com.mandados.Entidades.PedidosEntity;
+import com.mandados.Entidades.ProductosEntity;
 import com.mandados.Repository.ComercioRepository;
 import com.mandados.Repository.PedidoRepository;
+import com.mandados.Repository.ProductoRepository;
+import com.mandados.Repository.UserRepository;
 // import com.like.mandados.Repositories.ProductoRepository;
 import com.mandados.config.MetodosExtra;
 
@@ -17,6 +26,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class PedidoController {
@@ -28,8 +38,10 @@ public class PedidoController {
     private ComercioRepository comerciorepository;
     @Autowired
     private PedidoRepository pedidorepository;
-    // @Autowired
-    // private ProductoRepository productorepository;
+    @Autowired
+    private ProductoRepository productorepository;
+    @Autowired
+    private UserRepository userrepository;
     @GetMapping("/listapedido")
     public String listarorden(Authentication auth, Model model) {
         if((auth.getAuthorities().toArray()[0]+"").equals("ROL_REPARTIDOR")){
@@ -52,5 +64,25 @@ public class PedidoController {
         }
         metodosextra.obtUsuario(model,auth);
         return "listar/pedido";	    
+    }
+    @GetMapping("/registrarpedido/{pedido}")
+    public String registrarPedido(Authentication auth, Model model, @PathVariable String pedido){
+        String [] productos = pedido.split("&");
+        double total = 0.0;
+        Set<ProductosEntity> productosdelpedido = new HashSet<ProductosEntity>();
+        for (int i = 0; i < productos.length; i++) {
+            String []producto = productos[i].split("-");
+            total+=Double.parseDouble(producto[3]);
+            productosdelpedido.add(productorepository.findByNombre(producto[0]));
+        }
+        PedidosEntity pedidoentity = new PedidosEntity();
+        pedidoentity.setProductos(productosdelpedido);
+        pedidoentity.setTotal(total);
+        pedidoentity.setFecha(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+        pedidoentity.setHorapedido(new java.sql.Time(Calendar.getInstance().getTimeInMillis()));
+        pedidoentity.setOperador(userrepository.findByUsername(auth.getName()).get());
+        pedidorepository.save(pedidoentity);
+        System.out.println(pedido);
+        return listarorden(auth, model);
     }
 }

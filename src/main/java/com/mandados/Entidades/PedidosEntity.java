@@ -8,7 +8,6 @@ public class PedidosEntity {
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
     @Column
     private java.sql.Date fecha;
     @Column
