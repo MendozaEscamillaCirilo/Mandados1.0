@@ -1,6 +1,7 @@
 package com.mandados.Controladores;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.mandados.Entidades.CategoriasEntity;
@@ -16,9 +17,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequestMapping
 public class ControladorBuscar {
     @Autowired
     private MetodosExtra metodosextra;
@@ -73,7 +76,22 @@ public class ControladorBuscar {
     }
     ////////////////////Buscar productos desde el home////////////////
     @GetMapping("/gp")
-    public String buscarProductosDesdeHome(Model model, Authentication auth){
+    public String buscarProductosDesdeHome(Model model, Authentication auth, @RequestParam("search") String producto){
+        model.addAttribute("tablavisible", true);
+        model.addAttribute("search", producto);
+        model.addAttribute("productos", productorepository.findByNombreContaining(producto));
         return clistar.home(auth, model);
+    }
+    @GetMapping("/obtcomercios")
+    public String agregaralcarrito(Model model, Authentication auth){
+        List<ComerciosEntity>lista = comerciorepository.findAll();
+        Iterator<ComerciosEntity> it = lista.iterator();
+        String respuesta = "[";
+        while (it.hasNext()) {
+            ComerciosEntity comercio = it.next();
+            respuesta += "{ nombre: '" + comercio.getNombre()+"', email: '"+comercio.getEmail()+"' },";
+        }
+        respuesta += "{}]";
+        return respuesta;
     }
 }

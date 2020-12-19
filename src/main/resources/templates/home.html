@@ -1,6 +1,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <title>Home</title>
 <div th:replace="includes/css"></div>
+<link rel="stylesheet" href="plugins/toastr/toastr.min.css">
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
         <div th:replace="includes/navbar"></div>
@@ -107,6 +108,33 @@
                       <div class="card-body"><h1>Estimado usuario su mensualidad no ha sido pagada.</h1></div>
                     </div>
                 </div>
+                <div th:if="${tablavisible}">
+                  <div class="card card-primary card-outline">
+                    <div class="card-header">
+                      <!-- <h3 class="card-title"><i class="fas fa-edit"></i>ERROR</h3> -->
+                    </div>
+                    <div class="card-body">
+                      <table id="tablapedido" class="table table-bordered table-striped">
+                          <thead>
+                              <tr>
+                                  <th>Nombre</th>
+                                  <th>Comercio</th>
+                                  <th>Cantidad</th>
+                                  <th>Total</th>
+                                  <th></th>
+                              </tr>
+                          </thead>
+                          <tbody id="cuerpo">
+                          </tbody>
+                      </table>
+                      <div id="divconfirmarpedido" class="text-center">
+                        <button class="btn btn-outline-primary" type="submit" onclick="confirmarPedido()">
+                          <i class="fas fa-cart-plus"></i></a>Confirmar pedido
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')" class="container-fluid">
                     <div class="card card-primary card-outline">
                         <div class="card-header">
@@ -140,7 +168,7 @@
                                             <td><span th:text="${prod.comercio.nombre}"></span></td>
                                             <td><span th:text="${prod.descripcion}"></span></td>
                                             <td class="text-center">
-                                                <button class="btn btn-outline-primary" type="submit">
+                                                <button class="btn btn-outline-primary" type="submit" th:onclick="addacarrito([[${prod.id}]],[[${prod.nombre}]],[[${prod.comercio.nombre}]],[[${prod.precio}]])">
                                                   <i class="fas fa-cart-plus"></i></a>
                                                 </button>
                                             </td>
@@ -156,5 +184,13 @@
     </div>
     <div th:replace="includes/scripts"></div>
     <div th:replace="includes/mascara"></div>
+    <div th:replace="includes/formulariovalidar"></div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="dist/js/funcionesextra.js"></script>
+    <script src="plugins/toastr/toastr.min.js"></script>
+    <script>
+      var divconfirmarpedido = document.getElementById("divconfirmarpedido");
+      divconfirmarpedido.hidden;
+    </script>
 </body>
 </html>
