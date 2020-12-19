@@ -137,6 +137,7 @@ function addacarrito(id, nombre,comercio,precio){
 		confirmButtonText: 'Aceptar',
 		showLoaderOnConfirm: true,
 		preConfirm: (ncantidad) => {
+			document.getElementById('divconfirmarpedido').style.display = 'block';
 			var cuerpo = document.getElementById("cuerpo");
 			var hilera = document.createElement("tr");
 		
@@ -220,5 +221,10 @@ function addacarrito(id, nombre,comercio,precio){
 }
 function confirmarPedido(){
 	Swal.fire('Aún esto no funciona', '', 'info')
-	// console.log(document.getElementById("tablapedido"));
+	var tabla = document.getElementById("tablapedido");
+	console.log(tabla.children.cuerpo.innerText);
+	console.log(tabla.children.cuerpo.innerText.split('	'));
+	// gelatina de fresa	comercio 1	2	20
+	// document.getElementsByTagName("tablapedido")[0].setAttribute("id", "tableid");
+    // document.getElementById("tableid").deleteRow(0);
 }

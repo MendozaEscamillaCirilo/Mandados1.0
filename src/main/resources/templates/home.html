@@ -108,10 +108,10 @@
                       <div class="card-body"><h1>Estimado usuario su mensualidad no ha sido pagada.</h1></div>
                     </div>
                 </div>
-                <div th:if="${tablavisible}">
+                <div id="divconfirmarpedido">
                   <div class="card card-primary card-outline">
                     <div class="card-header">
-                      <!-- <h3 class="card-title"><i class="fas fa-edit"></i>ERROR</h3> -->
+                      <h3 class="card-title"><i class="fas fa-edit"></i>PEDIDO</h3>
                     </div>
                     <div class="card-body">
                       <table id="tablapedido" class="table table-bordered table-striped">
@@ -127,7 +127,8 @@
                           <tbody id="cuerpo">
                           </tbody>
                       </table>
-                      <div id="divconfirmarpedido" class="text-center">
+                      <br>
+                      <div class="text-center">
                         <button class="btn btn-outline-primary" type="submit" onclick="confirmarPedido()">
                           <i class="fas fa-cart-plus"></i></a>Confirmar pedido
                         </button>
@@ -188,9 +189,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="dist/js/funcionesextra.js"></script>
     <script src="plugins/toastr/toastr.min.js"></script>
-    <script>
-      var divconfirmarpedido = document.getElementById("divconfirmarpedido");
-      divconfirmarpedido.hidden;
-    </script>
+    <script>document.getElementById('divconfirmarpedido').style.display = 'none';</script>
 </body>
 </html>
