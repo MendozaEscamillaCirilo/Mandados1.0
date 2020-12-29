@@ -127,8 +127,7 @@ function eliminarProducto(id){
 		}
 	  })
 }
-function addacarrito(id, nombre,comercio,precio){
-	let cantidad = 0;
+function addacarrito(id){
 	Swal.fire({
 		title: 'Ingresa la cantidad',
 		input: 'number',
@@ -137,111 +136,125 @@ function addacarrito(id, nombre,comercio,precio){
 		confirmButtonText: 'Aceptar',
 		showLoaderOnConfirm: true,
 		preConfirm: (ncantidad) => {
-			document.getElementById('divconfirmarpedido').style.display = 'block';
-			var cuerpo = document.getElementById("cuerpo");
-			var hilera = document.createElement("tr");
-		
-			var celda = document.createElement("td");
-			var txtnombre = document.createTextNode(nombre);
-			celda.appendChild(txtnombre);
-			hilera.appendChild(celda);
-		
-			var celda1 = document.createElement("td");
-			var txtcomercio = document.createTextNode(comercio);
-			celda1.appendChild(txtcomercio);
-			hilera.appendChild(celda1);
-		
-			var celda2 = document.createElement("td");
-			var txtcantidad = document.createTextNode(`${ncantidad}`);
-			celda2.appendChild(txtcantidad);
-			hilera.appendChild(celda2);
-		
-			var celda3 = document.createElement("td");
-			var txttotal = document.createTextNode(precio * `${ncantidad}`);
-			celda3.appendChild(txttotal);
-			hilera.appendChild(celda3);
-		
-			var celda3 = document.createElement("td"); celda3.className = "text-center";
-			var boton = document.createElement("button"); 
-			boton.className = "btn btn-outline-danger";
-			var ii = document.createElement("i"); ii.className = "fas fa-trash";
-			boton.appendChild(ii);
-			celda3.appendChild(boton);
-			hilera.appendChild(celda3);
-		
-			cuerpo.appendChild(hilera);
+			var ids = "";
+			var valores = "";
+			if($('#tablapedido').length){
+				for (let i = 0; i < $('#tablapedido')[0].children[1].children.length; i++) {
+					ids += "," + $('#tablapedido')[0].children[1].children[i].cells[0].innerText;
+					valores += "," + $('#tablapedido')[0].children[1].children[i].cells[3].innerText;
+				}
+			}else{
+				ids = "1000";
+			}
+			$('#divconfirmarpedido').load("/cargartablaproductosdepedido/"+id 
+									+ "?cantidad="+ncantidad
+									+ "&lista="+ids
+									+ "&cantidades="+valores
+									);
 		}
 	  })
-	
-
-	// let datos = '';
-	// console.log('id =>' + id);
-	// console.log('nombre => ' + nombre);
-	// let paratoast = (datos===undefined) ? true : false;
-	// console.log(this.paratoast);
-	// console.log(this.datos);
-	// if (this.datos===undefined) { this.datos = nombre; }else{this.datos += ', ' + nombre;}
-	
-	// console.log(this.datos);
-	// if(paratoast){
-	// 	$(document).Toasts('create', {
-	// 	body: this.datos,
-	// 	title: 'Pedido',
-	// 	subtitle: 'Subtitle',
-	// 	icon: 'fas fa-cart-plus fa-lg',
-	// 	});
-	// }
-	// Swal.fire({
-	// 	title: '¿Está seguro?',
-	// 	text: 'No se va a borrar',
-	// 	showDenyButton: true,
-	// 	confirmButtonText: `Aceptar`,
-	// 	denyButtonText: `Cancelar`,
-	// 	allowOutsideClick: false
-	//   }).then((result) => {
-	// 	if (result.isConfirmed) {
-	// 		$.ajax({
-	// 			url:"/obtcomercios/",
-	// 			success: function(res){
-	// 				console.log(res);
-	// 				Swal.fire('eliminado correctamente!', '', 'success');
-	// 				// window.location.href = "/listaproducto";
-	// 			},
-	// 			error: function(res){
-	// 				console.log(res);
-	// 				console.log(res.responseText);
-	// 				Swal.fire('Sucedió un error!', '', 'error')
-	// 			}
-	// 		});
-	// 	} else if (result.isDenied) {
-	// 		console.log("inside else");
-	// 	  	Swal.fire('No se eliminará el comercio', '', 'info')
-	// 	}
-	//   })
+}
+function eliminardecarrito(){
+	console.log('en eliminarr');
 }
 function confirmarPedido(){
-	// Swal.fire('Aún esto no funciona', '', 'info')
-	var tabla = document.getElementById("tablapedido");
-	// var array = tabla.children.cuerpo.innerText.split('	');
-	var array = tabla.children.cuerpo.innerText;
-	const regex = /	/gi;
-	const regex2 = /\n/gi;
-	var final = array.replace(regex,'-');
-	var fin2 = final.replace(regex2,'&')
-	// console.log(tabla.children.cuerpo.innerText);
-	console.log(fin2);
-
-	$.ajax({
-		url:"/registrarpedido/"+fin2,
-		success: function(res){
-			Swal.fire('insertado correctamente!', '', 'success');
-			window.location.href = "/listapedido";
-		},
-		error: function(res){
-			Swal.fire('Sucedió un error!', '', 'error')
+	var nombre = document.getElementById('cliente-nombres');
+	var primerapellido = document.getElementById('cliente-primerapellido');
+	var segundoapellido = document.getElementById('cliente-segundapellido');
+	var calle = document.getElementById('cliente-calle');
+	var numero = document.getElementById('cliente-numero');
+	var colonia = document.getElementById('cliente-colonia');
+	var municipio = document.getElementById('cliente-municipio');
+	var telefono = document.getElementById('cliente-telefono');
+	if (nombre.value===""||primerapellido.value===""||calle.value===""||numero.value===""||colonia.value===""||municipio.value===""||telefono.value==="") {
+		Swal.fire('Revisa que todos los campos estén llenos!', '', 'error');
+	}else{
+		segundoapellido=(segundoapellido===null)?" ": segundoapellido.value;
+		console.log(nombre.value);
+		console.log(primerapellido.value);
+		console.log(segundoapellido);
+		console.log(calle);
+		console.log(numero);
+		console.log(colonia);
+		console.log(municipio);
+		console.log(telefono);
+		var ids = "";
+		var valores = "";
+		if($('#tablapedido').length){
+			for (let i = 0; i < $('#tablapedido')[0].children[1].children.length; i++) {
+				ids += "," + $('#tablapedido')[0].children[1].children[i].cells[0].innerText;
+				valores += "," + $('#tablapedido')[0].children[1].children[i].cells[3].innerText;
+			}
 		}
-	});
-	// gelatina de fresa	comercio 1	2	20
-	// document.getElementsByTagName("tablapedido")[0].setAttribute("id", "tableid");
-    // document.getElementById("tableid").deleteRow(0);
+		
+		$.ajax({
+			url:"/registrarpedido"
+								+"?nombre="+nombre.value
+								+"&primerapellido="+primerapellido.value
+								+"&segundoapellido="+segundoapellido
+								+"&calle="+calle.value
+								+"&numero="+numero.value
+								+"&colonia="+colonia.value
+								+"&municipio="+municipio.value
+								+"&telefono="+telefono.value
+								+"&ids="+ids
+								+"&valores="+valores
+								,
+			success: function(res){
+				Swal.fire('insertado correctamente!', '', 'success');
+				window.location.href = "/listapedido";
+			},
+			error: function(res){
+				Swal.fire('Sucedió un error!', '', 'error')
+			}
+		});
+	}
+	// Swal.fire({
+	// 	title: 'Nombre del cliente(incluyendo apellidos)',
+	// 	input: 'text',
+	// 	inputAttributes: { required: true },
+	// 	showCancelButton: true,
+	// 	confirmButtonText: 'Aceptar',
+	// 	showLoaderOnConfirm: true,
+	// 	preConfirm: (nombre) => {
+	// 		Swal.fire({
+	// 			title: 'Telefono',
+	// 			input: 'number',
+	// 			inputAttributes: { required: true },
+	// 			showCancelButton: true,
+	// 			confirmButtonText: 'Aceptar',
+	// 			showLoaderOnConfirm: true,
+	// 			preConfirm: (telefono) => {
+	// 				Swal.fire({
+	// 					title: 'Dirección(calle,numero,colonia)',
+	// 					input: 'text',
+	// 					inputAttributes: { required: true },
+	// 					showCancelButton: true,
+	// 					confirmButtonText: 'Aceptar',
+	// 					showLoaderOnConfirm: true,
+	// 					preConfirm: (direccion) => {
+	// 						console.log(`${nombre}` + ' ' + `${telefono}` + ' ' + `${direccion}`);
+	// 					}
+	// 				});
+	// 			}
+	// 		});
+	// 	}
+	// });
+	// var tabla = document.getElementById("tablapedido");
+	// var array = tabla.children.cuerpo.innerText;
+	// const regex = /	/gi;
+	// const regex2 = /\n/gi;
+	// var final = array.replace(regex,'-');
+	// var fin2 = final.replace(regex2,'&')
+	// // console.log(fin2);
+	// $.ajax({
+	// 	url:"/registrarpedido/"+fin2,
+	// 	success: function(res){
+	// 		Swal.fire('insertado correctamente!', '', 'success');
+	// 		window.location.href = "/listapedido";
+	// 	},
+	// 	error: function(res){
+	// 		Swal.fire('Sucedió un error!', '', 'error')
+	// 	}
+	// });
 }

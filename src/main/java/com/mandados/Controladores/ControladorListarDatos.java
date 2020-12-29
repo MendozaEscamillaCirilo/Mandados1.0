@@ -2,15 +2,20 @@ package com.mandados.Controladores;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.mandados.Entidades.ComerciosEntity;
+import com.mandados.Entidades.DestinosEntity;
+import com.mandados.Entidades.ProductosParaPedidos;
 import com.mandados.Entidades.User;
 import com.mandados.Repository.ComercioRepository;
 import com.mandados.Repository.PedidoRepository;
+import com.mandados.Repository.ProductoRepository;
 import com.mandados.Repository.RepartidorRepository;
 import com.mandados.Repository.UserRepository;
 import com.mandados.config.MetodosExtra;
@@ -23,10 +28,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+// import org.springframework.web.bind.annotation.RequestMethod;
+
 
 @Controller
 @RequestMapping
@@ -37,6 +45,8 @@ public class ControladorListarDatos {
     private ComercioRepository comerciorepository;
     @Autowired
     private PedidoRepository pedidorepository;
+    @Autowired
+    private ProductoRepository productorepository;
     @Autowired
     private RepartidorRepository repartidorrepository;
     @Autowired
@@ -115,5 +125,25 @@ public class ControladorListarDatos {
         comercio.setHoraCierre(cierre);
         comerciorepository.save(comercio);
         return home(authentication, model);
+    }
+    @RequestMapping("cargartablaproductosdepedido/{id}")
+    public String requestMethodName(Model model,@PathVariable("id") Long id,
+                                                @RequestParam("cantidad")int cantidad,
+                                                @RequestParam("lista")String lista,
+                                                @RequestParam("cantidades")String cantidades,
+                                                @Validated ProductosParaPedidos productoss) {
+        model.addAttribute("divtabladepedido", true);
+        List<ProductosParaPedidos> productos = new ArrayList<ProductosParaPedidos>();
+        productos.add(metodosextra.convertirEnProductosParaPedido(productorepository.findById(id).get(), cantidad));
+        if(!lista.equals("1000")){
+            String [] productosexistentes = lista.split(",");
+            String [] productosexistentesvalores = cantidades.split(",");
+            for (int i = 1; i < productosexistentes.length; i++) {
+                productos.add(metodosextra.convertirEnProductosParaPedido(productorepository.findById(Long.parseLong(productosexistentes[i])).get(), Integer.parseInt(productosexistentesvalores[i])));
+            }
+        }
+        model.addAttribute("productosagregados", productos);
+        model.addAttribute("destino",new DestinosEntity());
+        return "includes/tabla";
     }
 }

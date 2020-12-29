@@ -2,6 +2,7 @@
 <title>Home</title>
 <div th:replace="includes/css"></div>
 <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
+<link th:replace="includes/sweetalert2">
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
         <div th:replace="includes/navbar"></div>
@@ -108,34 +109,7 @@
                       <div class="card-body"><h1>Estimado usuario su mensualidad no ha sido pagada.</h1></div>
                     </div>
                 </div>
-                <div id="divconfirmarpedido">
-                  <div class="card card-primary card-outline">
-                    <div class="card-header">
-                      <h3 class="card-title"><i class="fas fa-edit"></i>PEDIDO</h3>
-                    </div>
-                    <div class="card-body">
-                      <table id="tablapedido" class="table table-bordered table-striped">
-                          <thead>
-                              <tr>
-                                  <th>Nombre</th>
-                                  <th>Comercio</th>
-                                  <th>Cantidad</th>
-                                  <th>Total</th>
-                                  <th></th>
-                              </tr>
-                          </thead>
-                          <tbody id="cuerpo">
-                          </tbody>
-                      </table>
-                      <br>
-                      <div class="text-center">
-                        <button class="btn btn-outline-primary" type="submit" onclick="confirmarPedido()">
-                          <i class="fas fa-cart-plus"></i></a>Confirmar pedido
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                
                 <div sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')" class="container-fluid">
                     <div class="card card-primary card-outline">
                         <div class="card-header">
@@ -150,6 +124,16 @@
                                   </div>
                                 </div>
                             </form>
+                        </div>
+                    </div>
+                </div>
+                <div id="divconfirmarpedido"></div>
+                <div th:if="${tablavisible}" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')" class="container-fluid">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-edit"></i>PRODUCTOS ENCONTRADOS</h3>
+                        </div>
+                        <div class="card-body">
                             <div th:if="${tablavisible}">
                                 <table id="tabla1" class="table table-bordered table-striped">
                                     <thead>
@@ -168,10 +152,10 @@
                                             <td><span th:text="${prod.precio}"></span></td>
                                             <td><span th:text="${prod.comercio.nombre}"></span></td>
                                             <td><span th:text="${prod.descripcion}"></span></td>
-                                            <td class="text-center">
-                                                <button class="btn btn-outline-primary" type="submit" th:onclick="addacarrito([[${prod.id}]],[[${prod.nombre}]],[[${prod.comercio.nombre}]],[[${prod.precio}]])">
-                                                  <i class="fas fa-cart-plus"></i></a>
-                                                </button>
+                                            <td class="text-center inline">
+                                              <button class="btn btn-outline-primary" type="submit" th:onclick="addacarrito([[${prod.id}]])">
+                                                <i class="fas fa-cart-plus"></i></a>
+                                              </button>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -180,15 +164,16 @@
                         </div>
                     </div>
                 </div>
+                
             </section>
         </div>
     </div>
     <div th:replace="includes/scripts"></div>
     <div th:replace="includes/mascara"></div>
     <div th:replace="includes/formulariovalidar"></div>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> -->
     <script src="dist/js/funcionesextra.js"></script>
     <script src="plugins/toastr/toastr.min.js"></script>
-    <script>document.getElementById('divconfirmarpedido').style.display = 'none';</script>
+    <!-- <script>document.getElementById('divconfirmarpedido').style.display = 'none';</script> -->
 </body>
 </html>

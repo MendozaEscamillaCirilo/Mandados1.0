@@ -115,4 +115,20 @@ public class DestinosEntity {
                 + ", nombres=" + nombres + ", numero=" + numero + ", pedidos=" + pedidos + ", primerapellido="
                 + primerapellido + ", segundoapellido=" + segundoapellido + ", telefono=" + telefono + "]";
     }
+
+    public DestinosEntity(String nombres, String primerapellido, String segundoapellido, String calle, int numero,
+            String colonia, String municipio, String telefono) {
+        this.nombres = nombres;
+        this.primerapellido = primerapellido;
+        this.segundoapellido = segundoapellido;
+        this.calle = calle;
+        this.numero = numero;
+        this.colonia = colonia;
+        this.municipio = municipio;
+        this.telefono = telefono;
+    }
+
+    public DestinosEntity() {
+    }
+
 }

@@ -1,0 +1,94 @@
+<div class="card card-primary card-outline">
+  <div class="card-header">
+    <h3 class="card-title"><i class="fas fa-edit"></i>PEDIDO</h3>
+  </div>
+  <div class="card-body">
+    <table id="tablapedido" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Comercio</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="cuerpo">
+          <tr th:if="${productosagregados.empty}">
+            <td colspan="3"> No hay comercios registrados </td>
+          </tr>
+          <tr th:each="pa :${productosagregados}">
+            <td id="numero" hidden><span th:text="${pa.id}"> Authority </span></td>
+            <td><span th:text="${pa.nombre}"> Authority </span></td>
+            <td><span th:text="${pa.comercio.nombre}"> Authority </span></td>
+            <td><span th:text="${pa.cantidad}"> 1 </span></td>
+            <td><span th:text="${pa.total}"> Authority </span></td>
+          </tr>
+        </tbody>
+    </table>
+    <br>
+    <div class="text-center">
+      <button class="btn btn-outline-primary" type="submit" data-toggle="modal" data-target="#nuevo">
+        <i class="fas fa-cart-plus"></i></a>Confirmar pedido
+      </button>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="nuevo">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 mx-auto">
+            <div class="form-group">
+              <h3>Datos del cliente</h3>
+            </div>
+            <div>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-xl-4 col-md-4 col-sm-4">
+                    <input id="cliente-nombres" type="text" class="form-control validate" placeholder="Nombre" required>
+                  </div>
+                  <div class="col-xl-4 col-md-4 col-sm-4">
+                    <input id="cliente-primerapellido" type="text" class="form-control validate" placeholder="Primer apellido" required>
+                  </div>
+                  <div class="col-xl-4 col-md-4 col-sm-4">
+                    <input id="cliente-segundoapellido" type="text" class="form-control validate" placeholder="Segundo apellido">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-xl-4 col-md-4 col-sm-4">
+                    <input id="cliente-calle" type="text" class="form-control validate" placeholder="Calle" required>
+                  </div>
+                  <div class="col-xl-4 col-md-4 col-sm-4">
+                    <input id="cliente-numero" type="number" class="form-control validate" placeholder="Numero" required>
+                  </div>
+                  <div class="col-xl-4 col-md-4 col-sm-4">
+                    <input id="cliente-colonia" type="text" class="form-control validate" placeholder="Colonia" required>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-xl-6 col-md-6 col-sm-6">
+                    <input id="cliente-municipio" type="text" class="form-control validate" placeholder="Municipio" required>
+                  </div>
+                  <div class="col-xl-6 col-md-6 col-sm-6">
+                    <input id="cliente-telefono" type="text" class="form-control validate" placeholder="Telefono" data-inputmask='"mask": "(###) ###-####"' data-mask required>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="text-center">
+                <button type="submit" class="btn btn-block btn-outline-primary swalDefaultInfo" th:onclick="confirmarPedido()">Registrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

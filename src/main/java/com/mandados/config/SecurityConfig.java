@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {			
         http.authorizeRequests()
+        .antMatchers("/gp*").hasAnyAuthority("ROL_ADMIN","ROL_CALLCENTER")
         .antMatchers("/home*").authenticated()
         .antMatchers("/getproductosabc").authenticated()
         .antMatchers("/configurar").authenticated()

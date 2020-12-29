@@ -24,6 +24,8 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.mandados.Entidades.CategoriasEntity;
 import com.mandados.Entidades.ComerciosEntity;
 import com.mandados.Entidades.PedidosEntity;
+import com.mandados.Entidades.ProductosEntity;
+import com.mandados.Entidades.ProductosParaPedidos;
 import com.mandados.Entidades.User;
 import com.mandados.Repository.ComercioRepository;
 import com.mandados.Repository.UserRepository;
@@ -211,5 +213,8 @@ public class MetodosExtra {
             }
         }
         return "productos/"+nombreproducto.split(" ")[0]+"_"+hora+".jpg";
+    }
+    public ProductosParaPedidos convertirEnProductosParaPedido(ProductosEntity p,int cantidad){
+        return new ProductosParaPedidos(p.getId(), p.getNombre(), p.getPrecio(), p.getPrecio()*cantidad, p.getComercio(), cantidad);
     }
 }

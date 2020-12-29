@@ -1,12 +1,15 @@
 package com.mandados.Entidades;
 import javax.persistence.*;
+
+import java.sql.Date;
+import java.sql.Time;
 import java.util.Set;
 
 @Entity
 @Table(name = "Pedidos")
 public class PedidosEntity {
     @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
     private java.sql.Date fecha;
@@ -20,25 +23,21 @@ public class PedidosEntity {
     private Double total;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinTable(
-            name = "Pedidos_Productos",
-            joinColumns = {@JoinColumn(name = "pedido_id")},
-            inverseJoinColumns = {@JoinColumn(name = "producto_id")}
-    )
+    @JoinTable(name = "Pedidos_Productos", joinColumns = { @JoinColumn(name = "pedido_id") }, inverseJoinColumns = {
+            @JoinColumn(name = "producto_id") })
     private Set<ProductosEntity> productos;
 
     @ManyToOne()
-	@JoinColumn(name = "destino_id")
+    @JoinColumn(name = "destino_id")
     private DestinosEntity destino;
 
     @ManyToOne()
-	@JoinColumn(name = "repartidor_id")
+    @JoinColumn(name = "repartidor_id")
     private RepartidoresEntity repartidor;
-    
+
     @ManyToOne()
-	@JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id")
     private User operador;
-    
 
     public Long getId() {
         return id;
@@ -112,12 +111,11 @@ public class PedidosEntity {
         this.repartidor = repartidor;
     }
 
-	public String toString() {
-		return "PedidosEntity [destino=" + destino + ", fecha=" + fecha + ", horaentrega=" + horaentrega
-				+ ", horapedido=" + horapedido + ", horarecoleccion=" + horarecoleccion + ", id=" + id
-				+ ", operador=" + operador + ", productos=" + productos + ", repartidor=" + repartidor + ", total="
-				+ total + "]";
-	}
+    public String toString() {
+        return "PedidosEntity [destino=" + destino + ", fecha=" + fecha + ", horaentrega=" + horaentrega
+                + ", horapedido=" + horapedido + ", horarecoleccion=" + horarecoleccion + ", id=" + id + ", operador="
+                + operador + ", productos=" + productos + ", repartidor=" + repartidor + ", total=" + total + "]";
+    }
 
     public RepartidoresEntity getRepartidor() {
         return repartidor;
@@ -133,6 +131,16 @@ public class PedidosEntity {
 
     public void setOperador(User operador) {
         this.operador = operador;
+    }
+
+    public PedidosEntity(Date fecha, Time horapedido, DestinosEntity destino, User operador) {
+        this.fecha = fecha;
+        this.horapedido = horapedido;
+        this.destino = destino;
+        this.operador = operador;
+    }
+
+    public PedidosEntity() {
     }
 
 
