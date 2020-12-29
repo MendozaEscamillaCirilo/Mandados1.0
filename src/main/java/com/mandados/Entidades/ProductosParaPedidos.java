@@ -7,6 +7,7 @@ public class ProductosParaPedidos {
 	private Double total;
     private ComerciosEntity comercio;
     private int cantidad;
+    private String comentario;
 
     public Long getId() {
         return id;
@@ -57,19 +58,28 @@ public class ProductosParaPedidos {
     }
 
     public ProductosParaPedidos(Long id, String nombre, Double precio, Double total, ComerciosEntity comercio,
-            int cantidad) {
+            int cantidad,String comentario) {
         this.id = id;
         this.nombre = nombre;
         this.precio = precio;
         this.total = total;
         this.comercio = comercio;
         this.cantidad = cantidad;
+        this.comentario = comentario;
     }
 
     @Override
     public String toString() {
         return "ProductosParaPedidos [cantidad=" + cantidad + ", comercio=" + comercio + ", id=" + id + ", nombre="
                 + nombre + ", precio=" + precio + ", total=" + total + "]";
+    }
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
     }
     
 }

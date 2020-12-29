@@ -214,7 +214,7 @@ public class MetodosExtra {
         }
         return "productos/"+nombreproducto.split(" ")[0]+"_"+hora+".jpg";
     }
-    public ProductosParaPedidos convertirEnProductosParaPedido(ProductosEntity p,int cantidad){
-        return new ProductosParaPedidos(p.getId(), p.getNombre(), p.getPrecio(), p.getPrecio()*cantidad, p.getComercio(), cantidad);
+    public ProductosParaPedidos convertirEnProductosParaPedido(ProductosEntity p,int cantidad,String comentario){
+        return new ProductosParaPedidos(p.getId(), p.getNombre(), p.getPrecio(), p.getPrecio()*cantidad, p.getComercio(), cantidad,comentario);
     }
 }

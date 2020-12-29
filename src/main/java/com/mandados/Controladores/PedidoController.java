@@ -94,7 +94,8 @@ public class PedidoController {
                                         @RequestParam("municipio")String municipio,
                                         @RequestParam("telefono")String telefono,
                                         @RequestParam("ids")String ids,
-                                        @RequestParam("valores")String valores
+                                        @RequestParam("valores")String valores,
+                                        @RequestParam("comentarios")String comentarios
                                         ){
         DestinosEntity destino = new DestinosEntity(nombre, primerapellido, segundoapellido, calle, Integer.parseInt(numero), colonia, municipio, telefono);
         destinosrepository.save(destino);
@@ -113,6 +114,7 @@ public class PedidoController {
         }
         pedido.setTotal(total);
         pedido.setProductos(listadeproductos);
+        pedido.setComentarios(comentarios);
         pedidorepository.save(pedido);
         return listarorden(auth, model);
     }

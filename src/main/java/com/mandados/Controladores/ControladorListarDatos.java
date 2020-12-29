@@ -131,18 +131,26 @@ public class ControladorListarDatos {
                                                 @RequestParam("cantidad")int cantidad,
                                                 @RequestParam("lista")String lista,
                                                 @RequestParam("cantidades")String cantidades,
-                                                @Validated ProductosParaPedidos productoss) {
+                                                @RequestParam("comentario")String comentario,
+                                                @RequestParam("comentarios")String comentarios
+                                                ) {
         model.addAttribute("divtabladepedido", true);
         List<ProductosParaPedidos> productos = new ArrayList<ProductosParaPedidos>();
-        productos.add(metodosextra.convertirEnProductosParaPedido(productorepository.findById(id).get(), cantidad));
+        productos.add(metodosextra.convertirEnProductosParaPedido(productorepository.findById(id).get(), cantidad,comentario));
         if(!lista.equals("1000")){
             String [] productosexistentes = lista.split(",");
             String [] productosexistentesvalores = cantidades.split(",");
+            String [] comentarioss = comentarios.split(",");
             for (int i = 1; i < productosexistentes.length; i++) {
-                productos.add(metodosextra.convertirEnProductosParaPedido(productorepository.findById(Long.parseLong(productosexistentes[i])).get(), Integer.parseInt(productosexistentesvalores[i])));
+                productos.add(metodosextra.convertirEnProductosParaPedido(productorepository.findById(Long.parseLong(productosexistentes[i])).get(), Integer.parseInt(productosexistentesvalores[i]),comentarioss[i]));
             }
         }
+        double total = 0.0;
+        for (int i = 0; i < productos.size(); i++) {
+            total+=productos.get(i).getTotal();
+        }
         model.addAttribute("productosagregados", productos);
+        model.addAttribute("totalp", total);
         model.addAttribute("destino",new DestinosEntity());
         return "includes/tabla";
     }

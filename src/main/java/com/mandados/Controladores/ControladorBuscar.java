@@ -1,8 +1,10 @@
 package com.mandados.Controladores;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import com.mandados.Entidades.CategoriasEntity;
 import com.mandados.Entidades.ComerciosEntity;
@@ -74,12 +76,50 @@ public class ControladorBuscar {
         }
         return "resultadosdebusqueda";
     }
-    ////////////////////Buscar productos desde el home////////////////
+    ////////////////////Buscar comercios desde el home////////////////
     @GetMapping("/gp")
-    public String buscarProductosDesdeHome(Model model, Authentication auth, @RequestParam("search") String producto){
+    public String buscarComerciosDesdeHome(Model model, Authentication auth, @RequestParam("search") String producto){
+        model.addAttribute("comen",true);
         model.addAttribute("tablavisible", true);
         model.addAttribute("search", producto);
-        model.addAttribute("productos", productorepository.findByNombreContaining(producto));
+        List<ProductosEntity>productos = productorepository.findByNombreContaining(producto);
+        List<ComerciosEntity>comercios = new ArrayList<ComerciosEntity>();
+        for(int i=0;i<productos.size();i++){
+            if(comercios.size()==0){
+                comercios.add(comerciorepository.findByEmail(productos.get(i).getComercio().getEmail()));
+            }
+            if (!metodosextra.existeComercios(comercios, productos.get(i).getComercio().getNombre())) {
+                comercios.add(comerciorepository.findByEmail(productos.get(i).getComercio().getEmail()));
+            }
+        }
+        model.addAttribute("comercios", comercios);
+        model.addAttribute("busqueda", false);
+        // Set<ProductosEntity> auxiliar = 
+        // Set<ProductosEntity> productos = (Set<ProductosEntity>)productorepository.findByNombreContaining(producto);
+        // model.addAttribute("comercios", comerciorepository.findByProductos(productos));
+        // model.addAttribute("productos", productorepository.findByNombreContaining(producto));
+        return clistar.home(auth, model);
+    }
+    @GetMapping("/bpdh")
+    public String buscarProductosDesdeHome(Model model, Authentication auth, @RequestParam("search") String producto, @RequestParam("idp") Long idp){
+        model.addAttribute("comen",true);//ACA TENGO DUDA SI LES DEJO ESTA TABLA O MEJOR SE LAS QUITO, ES DONDE APARECEN LOS COMERCIOS
+        model.addAttribute("proen",true);
+        model.addAttribute("tablavisible", true);
+        model.addAttribute("search", producto);
+        List<ProductosEntity>productos = productorepository.findByNombreContaining(producto);
+        List<ComerciosEntity>comercios = new ArrayList<ComerciosEntity>();
+        for(int i=0;i<productos.size();i++){
+            if(comercios.size()==0){
+                comercios.add(comerciorepository.findByEmail(productos.get(i).getComercio().getEmail()));
+            }
+            if (!metodosextra.existeComercios(comercios, productos.get(i).getComercio().getNombre())) {
+                comercios.add(comerciorepository.findByEmail(productos.get(i).getComercio().getEmail()));
+            }
+        }
+        model.addAttribute("comercios", comercios);
+        model.addAttribute("busqueda", false);
+        model.addAttribute("search", producto);
+        model.addAttribute("productos", productorepository.findByComercio(comerciorepository.findById(idp).get()));
         return clistar.home(auth, model);
     }
     @GetMapping("/obtcomercios")

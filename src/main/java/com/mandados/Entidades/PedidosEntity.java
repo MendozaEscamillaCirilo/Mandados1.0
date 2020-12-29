@@ -21,6 +21,8 @@ public class PedidosEntity {
     private java.sql.Time horaentrega;
     @Column
     private Double total;
+    @Column
+    private String comentarios;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "Pedidos_Productos", joinColumns = { @JoinColumn(name = "pedido_id") }, inverseJoinColumns = {
@@ -142,6 +144,14 @@ public class PedidosEntity {
 
     public PedidosEntity() {
     }
+
+	public String getComentarios() {
+		return comentarios;
+	}
+
+	public void setComentarios(String comentarios) {
+		this.comentarios = comentarios;
+	}
 
 
 }
