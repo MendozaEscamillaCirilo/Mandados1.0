@@ -231,52 +231,19 @@ function confirmarPedido(){
 			}
 		});
 	}
-	// Swal.fire({
-	// 	title: 'Nombre del cliente(incluyendo apellidos)',
-	// 	input: 'text',
-	// 	inputAttributes: { required: true },
-	// 	showCancelButton: true,
-	// 	confirmButtonText: 'Aceptar',
-	// 	showLoaderOnConfirm: true,
-	// 	preConfirm: (nombre) => {
-	// 		Swal.fire({
-	// 			title: 'Telefono',
-	// 			input: 'number',
-	// 			inputAttributes: { required: true },
-	// 			showCancelButton: true,
-	// 			confirmButtonText: 'Aceptar',
-	// 			showLoaderOnConfirm: true,
-	// 			preConfirm: (telefono) => {
-	// 				Swal.fire({
-	// 					title: 'Dirección(calle,numero,colonia)',
-	// 					input: 'text',
-	// 					inputAttributes: { required: true },
-	// 					showCancelButton: true,
-	// 					confirmButtonText: 'Aceptar',
-	// 					showLoaderOnConfirm: true,
-	// 					preConfirm: (direccion) => {
-	// 						console.log(`${nombre}` + ' ' + `${telefono}` + ' ' + `${direccion}`);
-	// 					}
-	// 				});
-	// 			}
-	// 		});
-	// 	}
-	// });
-	// var tabla = document.getElementById("tablapedido");
-	// var array = tabla.children.cuerpo.innerText;
-	// const regex = /	/gi;
-	// const regex2 = /\n/gi;
-	// var final = array.replace(regex,'-');
-	// var fin2 = final.replace(regex2,'&')
-	// // console.log(fin2);
+}
+function asignarrepartidor(){
+	var sel = document.getElementById('estatus');
 	// $.ajax({
-	// 	url:"/registrarpedido/"+fin2,
+	// 	url:"/revisarrepartidor/"+sel,
 	// 	success: function(res){
-	// 		Swal.fire('insertado correctamente!', '', 'success');
-	// 		window.location.href = "/listapedido";
+	// 		console.log(res)
+	// 		// Swal.fire('insertado correctamente!', '', 'success');
+	// 		// window.location.href = "/listapedido";
 	// 	},
 	// 	error: function(res){
 	// 		Swal.fire('Sucedió un error!', '', 'error')
 	// 	}
 	// });
+	console.log(sel);
 }

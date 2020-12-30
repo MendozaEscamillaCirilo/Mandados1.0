@@ -14,4 +14,5 @@ public interface ComercioRepository extends CrudRepository<ComerciosEntity, Long
     public Optional<ComerciosEntity> findById(Long id);
     public ComerciosEntity findByNombre(String nombre);
     public ComerciosEntity findByEmail(String email);
+    public ComerciosEntity findByEmailAndEstatus(String email,boolean estatus);
 }

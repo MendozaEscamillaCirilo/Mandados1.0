@@ -1,10 +1,8 @@
 package com.mandados.Controladores;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import com.mandados.Entidades.CategoriasEntity;
 import com.mandados.Entidades.ComerciosEntity;
@@ -38,15 +36,19 @@ public class ControladorBuscar {
     ////////////////////Buscar productos desde el index////////////////
     @GetMapping("/spr")
     public String buscarProductosDesdeIndex(Model model, @RequestParam("group1") String seleccionado, @RequestParam("com") String comercio,String buscar){
-        List<ProductosEntity>productos = productorepository.findByNombreContaining(buscar);
+        List<ProductosEntity>productos = productorepository.findByNombreContainingAndEstatus(buscar,true);
         List<CategoriasEntity>categorias = new ArrayList<CategoriasEntity>();
         List<ComerciosEntity>comercios = new ArrayList<ComerciosEntity>();
         for(int i=0;i<productos.size();i++){
-            if(comercios.size()==0){
-                comercios.add(comerciorepository.findByEmail(productos.get(i).getComercio().getEmail()));
-            }
-            if (!metodosextra.existeComercios(comercios, productos.get(i).getComercio().getNombre())) {
-                comercios.add(comerciorepository.findByEmail(productos.get(i).getComercio().getEmail()));
+            String email = productos.get(i).getComercio().getEmail();
+            ComerciosEntity comerciobuscado = comerciorepository.findByEmailAndEstatus(email,true);
+            if(comercio!=null){
+                if(comercios.size()==0){
+                    comercios.add(comerciobuscado);
+                }
+                if (!metodosextra.existeComercios(comercios, email)) {
+                    comercios.add(comerciobuscado);
+                }
             }
         }
         if(!comercio.equals("no")){
@@ -82,22 +84,22 @@ public class ControladorBuscar {
         model.addAttribute("comen",true);
         model.addAttribute("tablavisible", true);
         model.addAttribute("search", producto);
-        List<ProductosEntity>productos = productorepository.findByNombreContaining(producto);
+        List<ProductosEntity>productos = productorepository.findByNombreContainingAndEstatus(producto,true);
         List<ComerciosEntity>comercios = new ArrayList<ComerciosEntity>();
         for(int i=0;i<productos.size();i++){
-            if(comercios.size()==0){
-                comercios.add(comerciorepository.findByEmail(productos.get(i).getComercio().getEmail()));
-            }
-            if (!metodosextra.existeComercios(comercios, productos.get(i).getComercio().getNombre())) {
-                comercios.add(comerciorepository.findByEmail(productos.get(i).getComercio().getEmail()));
+            String email = productos.get(i).getComercio().getEmail();
+            ComerciosEntity comercio = comerciorepository.findByEmailAndEstatus(email,true);
+            if(comercio!=null){
+                if(comercios.size()==0){
+                    comercios.add(comercio);
+                }
+                if (!metodosextra.existeComercios(comercios, email)) {
+                    comercios.add(comercio);
+                }
             }
         }
         model.addAttribute("comercios", comercios);
         model.addAttribute("busqueda", false);
-        // Set<ProductosEntity> auxiliar = 
-        // Set<ProductosEntity> productos = (Set<ProductosEntity>)productorepository.findByNombreContaining(producto);
-        // model.addAttribute("comercios", comerciorepository.findByProductos(productos));
-        // model.addAttribute("productos", productorepository.findByNombreContaining(producto));
         return clistar.home(auth, model);
     }
     @GetMapping("/bpdh")
@@ -106,20 +108,24 @@ public class ControladorBuscar {
         model.addAttribute("proen",true);
         model.addAttribute("tablavisible", true);
         model.addAttribute("search", producto);
-        List<ProductosEntity>productos = productorepository.findByNombreContaining(producto);
+        List<ProductosEntity>productos = productorepository.findByNombreContainingAndEstatus(producto,true);
         List<ComerciosEntity>comercios = new ArrayList<ComerciosEntity>();
         for(int i=0;i<productos.size();i++){
-            if(comercios.size()==0){
-                comercios.add(comerciorepository.findByEmail(productos.get(i).getComercio().getEmail()));
-            }
-            if (!metodosextra.existeComercios(comercios, productos.get(i).getComercio().getNombre())) {
-                comercios.add(comerciorepository.findByEmail(productos.get(i).getComercio().getEmail()));
+            String email = productos.get(i).getComercio().getEmail();
+            ComerciosEntity comercio = comerciorepository.findByEmailAndEstatus(email,true);
+            if(comercio!=null){
+                if(comercios.size()==0){
+                    comercios.add(comercio);
+                }
+                if (!metodosextra.existeComercios(comercios, email)) {
+                    comercios.add(comercio);
+                }
             }
         }
         model.addAttribute("comercios", comercios);
         model.addAttribute("busqueda", false);
         model.addAttribute("search", producto);
-        model.addAttribute("productos", productorepository.findByComercio(comerciorepository.findById(idp).get()));
+        model.addAttribute("productos", productorepository.findByComercioAndEstatus(comerciorepository.findById(idp).get(),true));
         return clistar.home(auth, model);
     }
     @GetMapping("/obtcomercios")

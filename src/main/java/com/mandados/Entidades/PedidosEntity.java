@@ -113,12 +113,6 @@ public class PedidosEntity {
         this.repartidor = repartidor;
     }
 
-    public String toString() {
-        return "PedidosEntity [destino=" + destino + ", fecha=" + fecha + ", horaentrega=" + horaentrega
-                + ", horapedido=" + horapedido + ", horarecoleccion=" + horarecoleccion + ", id=" + id + ", operador="
-                + operador + ", productos=" + productos + ", repartidor=" + repartidor + ", total=" + total + "]";
-    }
-
     public RepartidoresEntity getRepartidor() {
         return repartidor;
     }

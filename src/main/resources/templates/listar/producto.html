@@ -80,7 +80,7 @@
                                       <p th:class="${producto.estatus}?table-primary:table-warning" th:text="${producto.estatus}?'Este producto se muestra a los clientes':'Este producto no se muestra a los clientes'"></p>
                                     </div>
                                     <div class="card-footer">
-                                      <div sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_COMERCIO')" class="text-right">
+                                      <div class="text-right" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_COMERCIO')">
                                         <a class="btn btn-sm bg-teal" data-toggle="modal" th:data-target="'#modal-editart-' + ${producto.id}">
                                           <i class="fas fa-edit"></i>Editar
                                         </a>
@@ -123,7 +123,7 @@
                                                       <img th:src="${producto.imagen}" width="40" alt="" class="img-circle img-fluid">
                                                     </div>
                                                     <div class="custom-input-file btn btn-outline-primary col-xl-8 col-lg-8 col-md-8 col-sm-8 mx-auto">
-                                                      <input type="file" name="file" id="file" class="input-file form-control validate" value="" onchange="myFunction()" required>
+                                                      <input type="file" name="file" id="file" class="input-file form-control validate" value="" onchange="myFunction()">
                                                       <p id="div">Subir archivo</p>
                                                     </div>
                                                   </div>

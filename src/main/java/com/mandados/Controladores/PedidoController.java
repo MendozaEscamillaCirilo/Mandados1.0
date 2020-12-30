@@ -1,21 +1,22 @@
 package com.mandados.Controladores;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 
 import com.mandados.Entidades.ComerciosEntity;
 import com.mandados.Entidades.DestinosEntity;
 import com.mandados.Entidades.PedidosEntity;
 import com.mandados.Entidades.ProductosEntity;
+import com.mandados.Entidades.RepartidoresEntity;
 import com.mandados.Repository.ComercioRepository;
 import com.mandados.Repository.DestinosRepository;
 import com.mandados.Repository.PedidoRepository;
 import com.mandados.Repository.ProductoRepository;
+import com.mandados.Repository.RepartidorRepository;
 import com.mandados.Repository.UserRepository;
 import com.mandados.config.MetodosExtra;
 
@@ -26,11 +27,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 public class PedidoController {
-    @Autowired
-    private EntityManager em;
     @Autowired
     private MetodosExtra metodosextra;
     @Autowired
@@ -41,6 +43,8 @@ public class PedidoController {
     private PedidoRepository pedidorepository;
     @Autowired
     private ProductoRepository productorepository;
+    @Autowired
+    private RepartidorRepository repartidorrepository;
     @Autowired
     private UserRepository userrepository;
     @GetMapping("/listapedido")
@@ -53,31 +57,20 @@ public class PedidoController {
             model.addAttribute("activo", metodosextra.getComercioLogueado(auth).getEstatus());
             UserDetails ud = (UserDetails)auth.getPrincipal();
             ComerciosEntity comercio = comerciorepository.findByEmail(ud.getUsername());
-            Query pendientes = em.createNativeQuery("SELECT pe.id,fecha,horaentrega,horapedido,horarecoleccion,total,destino_id,repartidor_id,user_id FROM pedidos as pe INNER JOIN pedidos_productos as pp on pp.pedido_id = pe.id INNER JOIN productos as pr on pr.id = pp.producto_id INNER JOIN comercios as c on c.id = pr.comercio_id where c.nombre like '%" + comercio.getNombre() + "%'");
-            // Query entregados = em.createNativeQuery("SELECT horaentrega FROM comercios as c inner join productos as p on p.comercio_id = c.id inner join pedidos_productos as pp on pp.producto_id = p.id inner join pedidos as pe on pe.id = pp.pedido_id where c.nombre like '%" + comercio.getNombre() + "%' and horaentrega is not NULL");
-            // Query todos = em.createNativeQuery("SELECT fecha,horaentrega,horapedido,horarecoleccion,total FROM comercios as c inner join productos as p on p.comercio_id = c.id inner join pedidos_productos as pp on pp.producto_id = p.id inner join pedidos as pe on pe.id = pp.pedido_id where c.nombre like '%" + comercio.getNombre() + "%'");
-            // TypedQuery<PedidosEntity> todos = em.createQuery("SELECT pe.id,fecha,horaentrega,horapedido,horarecoleccion,total,destino_id,repartidor_id,user_id FROM pedidos as pe INNER JOIN pedidos_productos as pp on pp.pedido_id = pe.id INNER JOIN productos as pr on pr.id = pp.producto_id INNER JOIN comercios as c on c.id = pr.comercio_id where c.nombre like '%" + comercio.getNombre() + "%'",PedidosEntity.class);
-            System.out.println("//////////////////////////////////////////////");
-            List lista = pendientes.getResultList();
-            System.out.println("//////////////////////////////////////////////");
-            Object ped = lista.get(0);
-            System.out.println(ped.getClass().getName());
-            System.out.println(ped.getClass().getFields().clone());
-            // TypedQuery<PedidosEntity> todos = em.createQuery("SELECT * FROM Pedidos p",PedidosEntity.class);
-            // List<PedidosEntity> lista = todos.getResultList();
-            // System.out.println(lista);
-            // System.out.println(lista.get(0));
-            System.out.println("//////////////////////////////////////////////");
-            // System.out.println(lista.get(0).getClass());
-            // model.addAttribute("pedidos", lista);
-            model.addAttribute("pedidos", pedidorepository.findAll());
-            // model.addAttribute("pedidos", pedidorepository.searchByNombreLike(comercio.getNombre()));
-            // pedidorepository.searchByFecha("2020");
-            // System.out.println(comercio.getNombre());
-            // pedidorepository.searchByNombreLike(comercio.getNombre());
+            List<PedidosEntity> lista = pedidorepository.findAll();
+            List<PedidosEntity> pedidosdelcomercio = new ArrayList<PedidosEntity>();
+            Iterator<PedidosEntity> iterador = lista.iterator();
+            while (iterador.hasNext()) {
+                PedidosEntity pedido = iterador.next();
+                if ((pedido.getProductos().iterator().next()).getComercio().getId()==comercio.getId()) {
+                    pedidosdelcomercio.add(pedido);
+                }
+            }
+            model.addAttribute("pedidos", pedidosdelcomercio);
         }else{
             model.addAttribute("pedidos", pedidorepository.findAll());
             model.addAttribute("activo", true);
+            model.addAttribute("repartidores", repartidorrepository.findAll());
         }
         metodosextra.obtUsuario(model,auth);
         return "listar/pedido";
@@ -118,4 +111,14 @@ public class PedidoController {
         pedidorepository.save(pedido);
         return listarorden(auth, model);
     }
+    @GetMapping("/asignarrepartidor")
+    public String postMethodName(@RequestParam("select") RepartidoresEntity repartidor,@RequestParam("idp")Long id,Model model, Authentication auth) {
+        PedidosEntity pedido = pedidorepository.findById(id).get();
+        pedido.setRepartidor(repartidor);
+        pedidorepository.save(pedido);
+        repartidor.setEstatus(false);
+        repartidorrepository.save(repartidor);
+        return listarorden(auth, model);
+    }
+    
 }

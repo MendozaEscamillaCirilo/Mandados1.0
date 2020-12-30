@@ -181,9 +181,9 @@ public class MetodosExtra {
         }
         return aux;
     }
-    public boolean existeComercios(List<ComerciosEntity> lista, String nombre){
+    public boolean existeComercios(List<ComerciosEntity> lista, String email){
         for(int i=0;i<lista.size();i++){
-            if(nombre.equals(lista.get(i).getNombre())) return true;
+            if(email.equals(lista.get(i).getEmail())) return true;
         }
         return false;
     }
