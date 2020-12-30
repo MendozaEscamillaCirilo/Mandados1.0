@@ -136,21 +136,40 @@ function addacarrito(id){
 		confirmButtonText: 'Aceptar',
 		showLoaderOnConfirm: true,
 		preConfirm: (ncantidad) => {
-			var ids = "";
-			var valores = "";
-			if($('#tablapedido').length){
-				for (let i = 0; i < $('#tablapedido')[0].children[1].children.length; i++) {
-					ids += "," + $('#tablapedido')[0].children[1].children[i].cells[0].innerText;
-					valores += "," + $('#tablapedido')[0].children[1].children[i].cells[3].innerText;
+			Swal.fire({
+				title: 'Comentario',
+				text: 'Si no hay comentarios ingrese NO',
+				input: 'text',
+				inputAttributes: {required: true},
+				showCancelButton: true,
+				confirmButtonText:'Aceptar',
+				showLoaderOnConfirm:true,
+				preConfirm: (comentario) => {
+					const regex = / /gi;
+					var ids = "";
+					var valores = "";
+					var comentarios = "";
+					if($('#tablapedido').length){
+						for (let i = 0; i < $('#tablapedido')[0].children[1].children.length; i++) {
+							ids += "," + $('#tablapedido')[0].children[1].children[i].cells[0].innerText;
+							valores += "," + $('#tablapedido')[0].children[1].children[i].cells[3].innerText;
+							comentarios += ("," + $('#tablapedido')[0].children[1].children[i].cells[5].innerText).replace(regex,'+');
+						}
+					}else{
+						ids = "1000";
+					}
+					var comentario = comentario.replace(regex,'+');
+					console.log(comentario);
+					console.log(comentarios);
+					$('#divconfirmarpedido').load("/cargartablaproductosdepedido/"+id 
+											+ "?cantidad="+ncantidad
+											+ "&lista="+ids
+											+ "&cantidades="+valores
+											+ "&comentario="+comentario
+											+ "&comentarios="+comentarios
+											);
 				}
-			}else{
-				ids = "1000";
-			}
-			$('#divconfirmarpedido').load("/cargartablaproductosdepedido/"+id 
-									+ "?cantidad="+ncantidad
-									+ "&lista="+ids
-									+ "&cantidades="+valores
-									);
+			});
 		}
 	  })
 }
@@ -180,10 +199,12 @@ function confirmarPedido(){
 		console.log(telefono);
 		var ids = "";
 		var valores = "";
+		var comentarios = "";
 		if($('#tablapedido').length){
 			for (let i = 0; i < $('#tablapedido')[0].children[1].children.length; i++) {
 				ids += "," + $('#tablapedido')[0].children[1].children[i].cells[0].innerText;
 				valores += "," + $('#tablapedido')[0].children[1].children[i].cells[3].innerText;
+				comentarios += "," + $('#tablapedido')[0].children[1].children[i].cells[5].innerText;
 			}
 		}
 		
@@ -199,6 +220,7 @@ function confirmarPedido(){
 								+"&telefono="+telefono.value
 								+"&ids="+ids
 								+"&valores="+valores
+								+"&comentarios="+comentarios
 								,
 			success: function(res){
 				Swal.fire('insertado correctamente!', '', 'success');
@@ -209,52 +231,19 @@ function confirmarPedido(){
 			}
 		});
 	}
-	// Swal.fire({
-	// 	title: 'Nombre del cliente(incluyendo apellidos)',
-	// 	input: 'text',
-	// 	inputAttributes: { required: true },
-	// 	showCancelButton: true,
-	// 	confirmButtonText: 'Aceptar',
-	// 	showLoaderOnConfirm: true,
-	// 	preConfirm: (nombre) => {
-	// 		Swal.fire({
-	// 			title: 'Telefono',
-	// 			input: 'number',
-	// 			inputAttributes: { required: true },
-	// 			showCancelButton: true,
-	// 			confirmButtonText: 'Aceptar',
-	// 			showLoaderOnConfirm: true,
-	// 			preConfirm: (telefono) => {
-	// 				Swal.fire({
-	// 					title: 'Dirección(calle,numero,colonia)',
-	// 					input: 'text',
-	// 					inputAttributes: { required: true },
-	// 					showCancelButton: true,
-	// 					confirmButtonText: 'Aceptar',
-	// 					showLoaderOnConfirm: true,
-	// 					preConfirm: (direccion) => {
-	// 						console.log(`${nombre}` + ' ' + `${telefono}` + ' ' + `${direccion}`);
-	// 					}
-	// 				});
-	// 			}
-	// 		});
-	// 	}
-	// });
-	// var tabla = document.getElementById("tablapedido");
-	// var array = tabla.children.cuerpo.innerText;
-	// const regex = /	/gi;
-	// const regex2 = /\n/gi;
-	// var final = array.replace(regex,'-');
-	// var fin2 = final.replace(regex2,'&')
-	// // console.log(fin2);
+}
+function asignarrepartidor(){
+	var sel = document.getElementById('estatus');
 	// $.ajax({
-	// 	url:"/registrarpedido/"+fin2,
+	// 	url:"/revisarrepartidor/"+sel,
 	// 	success: function(res){
-	// 		Swal.fire('insertado correctamente!', '', 'success');
-	// 		window.location.href = "/listapedido";
+	// 		console.log(res)
+	// 		// Swal.fire('insertado correctamente!', '', 'success');
+	// 		// window.location.href = "/listapedido";
 	// 	},
 	// 	error: function(res){
 	// 		Swal.fire('Sucedió un error!', '', 'error')
 	// 	}
 	// });
+	console.log(sel);
 }

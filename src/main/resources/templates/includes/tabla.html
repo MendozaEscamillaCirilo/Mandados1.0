@@ -1,6 +1,11 @@
 <div class="card card-primary card-outline">
   <div class="card-header">
     <h3 class="card-title"><i class="fas fa-edit"></i>PEDIDO</h3>
+    <div class="card-tools">                      
+      <ul class="nav nav-pills ml-auto">
+        <h5 th:text="'Total = ' + ${totalp}" class="btn-outline-primary"></h5>
+      </ul>
+    </div>
   </div>
   <div class="card-body">
     <table id="tablapedido" class="table table-bordered table-striped">
@@ -10,7 +15,7 @@
                 <th>Comercio</th>
                 <th>Cantidad</th>
                 <th>Total</th>
-                <th></th>
+                <th>Comentario</th>
             </tr>
         </thead>
         <tbody id="cuerpo">
@@ -23,6 +28,7 @@
             <td><span th:text="${pa.comercio.nombre}"> Authority </span></td>
             <td><span th:text="${pa.cantidad}"> 1 </span></td>
             <td><span th:text="${pa.total}"> Authority </span></td>
+            <td><span th:text="${pa.comentario}"> Authority </span></td>
           </tr>
         </tbody>
     </table>

@@ -109,7 +109,6 @@
                       <div class="card-body"><h1>Estimado usuario su mensualidad no ha sido pagada.</h1></div>
                     </div>
                 </div>
-                
                 <div sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')" class="container-fluid">
                     <div class="card card-primary card-outline">
                         <div class="card-header">
@@ -131,12 +130,37 @@
                 <div th:if="${tablavisible}" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')" class="container-fluid">
                     <div class="card card-primary card-outline">
                         <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-edit"></i>PRODUCTOS ENCONTRADOS</h3>
+                            <h3 class="card-title"><i class="fas fa-edit"></i><strong th:text="${comen}?'COMERCIOS QUE CONTIENEN PRODUCTOS COINCIDENTES':'PRODUCTOS DE ' + ${nombrecomercio}"></strong></h3>
                         </div>
                         <div class="card-body">
                             <div th:if="${tablavisible}">
-                                <table id="tabla1" class="table table-bordered table-striped">
-                                    <thead>
+                                <table th:if="${comen}" class="table table-bordered table-striped">
+                                  <thead>
+                                    <tr>
+                                      <th>Nombre</th>
+                                      <th>Dirección</th>
+                                      <th></th>
+                                    </tr>
+                                  </thead>
+                                  <tbody >
+                                    <tr th:if="${comercios.empty}"><td colspan="5"> No hay resultados </td></tr>
+                                    <tr th:each="c :${comercios}">
+                                      <td><span th:text="${c.nombre}"></span></td>
+                                      <td><span th:text="${c.sucursales[0].calle}+' No.'+${c.sucursales[0].numero}+' colonia '+${c.sucursales[0].colonia}"></span></td>
+                                      <td class="text-center inline">
+                                        <form action="/bpdh" novalidate>
+                                          <input type="hidden" name="idp" id="idp" th:value="${c.id}">
+                                          <input type="hidden" name="search" id="search" class="form-control" th:value="${search}">
+                                          <button class="btn btn-outline-primary" type="submit">
+                                            Ver productos
+                                          </button>
+                                        </form>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                                  <table th:if="${proen}" id="tabla1" class="table table-bordered table-striped">
+                                    <thead >
                                         <tr>
                                             <th>Nombre</th>
                                             <th>Costo</th>
@@ -159,7 +183,7 @@
                                             </td>
                                         </tr>
                                     </tbody>
-                                </table>
+                                  </table>
                             </div>
                         </div>
                     </div>

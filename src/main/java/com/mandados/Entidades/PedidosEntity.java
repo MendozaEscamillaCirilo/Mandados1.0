@@ -22,7 +22,11 @@ public class PedidosEntity {
     @Column
     private Double total;
     @Column
+<<<<<<< HEAD
     private String estatus;
+=======
+    private String comentarios;
+>>>>>>> ea09126542f5cbe8e7e5404686b7d68e5bf943a9
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "Pedidos_Productos", joinColumns = { @JoinColumn(name = "pedido_id") }, inverseJoinColumns = {
@@ -113,12 +117,6 @@ public class PedidosEntity {
         this.repartidor = repartidor;
     }
 
-    public String toString() {
-        return "PedidosEntity [destino=" + destino + ", fecha=" + fecha + ", horaentrega=" + horaentrega
-                + ", horapedido=" + horapedido + ", horarecoleccion=" + horarecoleccion + ", id=" + id + ", operador="
-                + operador + ", productos=" + productos + ", repartidor=" + repartidor + ", total=" + total + "]";
-    }
-
     public RepartidoresEntity getRepartidor() {
         return repartidor;
     }
@@ -145,6 +143,7 @@ public class PedidosEntity {
     public PedidosEntity() {
     }
 
+<<<<<<< HEAD
     public String getEstatus() {
         return estatus;
     }
@@ -152,6 +151,15 @@ public class PedidosEntity {
     public void setEstatus(String estatus) {
         this.estatus = estatus;
     }
+=======
+	public String getComentarios() {
+		return comentarios;
+	}
+
+	public void setComentarios(String comentarios) {
+		this.comentarios = comentarios;
+	}
+>>>>>>> ea09126542f5cbe8e7e5404686b7d68e5bf943a9
 
 
 }
