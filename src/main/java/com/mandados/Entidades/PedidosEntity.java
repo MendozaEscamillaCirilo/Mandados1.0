@@ -21,6 +21,8 @@ public class PedidosEntity {
     private java.sql.Time horaentrega;
     @Column
     private Double total;
+    @Column
+    private String estatus;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "Pedidos_Productos", joinColumns = { @JoinColumn(name = "pedido_id") }, inverseJoinColumns = {
@@ -141,6 +143,14 @@ public class PedidosEntity {
     }
 
     public PedidosEntity() {
+    }
+
+    public String getEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(String estatus) {
+        this.estatus = estatus;
     }
 
 

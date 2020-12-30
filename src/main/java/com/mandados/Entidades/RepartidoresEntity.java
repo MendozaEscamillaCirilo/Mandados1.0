@@ -27,7 +27,7 @@ public class RepartidoresEntity {
     @Column
     private String email;
     @Column
-	private Boolean estatus;
+	private String estatus;
 
     @OneToMany(mappedBy = "repartidor",cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<PedidosEntity> pedidos;
@@ -127,11 +127,11 @@ public class RepartidoresEntity {
                 + telefono + "]";
     }
 
-    public Boolean getEstatus() {
+    public String getEstatus() {
         return estatus;
     }
 
-    public void setEstatus(Boolean estatus) {
+    public void setEstatus(String estatus) {
         this.estatus = estatus;
     }
 
