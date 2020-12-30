@@ -30,7 +30,7 @@ public class RepartidorController {
     }
     @PostMapping(value="/registrorepartidor")
     public String registrarRepartidor(Model model, Authentication auth,@Validated RepartidoresEntity repartidor) {
-        repartidor.setEstatus(true);
+        repartidor.setEstatus("Libre");
         repartidorrepository.save(repartidor);
         return listarRepartidor(model, auth);
     }
@@ -59,7 +59,7 @@ public class RepartidorController {
     @GetMapping("/eliminarrepartidor/{id}")
 	public String eliminarRepartidor(@PathVariable Long id, Model model, Authentication auth) {
         RepartidoresEntity repartidor = repartidorrepository.findById(id).get();
-        repartidor.setEstatus(repartidor.getEstatus()==false ? true : false);
+        repartidor.setEstatus("Baja");
 		repartidorrepository.save(repartidor);
 		return listarRepartidor(model, auth);
 	}

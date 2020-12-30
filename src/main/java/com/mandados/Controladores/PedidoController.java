@@ -27,8 +27,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @Controller
@@ -62,7 +60,8 @@ public class PedidoController {
             Iterator<PedidosEntity> iterador = lista.iterator();
             while (iterador.hasNext()) {
                 PedidosEntity pedido = iterador.next();
-                if ((pedido.getProductos().iterator().next()).getComercio().getId()==comercio.getId()) {
+                ProductosEntity producto = pedido.getProductos().iterator().next();
+                if (producto.getComercio().getId()==comercio.getId()) {
                     pedidosdelcomercio.add(pedido);
                 }
             }
@@ -116,7 +115,7 @@ public class PedidoController {
         PedidosEntity pedido = pedidorepository.findById(id).get();
         pedido.setRepartidor(repartidor);
         pedidorepository.save(pedido);
-        repartidor.setEstatus(false);
+        repartidor.setEstatus("Ocupado");
         repartidorrepository.save(repartidor);
         return listarorden(auth, model);
     }
