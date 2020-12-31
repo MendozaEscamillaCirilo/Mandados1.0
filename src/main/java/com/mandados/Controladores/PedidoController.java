@@ -130,10 +130,11 @@ public class PedidoController {
         pedidorepository.save(pedido);
         return listarorden(auth, model);
     }
-    @GetMapping("//establecerhoraentrega")
+    @GetMapping("/establecerhoraentrega")
     public String establecerhoraentrega(@RequestParam("idp")Long id, Model model, Authentication auth) {
         PedidosEntity pedido = pedidorepository.findById(id).get();
         pedido.setHoraentrega(new java.sql.Time(Calendar.getInstance().getTimeInMillis()));
+        pedido.getRepartidor().setEstatus("Libre");
         pedidorepository.save(pedido);
         return listarorden(auth, model);
     }
