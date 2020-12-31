@@ -23,7 +23,10 @@ public class ComerciosEntity {
 	private String nombre;
 
 	@Column
-    private String email;
+	private String email;
+	
+	@Column
+	private String imagen;
 
 	@ManyToOne()
 	@JoinColumn(name = "tipo_id")
@@ -135,6 +138,18 @@ public class ComerciosEntity {
 	}
 
 	public void setHoraCierre(java.sql.Time horacierre) {
+		this.horacierre = horacierre;
+	}
+
+	public String getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
+	}
+
+	public void setHoracierre(java.sql.Time horacierre) {
 		this.horacierre = horacierre;
 	}
 }

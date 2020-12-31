@@ -1,8 +1,12 @@
 package com.mandados.Controladores;
 
 import com.mandados.Entidades.RepartidoresEntity;
+import com.mandados.Entidades.User;
+import com.mandados.Repository.AuthorityRepository;
 import com.mandados.Repository.RepartidorRepository;
+import com.mandados.Repository.UserRepository;
 import com.mandados.config.MetodosExtra;
+import com.mandados.config.Passgenerator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -19,7 +23,11 @@ public class RepartidorController {
     @Autowired
     private MetodosExtra metodosextra;
     @Autowired
+    private AuthorityRepository authorityrepository;
+    @Autowired
     private RepartidorRepository repartidorrepository;
+    @Autowired
+    private UserRepository userrepository;
     @GetMapping("/listarepartidor")
     public String listarRepartidor(Model model, Authentication auth) {
         model.addAttribute("repartidores", repartidorrepository.findAll());
@@ -32,6 +40,16 @@ public class RepartidorController {
     public String registrarRepartidor(Model model, Authentication auth,@Validated RepartidoresEntity repartidor) {
         repartidor.setEstatus("Libre");
         repartidorrepository.save(repartidor);
+        Passgenerator ps = new Passgenerator();
+        String generada = metodosextra.aleatorio();
+        String password = ps.getPassword(generada);
+        System.out.println(generada);
+        User user = new User();
+        user.setUsername(repartidor.getEmail());
+        user.setEnabled(true);
+        user.setPassword(password);
+        user.setAuthority(authorityrepository.findByAuthority("ROL_REPARTIDOR"));
+        userrepository.save(user);
         return listarRepartidor(model, auth);
     }
     @PostMapping(value="/editarrepartidor")

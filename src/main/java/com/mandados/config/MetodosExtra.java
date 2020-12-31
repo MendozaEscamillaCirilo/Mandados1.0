@@ -64,7 +64,7 @@ public class MetodosExtra {
         Optional<User> lista = userrepository.findByUsername(auth.getName());
         User user1 = lista.get();
         model.addAttribute("usuario", user1);
-        model.addAttribute("foto", "logos/"+user1.getUsername() + ".jpg");
+        // model.addAttribute("foto", "logos/"+user1.getUsername() + ".jpg");
     }
     private static void generateQRCodeImage(String text, int width, int height, String filePath) throws WriterException, IOException {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
@@ -213,6 +213,20 @@ public class MetodosExtra {
             }
         }
         return "productos/"+nombreproducto.split(" ")[0]+"_"+hora+".jpg";
+    }
+    public void editarImagenDelProducto(String imagendelproducto, MultipartFile imagen){
+        if (!imagen.isEmpty()) {
+            Path directorioImagenes = Paths.get("src//main//resources//static//productos");
+            String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
+            try {
+                byte[] bytesImgenes = imagen.getBytes();
+                Path rutaCompleta = Paths.get(rutaAbsoluta + "//"+imagendelproducto.split("/")[1]);
+                Files.write(rutaCompleta,bytesImgenes);
+                // producto.setImagen("productos/"+producto.getNombre().split(" ")[0]+"_"+hora+".jpg");
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
     }
     public ProductosParaPedidos convertirEnProductosParaPedido(ProductosEntity p,int cantidad,String comentario){
         return new ProductosParaPedidos(p.getId(), p.getNombre(), p.getPrecio(), p.getPrecio()*cantidad, p.getComercio(), cantidad,comentario);

@@ -12,4 +12,5 @@ public interface RepartidorRepository extends CrudRepository<RepartidoresEntity,
     public List<RepartidoresEntity> findAll();
     public List<RepartidoresEntity>findByEstatus(boolean estatus);
     public RepartidoresEntity findByNombre(String nombre);
+    public RepartidoresEntity findByEmail(String email);
 }

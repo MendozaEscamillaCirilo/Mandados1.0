@@ -36,9 +36,18 @@
                               <td><span th:text="${pedido.total}"> Authority </span></td>
                               <td class="text-center py-0 align-middle">
                                 <div class="btn-group btn-group-sm">
-                                  <a data-toggle="modal" th:data-target="'#modal-' + ${pedido.id}" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                                  <button data-toggle="modal" th:data-target="'#modal-' + ${pedido.id}" class="btn btn-info"><i class="fas fa-eye"></i></button>
                                   <a th:if="${pedido.horaentrega==null}" data-toggle="modal" th:data-target="'#modal-asignar-' + ${pedido.id}" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')" class="btn btn-warning"><i class="fas fa-edit"></i><p th:text="${pedido.repartidor==null?'Asignar repartidor':'Cambiar repartidor'}"></p></a>
-                                  <!-- <a sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER')" th:onclick="eliminarOrden([[${pedido.id}]])" class="btn btn-danger"><i class="fas fa-trash"></i></a> -->
+                                  <div sec:authorize="hasAuthority('ROL_REPARTIDOR')">
+                                    <form action="/entablecerhorarecodigo">
+                                      <input type="hidden" name="idp" th:value="${pedido.id}">
+                                      <button type="submit" th:if="${pedido.horarecoleccion==null}" class="btn btn-warning"><i class="fas fa-edit"></i>Establecer recogido</button>
+                                    </form>
+                                    <form action="/establecerhoraentrega">
+                                      <input type="hidden" name="idp" th:value="${pedido.id}">
+                                      <button type="submit" th:if="${pedido.horaentrega==null && pedido.horarecoleccion!=null}" class="btn btn-warning">Establecer Entregado</button>
+                                    </form>
+                                  </div>
                                 </div>
                                 <div class="modal fade" th:id="'modal-' + ${pedido.id}" data-backdrop="false">
                                   <div class="modal-dialog">

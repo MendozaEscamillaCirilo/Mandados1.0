@@ -14,7 +14,7 @@
       <div class="card text-center">
         <nav class="navbar navbar-dark white">
           <a class="navbar-brand">
-            <img src="imagenes/logo3.png" height="30" alt="mdb logo">
+            <img src="imagenes/logo2.png" height="30" alt="mdb logo">
           </a>
           <h4 class="navbar-toggler text-dark" th:text="${buscar}">"Hola"</h4>
           <div class="items cart">
@@ -64,7 +64,7 @@
       <div class="card text-center">
         <nav class="navbar navbar-dark white">
           <a class="navbar-brand">
-            <img src="imagenes/logo3.png" height="30" alt="mdb logo">
+            <img src="imagenes/logo2.png" height="30" alt="mdb logo">
           </a>
           <h4 class="navbar-toggler text-dark" th:text="${buscar}">"Hola"</h4>
           <div class="items cart">
@@ -81,14 +81,10 @@
               <h4> Intenta buscar algo diferente</h4>
               <form class="text-center" style="color: #757575;" action="spr">
                 <!-- Radio -->
-                <div class="form-check mb-4">
-                  <input class="form-check-input" name="group1" type="radio" id="radio-179" value="mandado" checked>
-                  <label class="form-check-label" for="radio-179">Mandado</label>
-                </div>
-                <div class="form-check mb-4">
-                  <input class="form-check-input" name="group1" type="radio" id="radio-279" value="comida">
-                  <label class="form-check-label" for="radio-279">Comida</label>
-                </div>
+                <!-- <div class="form-check mb-4"> -->
+                  <input class="form-check-input" name="group1" type="hidden" id="radio-179" value="mandado">
+                  <!-- <label class="form-check-label" for="radio-179">Mandado</label> -->
+                <!-- </div> -->
                 <!-- Radio -->
                 <p class="text-center">
                   <strong>Producto o platillo</strong>
@@ -116,7 +112,7 @@
               <input type="hidden" name="buscar" id="buscar" th:value="${buscar}">
               <input type="hidden" name="com" id="com" th:value="${comercio.nombre}">
               <button type="submit">
-                <img th:src="'logos/' + ${comercio.email} + '.jpg'" class="img img-responsive" width="100%">
+                <img th:src="${comercio.imagen != null ? comercio.imagen : 'imagenes/fondodelnavbar.jpg'}" class="img img-responsive" width="100%">
               </button>
             </form>
             <div class="profile-content">

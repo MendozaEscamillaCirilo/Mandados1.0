@@ -70,7 +70,7 @@ public class ProductoController {
         producto.setPrecio(precio);
         producto.setContenido(contenido);
         producto.setDescripcion(descripcion);
-        if(!imagen.isEmpty()){producto.setImagen(metodosextra.crearImagenDelProducto(nombre, imagen));}
+        if(!imagen.isEmpty()){ metodosextra.editarImagenDelProducto(producto.getImagen(), imagen); }
         productorepository.save(producto);
         return listarProducto(model,auth);
     }

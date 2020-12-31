@@ -44,10 +44,10 @@
                           <div class="icon">
                             <i class="fas fa-check-double"></i>
                           </div>
-                          <a href="#" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
+                          <a href="/listapedido" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                       </div>
-                      <div th:if="${activo}" class="col-lg-3 col-6" sec:authorize="hasAnyAuthority('ROL_ADMIN','ROL_CALLCENTER','ROL_COMERCIO')">
+                      <div th:if="${activo}" class="col-lg-3 col-6">
                         <div class="small-box bg-danger">
                           <div class="inner">
                             <h3 th:text="${ordenespendientes}">65</h3>
@@ -56,7 +56,7 @@
                           <div class="icon">
                             <i class="fas fa-check"></i>
                           </div>
-                          <a href="#" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
+                          <a href="/listapedido" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                       </div>
                     </div>

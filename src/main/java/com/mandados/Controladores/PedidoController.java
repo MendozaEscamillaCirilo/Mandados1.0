@@ -47,10 +47,6 @@ public class PedidoController {
     private UserRepository userrepository;
     @GetMapping("/listapedido")
     public String listarorden(Authentication auth, Model model) {
-        if((auth.getAuthorities().toArray()[0]+"").equals("ROL_REPARTIDOR")){
-            model.addAttribute("pedidos", pedidorepository.findAll());
-            model.addAttribute("activo", true);
-        }
         if((auth.getAuthorities().toArray()[0]+"").equals("ROL_COMERCIO")){
             model.addAttribute("activo", metodosextra.getComercioLogueado(auth).getEstatus());
             UserDetails ud = (UserDetails)auth.getPrincipal();
@@ -66,10 +62,18 @@ public class PedidoController {
                 }
             }
             model.addAttribute("pedidos", pedidosdelcomercio);
-        }else{
+        }
+        if((auth.getAuthorities().toArray()[0]+"").equals("ROL_ADMIN")||(auth.getAuthorities().toArray()[0]+"").equals("ROL_CALLCENTER")){
             model.addAttribute("pedidos", pedidorepository.findAll());
             model.addAttribute("activo", true);
             model.addAttribute("repartidores", repartidorrepository.findAll());
+        }
+        if((auth.getAuthorities().toArray()[0]+"").equals("ROL_REPARTIDOR")){
+            UserDetails ud = (UserDetails)auth.getPrincipal();
+            RepartidoresEntity repartidor = repartidorrepository.findByEmail(ud.getUsername());
+            List<PedidosEntity> pedidos = pedidorepository.findByRepartidor(repartidor);
+            model.addAttribute("pedidos", pedidos);
+            model.addAttribute("activo", true);
         }
         metodosextra.obtUsuario(model,auth);
         return "listar/pedido";
@@ -117,6 +121,20 @@ public class PedidoController {
         pedidorepository.save(pedido);
         repartidor.setEstatus("Ocupado");
         repartidorrepository.save(repartidor);
+        return listarorden(auth, model);
+    }
+    @GetMapping("/entablecerhorarecodigo")
+    public String entablecerhorarecodigo(@RequestParam("idp")Long id, Model model, Authentication auth) {
+        PedidosEntity pedido = pedidorepository.findById(id).get();
+        pedido.setHorarecoleccion(new java.sql.Time(Calendar.getInstance().getTimeInMillis()));
+        pedidorepository.save(pedido);
+        return listarorden(auth, model);
+    }
+    @GetMapping("//establecerhoraentrega")
+    public String establecerhoraentrega(@RequestParam("idp")Long id, Model model, Authentication auth) {
+        PedidosEntity pedido = pedidorepository.findById(id).get();
+        pedido.setHoraentrega(new java.sql.Time(Calendar.getInstance().getTimeInMillis()));
+        pedidorepository.save(pedido);
         return listarorden(auth, model);
     }
     

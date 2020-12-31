@@ -11,7 +11,9 @@ import javax.persistence.Query;
 
 import com.mandados.Entidades.ComerciosEntity;
 import com.mandados.Entidades.DestinosEntity;
+import com.mandados.Entidades.PedidosEntity;
 import com.mandados.Entidades.ProductosParaPedidos;
+import com.mandados.Entidades.RepartidoresEntity;
 import com.mandados.Entidades.User;
 import com.mandados.Repository.ComercioRepository;
 import com.mandados.Repository.PedidoRepository;
@@ -55,8 +57,8 @@ public class ControladorListarDatos {
     private MetodosExtra metodosextra;
     @GetMapping("/home")
     public String home(Authentication authentication, Model model) {
+        UserDetails ud = (UserDetails)authentication.getPrincipal();
         if((authentication.getAuthorities().toArray()[0]+"").equals("ROL_COMERCIO")){
-            UserDetails ud = (UserDetails)authentication.getPrincipal();
             String comercio = comerciorepository.findByEmail(ud.getUsername()).getNombre();
             model.addAttribute("establecerhorario", true);
             model.addAttribute("nombrecomercio", comercio);
@@ -79,6 +81,10 @@ public class ControladorListarDatos {
             model.addAttribute("activo", true);
         }
         if((authentication.getAuthorities().toArray()[0]+"").equals("ROL_REPARTIDOR")){
+            RepartidoresEntity repartidor = repartidorrepository.findByEmail(ud.getUsername());
+            List<PedidosEntity> pedidos = pedidorepository.findByRepartidor(repartidor);
+            model.addAttribute("ordenescompletadas", metodosextra.getDatesOnListNoExist(pedidos).size());
+            model.addAttribute("ordenespendientes", metodosextra.getDatesOnListExist(pedidos).size());
             model.addAttribute("activo", true);
         }
         metodosextra.obtUsuario(model,authentication);
@@ -96,8 +102,13 @@ public class ControladorListarDatos {
                 byte[] bytesImgenes = imagen.getBytes();
                 Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + user1.getUsername()+".jpg");
                 Files.write(rutaCompleta,bytesImgenes);
-                user1.setImagen(user1.getUsername().split("@")[0]);
+                user1.setImagen("logos/"+user1.getUsername()+".jpg");
                 userrepository.save(user1);
+                if((authentication.getAuthorities().toArray()[0]+"").equals("ROL_COMERCIO")){
+                    ComerciosEntity comercio = comerciorepository.findByEmail(user1.getUsername());
+                    comercio.setImagen("logos/"+user1.getUsername()+".jpg");
+                    comerciorepository.save(comercio);
+                }
             } catch (Exception e) {System.out.println(e);}
         }
         return home(authentication, model);
