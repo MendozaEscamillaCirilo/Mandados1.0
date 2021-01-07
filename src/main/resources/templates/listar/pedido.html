@@ -74,7 +74,9 @@
                                         <p> <b> Repartidor </b> </p>
                                         <p th:text="${pedido.repartidor==null?'No hay repartidor asignado':pedido.repartidor.nombre + ' '+pedido.repartidor.primerapellido+' '+pedido.repartidor.segundoapellido}">One fine body&hellip;</p>
                                         <p> <b> Comentarios </b> </p>
-                                        <p th:text="${pedido.comentarios}">One fine body&hellip;</p>
+                                        <div th:each="comentario : ${#strings.arraySplit(pedido.comentarios, ',')}">
+                                          <p th:text="${comentario}">O</p>
+                                        </div>
                                       </div>
                                       <div class="modal-footer justify-content-between">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
