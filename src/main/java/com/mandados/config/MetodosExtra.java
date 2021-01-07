@@ -75,7 +75,7 @@ public class MetodosExtra {
     }
     public void generarQR(String nombre){
         try {
-            generateQRCodeImage("https://mandadosdevelop.herokuapp.com/spr?group1=noObtain&buscar=&com=" + nombre, 350, 350, "./src/main/resources/static/qrs/" + nombre + ".png");
+            generateQRCodeImage("https://mandadosdemama.com/spr?group1=noObtain&buscar=&com=" + nombre, 350, 350, "./src/main/resources/static/qrs/" + nombre + ".png");
         } catch (WriterException e) {
             System.out.println("Could not generate QR Code, WriterException :: " + e.getMessage());
         } catch (IOException e) {
@@ -104,7 +104,7 @@ public class MetodosExtra {
             configuration.setClassForTemplateLoading(this.getClass(), "/templates/");
             Template template = configuration.getTemplate("email/resetcuenta.html");
             String text = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
-            helper.setFrom("no-reply@mandados.com");
+            helper.setFrom("contacto@mandadosdemama.com");
             helper.setTo(correo);
             helper.setText(text, true);
             helper.setSubject("Hola, aquí tienes tus datos de acceso");
@@ -126,7 +126,7 @@ public class MetodosExtra {
             configuration.setClassForTemplateLoading(this.getClass(), "/templates/");
             Template template = configuration.getTemplate("email/cambiocontrasenia.html");
             String text = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
-            helper.setFrom("no-reply@mandados.com");
+            helper.setFrom("contacto@mandadosdemama.com");
             helper.setTo(correo);
             helper.setText(text, true);
             helper.setSubject("¡¡¡¡ACTUALIZADO!!!!");
@@ -150,7 +150,7 @@ public class MetodosExtra {
             configuration.setClassForTemplateLoading(this.getClass(), "/templates/");
             Template template = configuration.getTemplate("email/nuevocomercio.html");
             String text = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
-            helper.setFrom("no-reply@mandados.com");
+            helper.setFrom("contacto@mandadosdemama.com");
             helper.setTo(correo);
             helper.setText(text, true);
             helper.setSubject("Hola, aquí tienes tus datos de acceso");
