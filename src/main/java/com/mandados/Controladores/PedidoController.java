@@ -91,7 +91,8 @@ public class PedidoController {
                                         @RequestParam("telefono")String telefono,
                                         @RequestParam("ids")String ids,
                                         @RequestParam("valores")String valores,
-                                        @RequestParam("comentarios")String comentarios
+                                        @RequestParam("comentarios")String comentarios,
+                                        @RequestParam("sincomercio")String sincomercio
                                         ){
         DestinosEntity destino = new DestinosEntity(nombre, primerapellido, segundoapellido, calle, Integer.parseInt(numero), colonia, municipio, telefono);
         destinosrepository.save(destino);
@@ -99,17 +100,28 @@ public class PedidoController {
                                                  new java.sql.Time(Calendar.getInstance().getTimeInMillis()),
                                                  destino, 
                                                  userrepository.findByUsername(auth.getName()).get());
-        Double total = 0.0;
-        Set<ProductosEntity> listadeproductos = new HashSet<ProductosEntity>();
-        String [] productosexistentes = ids.split(",");
-        String [] productosexistentesvalores = valores.split(",");
-        for (int i = 1; i < productosexistentes.length; i++) {
-            ProductosEntity producto = productorepository.findById(Long.parseLong(productosexistentes[i])).get();
-            listadeproductos.add(producto);
-            total+=producto.getPrecio()*Integer.parseInt(productosexistentesvalores[i]);
+        if(!sincomercio.equals("si")){
+            Double total = 0.0;
+            Set<ProductosEntity> listadeproductos = new HashSet<ProductosEntity>();
+            String [] productosexistentes = ids.split(",");
+            String [] productosexistentesvalores = valores.split(",");
+            for (int i = 1; i < productosexistentes.length; i++) {
+                ProductosEntity producto = productorepository.findById(Long.parseLong(productosexistentes[i])).get();
+                listadeproductos.add(producto);
+                total+=producto.getPrecio()*Integer.parseInt(productosexistentesvalores[i]);
+            }
+            pedido.setTotal(total);
+            pedido.setProductos(listadeproductos);
+        }else{
+            String comentariocompleto = "";
+            String [] productosarray = ids.split(",");
+            String [] presentacionesarray = valores.split(",");
+            String [] comentariosarray = comentarios.split(",");
+            for (int i = 1; i < productosarray.length; i++) {
+                comentariocompleto+=","+presentacionesarray[i]+ " de "+productosarray[i]+ " || Comentario => " + comentariosarray[i];
+            }
+            comentarios = comentariocompleto;
         }
-        pedido.setTotal(total);
-        pedido.setProductos(listadeproductos);
         pedido.setComentarios(comentarios);
         pedidorepository.save(pedido);
         return listarorden(auth, model);

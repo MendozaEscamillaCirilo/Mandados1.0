@@ -13,6 +13,7 @@ import com.mandados.Entidades.ComerciosEntity;
 import com.mandados.Entidades.DestinosEntity;
 import com.mandados.Entidades.PedidosEntity;
 import com.mandados.Entidades.ProductosParaPedidos;
+import com.mandados.Entidades.ProductosParaPedidosSinComercio;
 import com.mandados.Entidades.RepartidoresEntity;
 import com.mandados.Entidades.User;
 import com.mandados.Repository.ComercioRepository;
@@ -164,5 +165,34 @@ public class ControladorListarDatos {
         model.addAttribute("totalp", total);
         model.addAttribute("destino",new DestinosEntity());
         return "includes/tabla";
+    }
+    @RequestMapping("agregaralcarritosincomercio")
+    public String agregaralcarritosincomercio(Model model,
+                                                @RequestParam("producto")String producto,
+                                                @RequestParam("presentacion")String presentacion,
+                                                @RequestParam("comentario")String comentario,
+                                                @RequestParam("productos")String productos,
+                                                @RequestParam("presentaciones")String presentaciones,
+                                                @RequestParam("comentarios")String comentarios
+                                                ) {
+        System.out.println(producto);
+        System.out.println(presentacion);
+        System.out.println(comentario);
+        System.out.println(productos);
+        System.out.println(presentaciones);
+        System.out.println(comentarios);
+        List<ProductosParaPedidosSinComercio> lista = new ArrayList<ProductosParaPedidosSinComercio>();
+        if (!productos.equals("")){
+            String [] productosarray = productos.split(",");
+            String [] presentacionesarray = presentaciones.split(",");
+            String [] comentariosarray = comentarios.split(",");
+            for (int i = 1; i < productosarray.length; i++) {
+                lista.add(new ProductosParaPedidosSinComercio(productosarray[i],presentacionesarray[i],comentariosarray[i]));
+            }
+        }
+        lista.add(new ProductosParaPedidosSinComercio(producto, presentacion, comentario));
+        model.addAttribute("divtabladepedido", true);
+        model.addAttribute("productosagregados", lista);
+        return "includes/tablasincomercio";
     }
 }
