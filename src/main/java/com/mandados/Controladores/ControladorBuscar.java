@@ -140,4 +140,16 @@ public class ControladorBuscar {
         respuesta += "{}]";
         return respuesta;
     }
+
+    @GetMapping("/infoComercio")
+    public String infoComercio()
+    {
+        return "infoComercio";
+    }
+
+    @GetMapping("/infoRepartidor")
+    public String infoRepartidor()
+    {
+        return "infoRepartidor";
+    }
 }
