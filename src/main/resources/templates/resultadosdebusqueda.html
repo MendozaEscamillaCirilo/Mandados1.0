@@ -10,6 +10,7 @@
       <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
   </head>
   <body>
+    <div class="container-fluid">
     <div th:if="${porproducto}">
       <div class="card text-center">
         <nav class="navbar navbar-dark white">
@@ -45,10 +46,11 @@
                   <hr>
                 </div>
                 <div class = "items price">
-                  <p th:text="'$' + ${producto.precio - 4}" class="old">$699</p>
+                  <p th:text="'$' + ${producto.precio + 4}" class="old">$699</p>
                   <p th:text="'$' + ${producto.precio}" class="new">$345</p>
+                  <p th:text="'$' + ${#numbers.formatInteger(num,3)}" class="new">$345</p>
                 </div>
-                <div th:if="${carrito}" class="items cart">
+                <div class="items cart">
                   <button type="submit" class="btn btn-primary">
                     <i class="fa fa-shopping-cart"></i>
                     <span>ADD TO CART</span>
@@ -216,6 +218,7 @@
         });
       })
     </script>
+    </div>
   </body>
 </html>
 
