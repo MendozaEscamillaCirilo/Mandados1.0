@@ -46,9 +46,8 @@
                   <hr>
                 </div>
                 <div class = "items price">
-                  <p th:text="'$' + ${producto.precio + 4}" class="old">$699</p>
+                  <p th:text="'$' + ${producto.precio>30?producto.precio + 10:producto.precio + 5}" class="old">$699</p>
                   <p th:text="'$' + ${producto.precio}" class="new">$345</p>
-                  <p th:text="'$' + ${#numbers.formatInteger(num,3)}" class="new">$345</p>
                 </div>
                 <div class="items cart">
                   <button type="submit" class="btn btn-primary">
@@ -115,14 +114,14 @@
               <input type="hidden" name="com" id="com" th:value="${comercio.nombre}">
               <button type="submit">
                 <img th:src="${comercio.imagen != null ? comercio.imagen : 'imagenes/fondodelnavbar.jpg'}" class="img img-responsive" width="100%">
+                <div class="profile-content">
+                  <div class="profile-name">
+                    <p th:text="${comercio.sucursales[0].calle} + ' ' + ${comercio.sucursales[0].colonia}">Direccion del comercio</p>
+                  </div>
+                </div>
+                <h4 th:text="${comercio.nombre}">Tambien nombre</h4>
               </button>
             </form>
-            <div class="profile-content">
-              <div class="profile-name">
-                <p th:text="${comercio.sucursales[0].calle} + ' ' + ${comercio.sucursales[0].colonia}">Direccion del comercio</p>
-              </div>
-            </div>
-            <h4 th:text="${comercio.nombre}">Tambien nombre</h4>
           </div>
         </div>
       </div>
