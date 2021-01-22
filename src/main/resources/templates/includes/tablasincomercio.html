@@ -11,19 +11,23 @@
       <table id="tablapedido" class="table table-bordered table-striped">
           <thead>
               <tr>
-                  <th>Producto</th>
-                  <th>Presentacion</th>
+                  <th>Cantidad</th>
+                  <th>Producto/Presentacion</th>
                   <th>Comentario</th>
+                  <th>Accion</th>
+                  <th>Indice</th>
               </tr>
           </thead>
           <tbody id="cuerpo">
             <tr th:if="${productosagregados.empty}">
               <td colspan="3"> No hay comercios registrados </td>
             </tr>
-            <tr th:each="pa :${productosagregados}">
-              <td><span th:text="${pa.producto}"> Authority </span></td>
+            <tr th:each="pa,iterador :${productosagregados}">
               <td><span th:text="${pa.presentacion}"> Authority </span></td>
+              <td><span th:text="${pa.producto}"> Authority </span></td>
               <td><span th:text="${pa.comentario}"> Authority </span></td>
+              <td><button type="button" class="btn btn-warning" th:onclick="editarsincomercio([[${iterador.index}]],[[${pa.producto}]],[[${pa.presentacion}]],[[${pa.comentario}]])">Editar</button><button type="button" class="btn btn-danger">Quitar</button></td>
+              <td th:text="${iterador.index}"td>
             </tr>
           </tbody>
       </table>
@@ -74,7 +78,7 @@
                 <div class="form-group">
                   <div class="row">
                     <div class="col-xl-6 col-md-6 col-sm-6">
-                      <input id="cliente-municipio" type="text" class="form-control validate" placeholder="Municipio" required>
+                      <input id="cliente-municipio" type="text" class="form-control validate"  value="Oaxaca de Juarez"  required>
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-6">
                       <input id="cliente-telefono" type="text" class="form-control validate" placeholder="Telefono" data-inputmask='"mask": "(###) ###-####"' data-mask required>

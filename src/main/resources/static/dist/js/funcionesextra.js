@@ -353,3 +353,100 @@ function addacarritosincomercio(){
 		}
 	});
 }
+
+
+async function addacarritosincomercio2(){
+	
+	const { value: formValues } = await Swal.fire({
+	title: 'Ingresar un producto',
+	html:
+	  '<input id="swal-input1" class="swal2-input" placeholder="CANTIDAD(2, 1 kg, etc..)">' +
+	  '<input id="swal-input2" class="swal2-input" placeholder="NOMBRE(hamburguesa, tomate,...)">'+
+	  '<input id="swal-input3" class="swal2-input" placeholder="COMENTARIO(sin tomate, grande,...)">',
+	focusConfirm: false,
+	preConfirm: () => {
+	  return [
+		document.getElementById('swal-input1').value,
+		document.getElementById('swal-input2').value,
+		document.getElementById('swal-input3').value
+	  ]
+	}
+  })
+  
+  if (formValues) {
+	Swal.fire(JSON.stringify(formValues[0]+" "+formValues[1]+ " AGREGADO"));
+  }
+  console.log(formValues[1]);
+
+  var producto = formValues[1];
+  var presentacion = formValues[0];
+  var comentario = formValues[2];
+
+  var productos = "";
+  var presentaciones = "";
+  var comentarios = "";
+  const regex = / /gi;
+  if($('#tablapedido').length){
+	  for (let i = 0; i < $('#tablapedido')[0].children[1].children.length; i++) {
+		  productos += "," + $('#tablapedido')[0].children[1].children[i].cells[0].innerText.replace(regex,'+');
+		  presentaciones += "," + $('#tablapedido')[0].children[1].children[i].cells[1].innerText.replace(regex,'+');
+		  comentarios += "," + $('#tablapedido')[0].children[1].children[i].cells[2].innerText.replace(regex,'+');
+	  }
+  }
+  $('#divconfirmarpedido').load("/agregaralcarritosincomercio"
+				  +"?producto="+producto.replace(regex,'+')
+				  +"&presentacion="+presentacion.replace(regex,'+')
+				  +"&comentario="+comentario.replace(regex,'+')
+				  +"&productos="+productos
+				  +"&presentaciones="+presentaciones
+				  +"&comentarios="+comentarios
+				  );
+
+}
+
+function addcomercio(){
+	
+	Swal.fire({
+	title: 'Ingresar el comercio, punto de recoleccion',
+	html:
+	  '<input id="swal-input1" class="swal2-input" placeholder="NOMBRE(Taqueria Juanito)">' +
+	  '<input id="swal-input2" class="swal2-input" placeholder="NOMBRE(Esc. Naval Militar #215)">'+
+	  '<input id="swal-input3" class="swal2-input" placeholder="REFERENCIA(Cerca de ...)">',
+	focusConfirm: false,
+	preConfirm: () => {
+	  return [
+		document.getElementById('swal-input1').value,
+		document.getElementById('swal-input2').value,
+		document.getElementById('swal-input3').value
+	  ]
+	}
+  })
+  
+  if (formValues) {
+	Swal.fire(JSON.stringify(formValues))
+  }
+}
+
+async function editarsincomercio(indice, producto, presentacion, comentario){
+console.log(producto);
+	
+const { value: formValues } = await Swal.fire({
+	title: 'Modifica el producto', 
+	html:
+	  '<input id="swal-input1" class="swal2-input" value="$(presentacion)">' +
+	  '<input id="swal-input2" class="swal2-input" value="[[${pa.producto}]]">'+
+	  '<input id="swal-input3" class="swal2-input" value="comentario">',
+	focusConfirm: false,
+	preConfirm: () => {
+	  return [
+		document.getElementById('swal-input1').value,
+		document.getElementById('swal-input2').value,
+		document.getElementById('swal-input3').value
+	  ]
+	}
+  })
+  
+  if (formValues) {
+	Swal.fire(JSON.stringify(formValues))
+  }
+}

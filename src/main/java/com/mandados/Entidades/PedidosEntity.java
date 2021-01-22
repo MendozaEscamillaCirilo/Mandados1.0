@@ -22,6 +22,8 @@ public class PedidosEntity {
     @Column
     private Double total;
     @Column
+    private Double costoenvio;
+    @Column
     private String estatus;
     @Column
     private String comentarios;
@@ -89,6 +91,14 @@ public class PedidosEntity {
 
     public void setTotal(Double total) {
         this.total = total;
+    }
+
+    public Double getCostoenvio() {
+        return costoenvio;
+    }
+
+    public void setCostoenvio(Double costoenvio) {
+        this.costoenvio = costoenvio;
     }
 
     public Set<ProductosEntity> getProductos() {

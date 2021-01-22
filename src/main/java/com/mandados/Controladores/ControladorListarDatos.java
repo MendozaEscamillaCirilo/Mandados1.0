@@ -195,4 +195,9 @@ public class ControladorListarDatos {
         model.addAttribute("productosagregados", lista);
         return "includes/tablasincomercio";
     }
+
+    @GetMapping("tabla")
+    public String tabla(){
+        return("tables");
+    }
 }
