@@ -363,7 +363,8 @@ async function addacarritosincomercio2(){
 	  '<input id="swal-input1" class="swal2-input" placeholder="CANTIDAD(2, 1 kg, etc..)">' +
 	  '<input id="swal-input2" class="swal2-input" placeholder="NOMBRE(hamburguesa, tomate,...)">'+
 	  '<input id="swal-input3" class="swal2-input" placeholder="COMENTARIO(sin tomate, grande,...)">',
-	focusConfirm: false,
+	focusConfirm: true,
+	allowEnterKey: true, // default value
 	preConfirm: () => {
 	  return [
 		document.getElementById('swal-input1').value,
@@ -373,26 +374,27 @@ async function addacarritosincomercio2(){
 	}
   })
   
-  if (formValues) {
-	Swal.fire(JSON.stringify(formValues[0]+" "+formValues[1]+ " AGREGADO"));
-  }
   console.log(formValues[1]);
 
-  var producto = formValues[1];
   var presentacion = formValues[0];
+  var producto = formValues[1];
   var comentario = formValues[2];
 
-  var productos = "";
   var presentaciones = "";
+  var productos = "";
   var comentarios = "";
   const regex = / /gi;
   if($('#tablapedido').length){
+	// if(document.getElementById("tablapedido").rows.length>1){
 	  for (let i = 0; i < $('#tablapedido')[0].children[1].children.length; i++) {
-		  productos += "," + $('#tablapedido')[0].children[1].children[i].cells[0].innerText.replace(regex,'+');
-		  presentaciones += "," + $('#tablapedido')[0].children[1].children[i].cells[1].innerText.replace(regex,'+');
+		presentaciones += "," + $('#tablapedido')[0].children[1].children[i].cells[0].innerText.replace(regex,'+');
+		  productos += "," + $('#tablapedido')[0].children[1].children[i].cells[1].innerText.replace(regex,'+');
 		  comentarios += "," + $('#tablapedido')[0].children[1].children[i].cells[2].innerText.replace(regex,'+');
 	  }
-  }
+//   }
+}
+
+  try{
   $('#divconfirmarpedido').load("/agregaralcarritosincomercio"
 				  +"?producto="+producto.replace(regex,'+')
 				  +"&presentacion="+presentacion.replace(regex,'+')
@@ -401,6 +403,19 @@ async function addacarritosincomercio2(){
 				  +"&presentaciones="+presentaciones
 				  +"&comentarios="+comentarios
 				  );
+				  if (formValues) {
+					Swal.fire(JSON.stringify(formValues[0]+" "+formValues[1]+ " AGREGADO"));
+				  }
+  }
+  catch(x){
+	Swal.fire({
+		icon: 'error',
+		title: 'Oops...',
+		text: 'Ocurrio un error, FAVOR DE RECARGAR LA PAGINA',
+		// footer: '<a href>Why do I have this issue?</a>'
+	  })
+
+  }
 
 }
 
@@ -427,26 +442,63 @@ function addcomercio(){
   }
 }
 
-async function editarsincomercio(indice, producto, presentacion, comentario){
-console.log(producto);
+async function editarsincomercio(indice){
+
+var presentacion = $('#presentacion').val();
+var producto = $('#producto').val();
+var comentario = $('#comentarios').val();
+
+console.log(indice+' '+presentacion+' '+producto+' '+comentario);
+
+// var productos = "";
+// var presentaciones = "";
+// var comentarios = "";
+// const regex = / /gi;
+
+// for (let i = 0; i < $('#tablapedido')[0].children[1].children.length; i++) {
+// 	if(i==indice){
+// 		productos += "," +producto;
+// 		presentaciones += "," + presentacion;
+// 		comentarios += "," + comentario;
+// 	}
+// 	productos += "," + $('#tablapedido')[0].children[1].children[i].cells[1].innerText.replace(regex,'+');
+// 	presentaciones += "," + $('#tablapedido')[0].children[1].children[i].cells[0].innerText.replace(regex,'+');
+// 	comentarios += "," + $('#tablapedido')[0].children[1].children[i].cells[2].innerText.replace(regex,'+');
+// 	// console.log(i);
 	
-const { value: formValues } = await Swal.fire({
-	title: 'Modifica el producto', 
-	html:
-	  '<input id="swal-input1" class="swal2-input" value="$(presentacion)">' +
-	  '<input id="swal-input2" class="swal2-input" value="[[${pa.producto}]]">'+
-	  '<input id="swal-input3" class="swal2-input" value="comentario">',
-	focusConfirm: false,
-	preConfirm: () => {
-	  return [
-		document.getElementById('swal-input1').value,
-		document.getElementById('swal-input2').value,
-		document.getElementById('swal-input3').value
-	  ]
-	}
-  })
-  
-  if (formValues) {
-	Swal.fire(JSON.stringify(formValues))
-  }
+// }
+// $('#divconfirmarpedido').load("/eliminardelcarritosincomercio"
+// +"?productos="+productos
+// +"&presentaciones="+presentaciones
+// +"&comentarios="+comentarios
+// );
+
+}
+
+async function eliminardelcarritosincomercio(indice, producto, presentacion, comentario){
+	console.log(indice+" soy "+producto+" adios");
+	var productos = "";
+	var presentaciones = "";
+	var comentarios = "";
+	const regex = / /gi;
+	console.log(document.getElementById("tablapedido").rows.length);
+	if(document.getElementById("tablapedido").rows.length>1){
+		for (let i = 0; i < $('#tablapedido')[0].children[1].children.length; i++) {
+			if(i!=indice){
+			productos += "," + $('#tablapedido')[0].children[1].children[i].cells[1].innerText.replace(regex,'+');
+			presentaciones += "," + $('#tablapedido')[0].children[1].children[i].cells[0].innerText.replace(regex,'+');
+			comentarios += "," + $('#tablapedido')[0].children[1].children[i].cells[2].innerText.replace(regex,'+');
+			console.log(i);
+			}
+		}
+		$('#divconfirmarpedido').load("/eliminardelcarritosincomercio"
+		+"?productos="+productos
+		+"&presentaciones="+presentaciones
+		+"&comentarios="+comentarios
+		);
+
+	}else{
+		$("#tablapedido > tbody").empty();
+
+}
 }
