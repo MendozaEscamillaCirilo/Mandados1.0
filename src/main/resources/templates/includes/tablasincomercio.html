@@ -26,8 +26,9 @@
               <td><span th:text="${pa.producto}"> Authority </span></td>
               <td><span th:text="${pa.comentario}"> Authority </span></td>
               <td>
-              <button type="button" class="btn btn-danger" th:onclick="eliminardelcarritosincomercio([[${iterador.index}]],[[${pa.producto}]],[[${pa.presentacion}]],[[${pa.comentario}]])">Quitar</button>
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+               <button type="button" class="btn btn-warning" data-toggle="modal" th:data-target="'#Modal-'+${iterador.index}">Editar</button>
+               <button type="button" class="btn btn-danger" th:onclick="eliminardelcarritosincomercio([[${iterador.index}]],[[${pa.producto}]],[[${pa.presentacion}]],[[${pa.comentario}]])">Quitar</button> 
+                <div class="modal fade" th:id="'Modal-'+${iterador.index}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
@@ -40,21 +41,21 @@
                         <form>
                           <div class="form-group">
                             <label for="presentacion" class="col-form-label">Cantidad/Porcion:</label>
-                            <input type="text" class="form-control" id="presentacion" th:value="${pa.presentacion}">
+                            <input type="text" class="form-control" th:id="'presentacion'+${iterador.index}" th:value="${pa.presentacion}">
                           </div>
                           <div class="form-group">
-                            <label for="producto" class="col-form-label">Producto/Present acion:</label>
-                            <input type="text" class="form-control" id="producto" th:value="${pa.producto}">
+                            <label for="producto" class="col-form-label">Producto/Presentacion:</label>
+                            <input type="text" class="form-control" th:id="'producto'+${iterador.index}" th:value="${pa.producto}">
                           </div>
                           <div class="form-group">
                             <label for="comentarios" class="col-form-label">Comentarios:</label>
-                            <input type="text" class="form-control" id="comentarios" th:value="${pa.comentario}">
+                            <input type="text" class="form-control" th:id="'comentarios'+${iterador.index}" th:value="${pa.comentario}">
                           </div>
                         </form>
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-
+                        <button type="button" class="btn btn-primary" th:onclick="editarsincomercio([[${iterador.index}]])">Editar</button>
                       </div>
                     </div>
                   </div>

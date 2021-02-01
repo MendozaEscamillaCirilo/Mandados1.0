@@ -444,35 +444,37 @@ function addcomercio(){
 
 async function editarsincomercio(indice){
 
-var presentacion = $('#presentacion').val();
-var producto = $('#producto').val();
-var comentario = $('#comentarios').val();
+var presentacion = $('#presentacion'+indice).val();
+var producto = $('#producto'+indice).val();
+var comentario = $('#comentarios'+indice).val();
 
 console.log(indice+' '+presentacion+' '+producto+' '+comentario);
 
-// var productos = "";
-// var presentaciones = "";
-// var comentarios = "";
-// const regex = / /gi;
+var productos = "";
+var presentaciones = "";
+var comentarios = "";
+const regex = / /gi;
 
-// for (let i = 0; i < $('#tablapedido')[0].children[1].children.length; i++) {
-// 	if(i==indice){
-// 		productos += "," +producto;
-// 		presentaciones += "," + presentacion;
-// 		comentarios += "," + comentario;
-// 	}
-// 	productos += "," + $('#tablapedido')[0].children[1].children[i].cells[1].innerText.replace(regex,'+');
-// 	presentaciones += "," + $('#tablapedido')[0].children[1].children[i].cells[0].innerText.replace(regex,'+');
-// 	comentarios += "," + $('#tablapedido')[0].children[1].children[i].cells[2].innerText.replace(regex,'+');
-// 	// console.log(i);
-	
-// }
-// $('#divconfirmarpedido').load("/eliminardelcarritosincomercio"
-// +"?productos="+productos
-// +"&presentaciones="+presentaciones
-// +"&comentarios="+comentarios
-// );
-
+for (let i = 0; i < $('#tablapedido')[0].children[1].children.length; i++) {
+	if(i==indice){
+		productos += "," +producto;
+		presentaciones += "," + presentacion;
+		comentarios += "," + comentario;
+	}
+	else{
+	productos += "," + $('#tablapedido')[0].children[1].children[i].cells[1].innerText.replace(regex,'+');
+	presentaciones += "," + $('#tablapedido')[0].children[1].children[i].cells[0].innerText.replace(regex,'+');
+	comentarios += "," + $('#tablapedido')[0].children[1].children[i].cells[2].innerText.replace(regex,'+');
+	// console.log(i);
+	}
+}
+$('#divconfirmarpedido').load("/eliminardelcarritosincomercio"
++"?productos="+productos
++"&presentaciones="+presentaciones
++"&comentarios="+comentarios
+);
+$('body').removeClass('modal-open');
+$('.modal-backdrop').remove();
 }
 
 async function eliminardelcarritosincomercio(indice, producto, presentacion, comentario){
