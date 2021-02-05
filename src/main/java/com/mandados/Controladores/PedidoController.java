@@ -26,6 +26,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -92,7 +93,8 @@ public class PedidoController {
                                         @RequestParam("ids")String ids,
                                         @RequestParam("valores")String valores,
                                         @RequestParam("comentarios")String comentarios,
-                                        @RequestParam("sincomercio")String sincomercio
+                                        @RequestParam("sincomercio")String sincomercio,
+                                        @RequestParam("mandado")Double costoenvio
                                         ){
         DestinosEntity destino = new DestinosEntity(nombre, primerapellido, segundoapellido, calle, Integer.parseInt(numero), colonia, municipio, telefono);
         destinosrepository.save(destino);
@@ -123,6 +125,7 @@ public class PedidoController {
             comentarios = comentariocompleto;
         }
         pedido.setComentarios(comentarios);
+        pedido.setCostoenvio(costoenvio);
         pedidorepository.save(pedido);
         return listarorden(auth, model);
     }

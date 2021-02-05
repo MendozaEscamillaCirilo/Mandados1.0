@@ -233,7 +233,7 @@ function confirmarPedido(){
 		});
 	}
 }
-function confirmarPedidoSincomercio(){
+async function confirmarPedidoSincomercio(){
 	var nombre = document.getElementById('cliente-nombres');
 	var primerapellido = document.getElementById('cliente-primerapellido');
 	var segundoapellido = document.getElementById('cliente-segundapellido');
@@ -242,7 +242,8 @@ function confirmarPedidoSincomercio(){
 	var colonia = document.getElementById('cliente-colonia');
 	var municipio = document.getElementById('cliente-municipio');
 	var telefono = document.getElementById('cliente-telefono');
-	if (nombre.value===""||primerapellido.value===""||calle.value===""||numero.value===""||colonia.value===""||municipio.value===""||telefono.value==="") {
+	var mandado = document.getElementById('mandado').value;
+	if (nombre.value===""||primerapellido.value===""||calle.value===""||numero.value===""||colonia.value===""||municipio.value===""||telefono.value===""||mandado.value==="") {
 		Swal.fire('Revisa que todos los campos estén llenos!', '', 'error');
 	}else{
 		segundoapellido=(segundoapellido===null)?" ": segundoapellido.value;
@@ -257,30 +258,41 @@ function confirmarPedidoSincomercio(){
 				comentarios += "," + $('#tablapedido')[0].children[1].children[i].cells[2].innerText.replace(regex,'+');
 			}
 		}
-		
-		$.ajax({
-			url:"/registrarpedido"
-								+"?nombre="+nombre.value
-								+"&primerapellido="+primerapellido.value
-								+"&segundoapellido="+segundoapellido
-								+"&calle="+calle.value
-								+"&numero="+numero.value
-								+"&colonia="+colonia.value
-								+"&municipio="+municipio.value
-								+"&telefono="+telefono.value
-								+"&ids="+productos
-								+"&valores="+presentaciones
-								+"&comentarios="+comentarios
-								+"&sincomercio="+"si"
-								,
-			success: function(res){
-				Swal.fire('insertado correctamente!', '', 'success');
-				window.location.href = "/listapedido";
-			},
-			error: function(res){
-				Swal.fire('Sucedió un error!', '', 'error')
+
+		Swal.fire({
+			title: 'REGISTRANDO PEDIDO...ESPERA UN MOMENTO',
+			onOpen: function () {
+			  Swal.showLoading()
+				$.ajax({
+				url:"/registrarpedido"
+									+"?nombre="+nombre.value
+									+"&primerapellido="+primerapellido.value
+									+"&segundoapellido="+segundoapellido
+									+"&calle="+calle.value
+									+"&numero="+numero.value
+									+"&colonia="+colonia.value
+									+"&municipio="+municipio.value
+									+"&telefono="+telefono.value
+									+"&ids="+productos
+									+"&valores="+presentaciones
+									+"&comentarios="+comentarios
+									+"&sincomercio="+"si"
+									+"&mandado="+mandado
+									,
+				success: function(res){
+					Swal.fire('insertado correctamente!', '', 'success');
+					window.location.href = "/listapedido";
+				},
+				error: function(res){
+					Swal.fire('Sucedió un error!', '', 'error')
+				}
+			});
+			  setTimeout(function () {
+				Swal.close()
+			  }, 10000)
 			}
-		});
+		  })
+		
 	}
 }
 function addacarritosincomercio(){
@@ -465,7 +477,7 @@ for (let i = 0; i < $('#tablapedido')[0].children[1].children.length; i++) {
 	productos += "," + $('#tablapedido')[0].children[1].children[i].cells[1].innerText.replace(regex,'+');
 	presentaciones += "," + $('#tablapedido')[0].children[1].children[i].cells[0].innerText.replace(regex,'+');
 	comentarios += "," + $('#tablapedido')[0].children[1].children[i].cells[2].innerText.replace(regex,'+');
-	// console.log(i);
+	console.log(i);
 	}
 }
 $('#divconfirmarpedido').load("/eliminardelcarritosincomercio"
