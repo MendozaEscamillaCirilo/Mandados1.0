@@ -120,7 +120,7 @@ public class PedidoController {
             String [] presentacionesarray = valores.split(",");
             String [] comentariosarray = comentarios.split(",");
             for (int i = 1; i < productosarray.length; i++) {
-                comentariocompleto+=","+presentacionesarray[i]+ " de "+productosarray[i]+ " || Comentario => " + comentariosarray[i];
+                comentariocompleto+=","+presentacionesarray[i]+ " "+productosarray[i]+ " || Comentario => " + comentariosarray[i];
             }
             comentarios = comentariocompleto;
         }

@@ -253,17 +253,17 @@ async function confirmarPedidoSincomercio(){
 		const regex = / /gi;
 		if($('#tablapedido').length){
 			for (let i = 0; i < $('#tablapedido')[0].children[1].children.length; i++) {
-				productos += "," + $('#tablapedido')[0].children[1].children[i].cells[0].innerText.replace(regex,'+');
-				presentaciones += "," + $('#tablapedido')[0].children[1].children[i].cells[1].innerText.replace(regex,'+');
+				productos += "," + $('#tablapedido')[0].children[1].children[i].cells[1].innerText.replace(regex,'+');
+				presentaciones += "," + $('#tablapedido')[0].children[1].children[i].cells[0].innerText.replace(regex,'+');
 				comentarios += "," + $('#tablapedido')[0].children[1].children[i].cells[2].innerText.replace(regex,'+');
 			}
 		}
 
 		Swal.fire({
 			title: 'REGISTRANDO PEDIDO...ESPERA UN MOMENTO',
-			onOpen: function () {
+			 onOpen: async function () {
 			  Swal.showLoading()
-				$.ajax({
+				await $.ajax({
 				url:"/registrarpedido"
 									+"?nombre="+nombre.value
 									+"&primerapellido="+primerapellido.value
@@ -289,7 +289,7 @@ async function confirmarPedidoSincomercio(){
 			});
 			  setTimeout(function () {
 				Swal.close()
-			  }, 10000)
+			  }, 2500)
 			}
 		  })
 		
