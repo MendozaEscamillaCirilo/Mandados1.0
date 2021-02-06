@@ -114,6 +114,7 @@ public class ControladorListarDatos {
         }
         return home(authentication, model);
     }
+
     @PostMapping("/editarcontrasenia")
     public String guardarDatos(@Validated User user, Model model,Authentication authentication){
         Optional<User>lista = userrepository.findByUsername(authentication.getName());
@@ -138,6 +139,7 @@ public class ControladorListarDatos {
         comerciorepository.save(comercio);
         return home(authentication, model);
     }
+
     @RequestMapping("cargartablaproductosdepedido/{id}")
     public String requestMethodName(Model model,@PathVariable("id") Long id,
                                                 @RequestParam("cantidad")int cantidad,
@@ -166,6 +168,7 @@ public class ControladorListarDatos {
         model.addAttribute("destino",new DestinosEntity());
         return "includes/tabla";
     }
+    
     @RequestMapping("agregaralcarritosincomercio")
     public String agregaralcarritosincomercio(Model model,
                                                 @RequestParam("producto")String producto,
@@ -199,5 +202,28 @@ public class ControladorListarDatos {
     @GetMapping("tabla")
     public String tabla(){
         return("tables");
+    }
+
+    @RequestMapping("eliminardelcarritosincomercio")
+    public String eliminardelcarritosincomercio(Model model,
+                                                @RequestParam("productos")String productos,
+                                                @RequestParam("presentaciones")String presentaciones,
+                                                @RequestParam("comentarios")String comentarios
+    ) {
+    System.out.println(presentaciones);
+    System.out.println(productos);
+    System.out.println(comentarios);
+    List<ProductosParaPedidosSinComercio> lista = new ArrayList<ProductosParaPedidosSinComercio>();
+    if (!productos.equals("")){
+    String [] productosarray = productos.split(",");
+    String [] presentacionesarray = presentaciones.split(",");
+    String [] comentariosarray = comentarios.split(",");
+    for (int i = 1; i < productosarray.length ; i++) {
+    lista.add(new ProductosParaPedidosSinComercio(productosarray[i],presentacionesarray[i],comentariosarray[i]));
+    }
+    }
+    model.addAttribute("divtabladepedido", true);
+    model.addAttribute("productosagregados", lista);
+    return "includes/tablasincomercio";
     }
 }

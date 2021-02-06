@@ -233,7 +233,7 @@ function confirmarPedido(){
 		});
 	}
 }
-function confirmarPedidoSincomercio(){
+async function confirmarPedidoSincomercio(){
 	var nombre = document.getElementById('cliente-nombres');
 	var primerapellido = document.getElementById('cliente-primerapellido');
 	var segundoapellido = document.getElementById('cliente-segundapellido');
@@ -242,7 +242,8 @@ function confirmarPedidoSincomercio(){
 	var colonia = document.getElementById('cliente-colonia');
 	var municipio = document.getElementById('cliente-municipio');
 	var telefono = document.getElementById('cliente-telefono');
-	if (nombre.value===""||primerapellido.value===""||calle.value===""||numero.value===""||colonia.value===""||municipio.value===""||telefono.value==="") {
+	var mandado = document.getElementById('mandado').value;
+	if (nombre.value===""||primerapellido.value===""||calle.value===""||numero.value===""||colonia.value===""||municipio.value===""||telefono.value===""||mandado.value==="") {
 		Swal.fire('Revisa que todos los campos estén llenos!', '', 'error');
 	}else{
 		segundoapellido=(segundoapellido===null)?" ": segundoapellido.value;
@@ -252,35 +253,49 @@ function confirmarPedidoSincomercio(){
 		const regex = / /gi;
 		if($('#tablapedido').length){
 			for (let i = 0; i < $('#tablapedido')[0].children[1].children.length; i++) {
-				productos += "," + $('#tablapedido')[0].children[1].children[i].cells[0].innerText.replace(regex,'+');
-				presentaciones += "," + $('#tablapedido')[0].children[1].children[i].cells[1].innerText.replace(regex,'+');
+				productos += "," + $('#tablapedido')[0].children[1].children[i].cells[1].innerText.replace(regex,'+');
+				presentaciones += "," + $('#tablapedido')[0].children[1].children[i].cells[0].innerText.replace(regex,'+');
 				comentarios += "," + $('#tablapedido')[0].children[1].children[i].cells[2].innerText.replace(regex,'+');
 			}
 		}
-		
-		$.ajax({
-			url:"/registrarpedido"
-								+"?nombre="+nombre.value
-								+"&primerapellido="+primerapellido.value
-								+"&segundoapellido="+segundoapellido
-								+"&calle="+calle.value
-								+"&numero="+numero.value
-								+"&colonia="+colonia.value
-								+"&municipio="+municipio.value
-								+"&telefono="+telefono.value
-								+"&ids="+productos
-								+"&valores="+presentaciones
-								+"&comentarios="+comentarios
-								+"&sincomercio="+"si"
-								,
-			success: function(res){
-				Swal.fire('insertado correctamente!', '', 'success');
-				window.location.href = "/listapedido";
-			},
-			error: function(res){
-				Swal.fire('Sucedió un error!', '', 'error')
+
+		Swal.fire({
+			title: 'REGISTRANDO PEDIDO...ESPERA UN MOMENTO',
+			 onOpen: async function () {
+			  Swal.showLoading()
+				await $.ajax({
+				url:"/registrarpedido"
+									+"?nombre="+nombre.value
+									+"&primerapellido="+primerapellido.value
+									+"&segundoapellido="+segundoapellido
+									+"&calle="+calle.value
+									+"&numero="+numero.value
+									+"&colonia="+colonia.value
+									+"&municipio="+municipio.value
+									+"&telefono="+telefono.value
+									+"&ids="+productos
+									+"&valores="+presentaciones
+									+"&comentarios="+comentarios
+									+"&sincomercio="+"si"
+									+"&mandado="+mandado
+									,
+				success: function(res){
+					window.location.href = "/listapedido";
+					Swal.fire('insertado correctamente! seras redirigido a los PEDIDOS para que asignes repartidor', '', 'success');
+						$("#nuevo").modal('hide');//ocultamos el modal
+						$('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
+						$('.modal-backdrop').remove();//eliminamos el backdrop del modal
+				},
+				error: function(res){
+					Swal.fire('Sucedió un error!', '', 'error')
+				}
+			});
+			  setTimeout(function () {
+				Swal.close()
+			  }, 2500)
 			}
-		});
+		  })
+		
 	}
 }
 function addacarritosincomercio(){
@@ -363,7 +378,8 @@ async function addacarritosincomercio2(){
 	  '<input id="swal-input1" class="swal2-input" placeholder="CANTIDAD(2, 1 kg, etc..)">' +
 	  '<input id="swal-input2" class="swal2-input" placeholder="NOMBRE(hamburguesa, tomate,...)">'+
 	  '<input id="swal-input3" class="swal2-input" placeholder="COMENTARIO(sin tomate, grande,...)">',
-	focusConfirm: false,
+	focusConfirm: true,
+	allowEnterKey: true, // default value
 	preConfirm: () => {
 	  return [
 		document.getElementById('swal-input1').value,
@@ -373,26 +389,27 @@ async function addacarritosincomercio2(){
 	}
   })
   
-  if (formValues) {
-	Swal.fire(JSON.stringify(formValues[0]+" "+formValues[1]+ " AGREGADO"));
-  }
   console.log(formValues[1]);
 
-  var producto = formValues[1];
   var presentacion = formValues[0];
+  var producto = formValues[1];
   var comentario = formValues[2];
 
-  var productos = "";
   var presentaciones = "";
+  var productos = "";
   var comentarios = "";
   const regex = / /gi;
   if($('#tablapedido').length){
+	// if(document.getElementById("tablapedido").rows.length>1){
 	  for (let i = 0; i < $('#tablapedido')[0].children[1].children.length; i++) {
-		  productos += "," + $('#tablapedido')[0].children[1].children[i].cells[0].innerText.replace(regex,'+');
-		  presentaciones += "," + $('#tablapedido')[0].children[1].children[i].cells[1].innerText.replace(regex,'+');
+		presentaciones += "," + $('#tablapedido')[0].children[1].children[i].cells[0].innerText.replace(regex,'+');
+		  productos += "," + $('#tablapedido')[0].children[1].children[i].cells[1].innerText.replace(regex,'+');
 		  comentarios += "," + $('#tablapedido')[0].children[1].children[i].cells[2].innerText.replace(regex,'+');
 	  }
-  }
+//   }
+}
+
+  try{
   $('#divconfirmarpedido').load("/agregaralcarritosincomercio"
 				  +"?producto="+producto.replace(regex,'+')
 				  +"&presentacion="+presentacion.replace(regex,'+')
@@ -401,6 +418,19 @@ async function addacarritosincomercio2(){
 				  +"&presentaciones="+presentaciones
 				  +"&comentarios="+comentarios
 				  );
+				  if (formValues) {
+					Swal.fire(JSON.stringify(formValues[0]+" "+formValues[1]+ " AGREGADO"));
+				  }
+  }
+  catch(x){
+	Swal.fire({
+		icon: 'error',
+		title: 'Oops...',
+		text: 'Ocurrio un error, FAVOR DE RECARGAR LA PAGINA',
+		// footer: '<a href>Why do I have this issue?</a>'
+	  })
+
+  }
 
 }
 
@@ -427,26 +457,65 @@ function addcomercio(){
   }
 }
 
-async function editarsincomercio(indice, producto, presentacion, comentario){
-console.log(producto);
-	
-const { value: formValues } = await Swal.fire({
-	title: 'Modifica el producto', 
-	html:
-	  '<input id="swal-input1" class="swal2-input" value="$(presentacion)">' +
-	  '<input id="swal-input2" class="swal2-input" value="[[${pa.producto}]]">'+
-	  '<input id="swal-input3" class="swal2-input" value="comentario">',
-	focusConfirm: false,
-	preConfirm: () => {
-	  return [
-		document.getElementById('swal-input1').value,
-		document.getElementById('swal-input2').value,
-		document.getElementById('swal-input3').value
-	  ]
+async function editarsincomercio(indice){
+
+var presentacion = $('#presentacion'+indice).val();
+var producto = $('#producto'+indice).val();
+var comentario = $('#comentarios'+indice).val();
+
+console.log(indice+' '+presentacion+' '+producto+' '+comentario);
+
+var productos = "";
+var presentaciones = "";
+var comentarios = "";
+const regex = / /gi;
+
+for (let i = 0; i < $('#tablapedido')[0].children[1].children.length; i++) {
+	if(i==indice){
+		productos += "," +producto;
+		presentaciones += "," + presentacion;
+		comentarios += "," + comentario;
 	}
-  })
-  
-  if (formValues) {
-	Swal.fire(JSON.stringify(formValues))
-  }
+	else{
+	productos += "," + $('#tablapedido')[0].children[1].children[i].cells[1].innerText.replace(regex,'+');
+	presentaciones += "," + $('#tablapedido')[0].children[1].children[i].cells[0].innerText.replace(regex,'+');
+	comentarios += "," + $('#tablapedido')[0].children[1].children[i].cells[2].innerText.replace(regex,'+');
+	console.log(i);
+	}
+}
+$('#divconfirmarpedido').load("/eliminardelcarritosincomercio"
++"?productos="+productos
++"&presentaciones="+presentaciones
++"&comentarios="+comentarios
+);
+$('body').removeClass('modal-open');
+$('.modal-backdrop').remove();
+}
+
+async function eliminardelcarritosincomercio(indice, producto, presentacion, comentario){
+	console.log(indice+" soy "+producto+" adios");
+	var productos = "";
+	var presentaciones = "";
+	var comentarios = "";
+	const regex = / /gi;
+	console.log(document.getElementById("tablapedido").rows.length);
+	if(document.getElementById("tablapedido").rows.length>1){
+		for (let i = 0; i < $('#tablapedido')[0].children[1].children.length; i++) {
+			if(i!=indice){
+			productos += "," + $('#tablapedido')[0].children[1].children[i].cells[1].innerText.replace(regex,'+');
+			presentaciones += "," + $('#tablapedido')[0].children[1].children[i].cells[0].innerText.replace(regex,'+');
+			comentarios += "," + $('#tablapedido')[0].children[1].children[i].cells[2].innerText.replace(regex,'+');
+			console.log(i);
+			}
+		}
+		$('#divconfirmarpedido').load("/eliminardelcarritosincomercio"
+		+"?productos="+productos
+		+"&presentaciones="+presentaciones
+		+"&comentarios="+comentarios
+		);
+
+	}else{
+		$("#tablapedido > tbody").empty();
+
+}
 }

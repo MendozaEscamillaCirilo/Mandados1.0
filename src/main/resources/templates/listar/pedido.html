@@ -69,6 +69,8 @@
                                         <p th:text="${pedido.horaentrega==null?'No se ha entregado':pedido.horaentrega}">One fine body&hellip;</p>
                                         <p> <b> Total </b> </p>
                                         <p th:text="${pedido.total}">One fine body&hellip;</p>
+                                        <p> <b> Costo MANDADO </b> </p>
+                                        <p th:text="${pedido.costoenvio}">One fine body&hellip;</p>
                                         <p> <b> Destino </b> </p>
                                         <p th:text="${pedido.destino.nombres + ' ' + pedido.destino.primerapellido + ' '+pedido.destino.segundoapellido}">One fine body&hellip;</p>
                                         <p th:text="${'Calle '+ pedido.destino.calle + 'No. '+pedido.destino.numero+' colonia '+pedido.destino.colonia}">One fine body&hellip;</p>

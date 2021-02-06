@@ -15,19 +15,53 @@
                   <th>Producto/Presentacion</th>
                   <th>Comentario</th>
                   <th>Accion</th>
-                  <th>Indice</th>
               </tr>
           </thead>
           <tbody id="cuerpo">
-            <tr th:if="${productosagregados.empty}">
-              <td colspan="3"> No hay comercios registrados </td>
-            </tr>
+            <!-- <tr th:if="${productosagregados.empty}">
+              <td colspan="3"> No hay registros </td>
+            </tr> -->
             <tr th:each="pa,iterador :${productosagregados}">
               <td><span th:text="${pa.presentacion}"> Authority </span></td>
               <td><span th:text="${pa.producto}"> Authority </span></td>
               <td><span th:text="${pa.comentario}"> Authority </span></td>
-              <td><button type="button" class="btn btn-warning" th:onclick="editarsincomercio([[${iterador.index}]],[[${pa.producto}]],[[${pa.presentacion}]],[[${pa.comentario}]])">Editar</button><button type="button" class="btn btn-danger">Quitar</button></td>
-              <td th:text="${iterador.index}"td>
+              <td>
+               <button type="button" class="btn btn-warning" data-toggle="modal" th:data-target="'#Modal-'+${iterador.index}">Editar</button>
+               <button type="button" class="btn btn-danger" th:onclick="eliminardelcarritosincomercio([[${iterador.index}]],[[${pa.producto}]],[[${pa.presentacion}]],[[${pa.comentario}]])">Quitar</button> 
+                <div class="modal fade" th:id="'Modal-'+${iterador.index}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Editar producto en pedido</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <form>
+                          <div class="form-group">
+                            <label for="presentacion" class="col-form-label">Cantidad/Porcion:</label>
+                            <input type="text" class="form-control" th:id="'presentacion'+${iterador.index}" th:value="${pa.presentacion}">
+                          </div>
+                          <div class="form-group">
+                            <label for="producto" class="col-form-label">Producto/Presentacion:</label>
+                            <input type="text" class="form-control" th:id="'producto'+${iterador.index}" th:value="${pa.producto}">
+                          </div>
+                          <div class="form-group">
+                            <label for="comentarios" class="col-form-label">Comentarios:</label>
+                            <input type="text" class="form-control" th:id="'comentarios'+${iterador.index}" th:value="${pa.comentario}">
+                          </div>
+                        </form>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary" th:onclick="editarsincomercio([[${iterador.index}]])">Editar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <!-- </td>
+              <td th:text="${iterador.index}"td> -->
             </tr>
           </tbody>
       </table>
@@ -68,7 +102,7 @@
                       <input id="cliente-calle" type="text" class="form-control validate" placeholder="Calle" required>
                     </div>
                     <div class="col-xl-4 col-md-4 col-sm-4">
-                      <input id="cliente-numero" type="number" class="form-control validate" placeholder="Numero" required>
+                      <input id="cliente-numero" type="text" class="form-control validate" placeholder="Numero" required>
                     </div>
                     <div class="col-xl-4 col-md-4 col-sm-4">
                       <input id="cliente-colonia" type="text" class="form-control validate" placeholder="Colonia" required>
@@ -85,6 +119,13 @@
                     </div>
                   </div>
                 </div>
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-xl-6 col-md-6 col-sm-6">
+                      <input id="mandado" type="number" class="form-control validate"  placeholder="Costo de MANDADO"  required>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div class="form-group">
                 <div class="text-center">
@@ -97,3 +138,15 @@
       </div>
     </div>
   </div>
+<!-- <script>
+
+$('#exampleModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var recipient = button.data('whatever') // Extract info from data-* attributes
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var modal = $(this)
+  // modal.find('.modal-title').text('New message to ' + recipient)
+   modal.find('.modal-body input').val("${pa.producto}")
+})
+</script> -->
