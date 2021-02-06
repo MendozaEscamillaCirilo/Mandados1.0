@@ -280,8 +280,11 @@ async function confirmarPedidoSincomercio(){
 									+"&mandado="+mandado
 									,
 				success: function(res){
-					Swal.fire('insertado correctamente!', '', 'success');
 					window.location.href = "/listapedido";
+					Swal.fire('insertado correctamente!', '', 'success');
+						$("#nuevo").modal('hide');//ocultamos el modal
+						$('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
+						$('.modal-backdrop').remove();//eliminamos el backdrop del modal
 				},
 				error: function(res){
 					Swal.fire('Sucedió un error!', '', 'error')
