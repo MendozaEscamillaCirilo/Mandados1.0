@@ -161,6 +161,30 @@ public class MetodosExtra {
             System.out.println("Error al enviar el correo");
         }
     }
+    // NUEVO REPARTIDOR REGISTRADO
+    public void sendEmailNuevoRepartidor(String correo,String generada){
+        System.out.println("Sending message");
+        try {
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message);
+            Map<String, Object> model = new HashMap<>();
+            model.put("correo", correo);
+            model.put("contrasenia", generada);
+            model.put("nuevo", true);
+            configuration.setClassForTemplateLoading(this.getClass(), "/templates/");
+            Template template = configuration.getTemplate("email/nuevorepartidor.html");
+            String text = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+            helper.setFrom("contacto@mandadosdemama.com");
+            helper.setTo(correo);
+            helper.setText(text, true);
+            helper.setSubject("Hola, aquí tienes tus datos de acceso");
+            javaMailSender.send(message);
+            System.out.println("Send message...");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error al enviar el correo");
+        }
+    }
     // PEDIDOS COMPLETADOS
     public List<PedidosEntity> getDatesOnListExist(List<PedidosEntity> lista){
         List<PedidosEntity> aux = new ArrayList<PedidosEntity>();
