@@ -50,6 +50,7 @@ public class RepartidorController {
         user.setPassword(password);
         user.setAuthority(authorityrepository.findByAuthority("ROL_REPARTIDOR"));
         userrepository.save(user);
+        metodosextra.sendEmailNuevoComercio(repartidor.getEmail(),generada);
         return listarRepartidor(model, auth);
     }
     @PostMapping(value="/editarrepartidor")
