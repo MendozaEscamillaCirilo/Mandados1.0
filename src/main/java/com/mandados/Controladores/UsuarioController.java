@@ -93,4 +93,9 @@ public class UsuarioController {
         return "resetcontrasenia";
     }
     
+    @GetMapping("/probaralgo")
+    public String solamentedeprueba(Model model) {
+        model.addAttribute("totalproductos",3);
+        return "paraprueba";	    
+    }
 }

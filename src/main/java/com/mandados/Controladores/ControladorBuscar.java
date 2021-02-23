@@ -76,7 +76,9 @@ public class ControladorBuscar {
         }else{
             model.addAttribute("porcomercio", true);
         }
-        return "resultadosdebusqueda";
+        // return "resultadosdebusqueda";
+        model.addAttribute("totalproductos",0);
+        return "paraprueba";
     }
     ////////////////////Buscar comercios desde el home////////////////
     @GetMapping("/gp")
