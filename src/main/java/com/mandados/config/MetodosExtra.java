@@ -1,5 +1,6 @@
 package com.mandados.config;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -18,6 +19,7 @@ import javax.mail.internet.MimeMessage;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageConfig;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
@@ -29,6 +31,7 @@ import com.mandados.Entidades.ProductosParaPedidos;
 import com.mandados.Entidades.User;
 import com.mandados.Repository.ComercioRepository;
 import com.mandados.Repository.UserRepository;
+import com.mandados.Servicios.StorageService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -42,6 +45,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+
 @Service
 public class MetodosExtra {
     @Autowired
@@ -72,6 +76,7 @@ public class MetodosExtra {
 
         Path path = FileSystems.getDefault().getPath(filePath);
         MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
+
     }
     public void generarQR(String nombre){
         try {
@@ -238,19 +243,23 @@ public class MetodosExtra {
         }
         return "productos/"+nombreproducto.split(" ")[0]+"_"+hora+".jpg";
     }
-    public void editarImagenDelProducto(String imagendelproducto, MultipartFile imagen){
+    public String editarImagenDelProducto(String imagendelproducto, MultipartFile imagen){
         if (!imagen.isEmpty()) {
-            Path directorioImagenes = Paths.get("src//main//resources//static//productos");
-            String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
+            StorageService ss = new StorageService();
+            // Path directorioImagenes = Paths.get("src//main//resources//static//productos");
+            // String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
             try {
-                byte[] bytesImgenes = imagen.getBytes();
-                Path rutaCompleta = Paths.get(rutaAbsoluta + "//"+imagendelproducto.split("/")[1]);
-                Files.write(rutaCompleta,bytesImgenes);
+                String carpeta = "/Productos";
+               return ss.uploadFileS3_2(imagen,carpeta);
+                // byte[] bytesImgenes = imagen.getBytes();
+                // Path rutaCompleta = Paths.get(rutaAbsoluta + "//"+imagendelproducto.split("/")[1]);
+                // Files.write(rutaCompleta,bytesImgenes);
                 // producto.setImagen("productos/"+producto.getNombre().split(" ")[0]+"_"+hora+".jpg");
             } catch (Exception e) {
                 System.out.println(e);
             }
         }
+        return "NO";
     }
     public ProductosParaPedidos convertirEnProductosParaPedido(ProductosEntity p,int cantidad,String comentario){
         return new ProductosParaPedidos(p.getId(), p.getNombre(), p.getPrecio(), p.getPrecio()*cantidad, p.getComercio(), cantidad,comentario);
