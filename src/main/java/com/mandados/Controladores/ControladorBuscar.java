@@ -42,7 +42,7 @@ public class ControladorBuscar {
         for(int i=0;i<productos.size();i++){
             String email = productos.get(i).getComercio().getEmail();
             ComerciosEntity comerciobuscado = comerciorepository.findByEmailAndEstatus(email,true);
-            if(comercio!=null){
+            if(comercio!=null && comerciobuscado!=null){
                 if(comercios.size()==0){
                     comercios.add(comerciobuscado);
                 }
@@ -77,7 +77,7 @@ public class ControladorBuscar {
             model.addAttribute("porcomercio", true);
         }
         // return "resultadosdebusqueda";
-        model.addAttribute("totalproductos",0);
+        model.addAttribute("totalproductos", 0);
         return "paraprueba";
     }
     ////////////////////Buscar comercios desde el home////////////////
@@ -153,5 +153,10 @@ public class ControladorBuscar {
     public String infoRepartidor()
     {
         return "infoRepartidor";
+    }
+    @GetMapping("/verComercios")
+    public String verComercios(Model model){
+        model.addAttribute("comercios", comerciorepository.findByEstatus(true));
+        return "catalogocomercio";
     }
 }

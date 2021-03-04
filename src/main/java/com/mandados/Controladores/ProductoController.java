@@ -6,6 +6,7 @@ import com.mandados.Repository.CategoriaRepository;
 import com.mandados.Repository.ComercioRepository;
 import com.mandados.Repository.ProductoRepository;
 import com.mandados.config.MetodosExtra;
+// import com.mandados.Servicios.StorageService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -29,7 +30,7 @@ public class ProductoController {
     private ComercioRepository comerciorepository;
     @Autowired
     private ProductoRepository productorepository;
-    @GetMapping(value="/listaproducto")
+    @GetMapping(value="/listaproducto") 
     public String listarProducto(Model model, Authentication auth) {
 
         if((auth.getAuthorities().toArray()[0]+"").equals("ROL_COMERCIO")){
@@ -52,7 +53,10 @@ public class ProductoController {
         UserDetails userDetail = (UserDetails) auth.getPrincipal();
         ComerciosEntity comerciosEntity =  comerciorepository.findByEmail(userDetail.getUsername());
         producto.setComercio(comerciosEntity);
-        producto.setImagen(metodosextra.crearImagenDelProducto(producto.getNombre(), imagen));
+        if(!imagen.isEmpty()){
+            String nombreI = metodosextra.editarImagenDelProducto(producto.getImagen(), imagen);
+            producto.setImagen(nombreI);
+        }
         producto.setEstatus(true);
         productorepository.save(producto);
         return listarProducto(model, auth);
@@ -70,7 +74,10 @@ public class ProductoController {
         producto.setPrecio(precio);
         producto.setContenido(contenido);
         producto.setDescripcion(descripcion);
-        if(!imagen.isEmpty()){ metodosextra.editarImagenDelProducto(producto.getImagen(), imagen); }
+        if(!imagen.isEmpty()){
+            String nombreI = metodosextra.editarImagenDelProducto(producto.getImagen(), imagen);
+            producto.setImagen(nombreI);
+        }
         productorepository.save(producto);
         return listarProducto(model,auth);
     }

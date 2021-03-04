@@ -3,119 +3,57 @@
   <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Resultado</title>
+      <title>Repartidor</title>
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
       <link rel="stylesheet" href="main.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
       <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+
+      
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css" />
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,500&amp;subset=latin-ext" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   </head>
+  
   <body>
-    <div class="container-fluid">
-    <div th:if="${porproducto}">
-      <div class="card text-center">
-        <nav class="navbar navbar-dark white">
-          <a class="navbar-brand"  href="/">
-            <img src="imagenes/logo2.png" height="30" alt="mdb logo">
-          </a>
-          <h4 class="navbar-toggler text-dark" th:text="${buscar}">"Hola"</h4>
-          <div class="items cart">
-            <button type="submit" class="btn btn-primary">
-              <i class="fa fa-shopping-cart"></i>
-              <span>ADD TO CART</span>
-            </button>
-          </div>
-        </nav>
-        <div th:if="${unacategoria}" class="inline">
-          <button data-filter="all" type="button" class="btn btn-link active">Todos</button>
-          <button th:each="categoria:${categorias}" th:data-filter="${categoria.id}" th:text="${categoria.nombre}" type="button" class="btn btn-link select">Categoria 1</button>
+    <div class="card text-center">
+    <nav class="navbar navbar-dark white">
+        <a class="navbar-brand"  href="/">
+          <img src="imagenes/logo2.png" height="30" alt="mdb logo">
+        </a>
+        <h3 class="navbar-toggler text-dark"> <strong> COMERCIOS QUE ESTÁN ASOCIADOS</strong></h3>
+        <div class="items cart">
+          <button type="submit" class="btn btn-primary">
+            <i class="fa fa-shopping-cart"></i>
+            <span>ADD TO CART</span>
+          </button>
         </div>
-      </div>
-      <div class="card filter-container">
-        <div th:if="${porproducto}">
-          <div th:if="${productos.empty}">
-              <h3> No hay productos relacionados con su busqueda</h3>
-          </div>
-        </div>
-        <div class="filter-container row">
-          <div th:each="producto:${productos}" class="filtr-item col-xl-3 col-md-4 col-sm-6 mx-auto" th:data-category="${producto.categoria.id}" data-sort="value">
-            <div class="container-card" th:style="'background-image: url(https://mdmstorage.s3.us-east-2.amazonaws.com/Productos/' + ${producto.imagen} + '); background-repeat: no-repeat; background-size: cover; background-position: center center;'">
-              <div class="overlay">
-                <div class = "items"></div>
-                <div class = "items head">
-				          <p th:text="${producto.nombre}">imagen</p>
-                  <hr>
-                </div>
-                <div class = "items price">
-                  <p th:text="'$' + ${producto.precio>30?producto.precio + 10:producto.precio + 5}" class="old">$699</p>
-                  <p th:text="'$' + ${producto.precio}" class="new">$345</p>
-                </div>
-                <div th:if="${carrito}" class="items cart">
-                  <button type="submit" class="btn btn-primary">
-                    <i class="fa fa-shopping-cart"></i>
-                    <span>ADD TO CART</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      </nav>
     </div>
-    <div th:if="${porcomercio}">
-      <div class="card text-center">
-        <nav class="navbar navbar-dark white">
-          <a class="navbar-brand"  href="/">
-            <img src="imagenes/logo2.png" height="30" alt="mdb logo">
-          </a>
-          <h4 class="navbar-toggler text-dark" th:text="${buscar}">"Hola"</h4>
-          <div class="items cart">
-            <button type="submit" class="btn btn-primary">
-              <i class="fa fa-shopping-cart"></i>
-              <span>ADD TO CART</span>
-            </button>
-          </div>
-        </nav>
-        <div th:if="${porcomercio}" class="card text-center" >
-          <div th:if="${comercios.empty}" class="text-center" >
-            <center>
-              <h3> No hay productos relacionados con su busqueda</h3>
-              <h4> Intenta buscar algo diferente</h4>
-              <form class="text-center" style="color: #757575;" action="spr">
-                <!-- Radio -->
-                <!-- <div class="form-check mb-4"> -->
-                  <input class="form-check-input" name="group1" type="hidden" id="radio-179" value="mandado">
-                  <!-- <label class="form-check-label" for="radio-179">Mandado</label> -->
-                <!-- </div> -->
-                <!-- Radio -->
-                <p class="text-center">
-                  <strong>Producto o platillo</strong>
-                </p>
-                <div class="md-form">
-                  <input type="hidden" name="com" id="com" value="no">
-                </div>
-                <div class="md-form">
-                  <input name="buscar" type="text" id="form79textarea" class="md-text form-control" required></input>
-                  <label for="form79textarea">Ingrese para buscar</label>
-                </div>
-                <div class="md-form">
-                  <button type="submit" class="btn btn-default" >Buscar</button>
-                </div>
-              </form>
-            </center>
-          </div>
+
+    <div class="container">
+        <div class="row">
+          <!-- /.col-md-12 -->
+          <div class="col-lg-12">
+            <div th:if="${comercios.empty}" class="text-center">
+                <h3 class="heading">NO HAY COMERCIOS REGISTRADOS</h3>
+            </div>
+          </div>             
+          <!-- /.col-md-12 -->
         </div>
-      </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
       <div class="card filter-container">
         <div class="row container">
           <div  th:each="comercio:${comercios}" class="profile-card-4 text-center col-xl-3 col-md-4 col-sm-6 mx-auto ">
             <form action="spr">
               <input type="hidden" name="group1" id="group1" value="noObtain">
-              <input type="hidden" name="buscar" id="buscar" th:value="${buscar}">
+              <input type="hidden" name="buscar" id="buscar" value="">
               <input type="hidden" name="com" id="com" th:value="${comercio.nombre}">
               <button type="submit">
                 <img th:src="${comercio.imagen != null ? comercio.imagen : 'imagenes/fondodelnavbar.jpg'}" class="img img-responsive" width="100%">
                 <div class="profile-content">
-                  <div class="profile-name">
+                  <div>
                     <p th:text="${comercio.sucursales[0].calle} + ' ' + ${comercio.sucursales[0].colonia}">Direccion del comercio</p>
                   </div>
                 </div>
@@ -125,7 +63,9 @@
           </div>
         </div>
       </div>
-    </div>
+	  <hr>
+	  <br>
+	  <br>
  	<footer class="page-footer font-small unique-color-dark">
 		<div class="primary-color">
 			<div class="container">
@@ -163,10 +103,10 @@
 					</h6>
 					<hr>
 					<p><i class="fas fa-bicycle"></i>
-						<a href="#platillos">&nbsp;Reparto de comida</a>
+						<a href="/#platillos">&nbsp;Reparto de comida</a>
 					</p>
 					<p><p><i class="fas fa-bicycle"></i>
-						<a href="#platillos">&nbsp;Mandados</a>
+						<a href="/#platillos">&nbsp;Mandados</a>
 					</p>
 				</div>
 				<div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
@@ -217,7 +157,6 @@
         });
       })
     </script>
-    </div>
   </body>
 </html>
 
