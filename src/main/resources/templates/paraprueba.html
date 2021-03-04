@@ -36,10 +36,10 @@
         </li>
         <li class="nav-item dropdown"></li>
         <li class="nav-item">
-            <a th:if="${porproducto}" class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-                <i class="fa fa-shopping-bag"></i>
+            <!-- <a th:if="${porproducto}" class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button"> -->
+                <!-- <i class="fa fa-shopping-bag"></i> -->
                 <!-- <span class="badge badge-danger navbar-badge" th:text="${totalproductos}"></span> -->
-            </a>
+            <!-- </a> -->
         </li>
       </ul>
     </div>
@@ -121,7 +121,13 @@
           <button th:each="categoria:${categorias}" th:data-filter="${categoria.id}" th:text="${categoria.nombre}" type="button" class="btn btn-link select">Categoria 1</button>
         </div>
         <div class="card filter-container">
-          <div class="filter-container row">
+          <div class="row">
+            <div th:if="${productos.empty}">
+              <div class="col col-xl-2 col-md-2 col-sm-2"></div>
+              <div class="col col-xl-8 col-md-8 col-sm-8">
+                <h3>          AÚN NO SE HAN REGISTRADO PRODUCTOS EN ESTE COMERCIO</h3>
+              </div>
+            </div>
             <div th:each="producto:${productos}" class="filtr-item col-xl-3 col-md-4 col-sm-6 mx-auto" th:data-category="${producto.categoria.id}" data-sort="value">
               <div class="container-card" th:style="'background-image: url(' + ${producto.imagen} + '); background-repeat: no-repeat; background-size: cover; background-position: center center;'">
                 <div class="overlay">
@@ -134,12 +140,12 @@
                     <p th:text="'$' + ${producto.precio>30?producto.precio + 10:producto.precio + 5}" class="old">$699</p>
                     <p th:text="'$' + ${producto.precio}" class="new">$345</p>
                   </div>
-                  <div class="items cart">
+                  <!-- <div class="items cart">
                     <button type="submit" class="btn btn-primary">
                       <i class="fa fa-shopping-cart"></i>
                       <span>AGREGAR</span>
                     </button>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>

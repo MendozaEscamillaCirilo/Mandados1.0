@@ -48,7 +48,7 @@
           <div  th:each="comercio:${comercios}" class="profile-card-4 text-center col-xl-3 col-md-4 col-sm-6 mx-auto ">
             <form action="spr">
               <input type="hidden" name="group1" id="group1" value="noObtain">
-              <input type="hidden" name="buscar" id="buscar" value="a">
+              <input type="hidden" name="buscar" id="buscar" value="">
               <input type="hidden" name="com" id="com" th:value="${comercio.nombre}">
               <button type="submit">
                 <img th:src="${comercio.imagen != null ? comercio.imagen : 'imagenes/fondodelnavbar.jpg'}" class="img img-responsive" width="100%">
@@ -63,6 +63,9 @@
           </div>
         </div>
       </div>
+	  <hr>
+	  <br>
+	  <br>
  	<footer class="page-footer font-small unique-color-dark">
 		<div class="primary-color">
 			<div class="container">
