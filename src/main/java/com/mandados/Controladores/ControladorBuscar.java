@@ -36,13 +36,22 @@ public class ControladorBuscar {
     ////////////////////Buscar productos desde el index////////////////
     @GetMapping("/spr")
     public String buscarProductosDesdeIndex(Model model, @RequestParam("group1") String seleccionado, @RequestParam("com") String comercio,String buscar){
+        System.out.println("//////////////////////////////////////////////////////////////////////");
+        System.out.println(comercio);
+        System.out.println("//////////////////////////////////////////////////////////////////////");
         List<ProductosEntity>productos = productorepository.findByNombreContainingAndEstatus(buscar,true);
         List<CategoriasEntity>categorias = new ArrayList<CategoriasEntity>();
         List<ComerciosEntity>comercios = new ArrayList<ComerciosEntity>();
         for(int i=0;i<productos.size();i++){
             String email = productos.get(i).getComercio().getEmail();
+            System.out.println("//////////////////////////////////////////////////////////////////////");
+            System.out.println(email);
+            System.out.println("//////////////////////////////////////////////////////////////////////");
             ComerciosEntity comerciobuscado = comerciorepository.findByEmailAndEstatus(email,true);
-            if(comercio!=null){
+            System.out.println("......................................................................");
+            System.out.println(comerciobuscado);
+            System.out.println("......................................................................");
+            if(comercio!=null && comerciobuscado!=null){
                 if(comercios.size()==0){
                     comercios.add(comerciobuscado);
                 }
@@ -76,7 +85,9 @@ public class ControladorBuscar {
         }else{
             model.addAttribute("porcomercio", true);
         }
-        return "resultadosdebusqueda";
+        // return "resultadosdebusqueda";
+        model.addAttribute("totalproductos", 0);
+        return "paraprueba";
     }
     ////////////////////Buscar comercios desde el home////////////////
     @GetMapping("/gp")
@@ -151,5 +162,10 @@ public class ControladorBuscar {
     public String infoRepartidor()
     {
         return "infoRepartidor";
+    }
+    @GetMapping("/verComercios")
+    public String verComercios(Model model){
+        model.addAttribute("comercios", comerciorepository.findByEstatus(true));
+        return "catalogocomercio";
     }
 }
