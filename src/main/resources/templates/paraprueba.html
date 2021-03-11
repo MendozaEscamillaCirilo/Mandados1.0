@@ -129,14 +129,14 @@
               </div>
             </div>
             <div th:each="producto:${productos}" class="filtr-item col-xl-3 col-md-4 col-sm-6 mx-auto" th:data-category="${producto.categoria.id}" data-sort="value">
-              <div class="container-card" th:style="'background-image: url(' + ${producto.imagen} + '); background-repeat: no-repeat; background-size: cover; background-position: center center;'">
+              <div class="container-card" th:style="'background-image: url(https://mdmstorage.s3.us-east-2.amazonaws.com/Productos/' + ${producto.imagen} + '); background-repeat: no-repeat; background-size: cover; background-position: center center;'">
                 <div class="overlay">
                   <div class = "items"></div>
-                  <div class = "items head">
+                  <div class = "items head text-dark">
                     <p th:text="${producto.nombre}">imagen</p>
                     <hr>
                   </div>
-                  <div class = "items price">
+                  <div class = "items price text-dark">
                     <p th:text="'$' + ${producto.precio>30?producto.precio + 10:producto.precio + 5}" class="old">$699</p>
                     <p th:text="'$' + ${producto.precio}" class="new">$345</p>
                   </div>
