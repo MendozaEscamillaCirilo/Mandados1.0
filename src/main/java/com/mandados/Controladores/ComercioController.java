@@ -35,6 +35,14 @@ public class ComercioController {
     private TipoComercioRepository tipocomerciorepository;
     @Autowired
     private UserRepository userrepository;
+    @GetMapping("/registrocomercio")
+    public String principal(Model model){
+        model.addAttribute("comercio", new ComerciosEntity());
+        model.addAttribute("sucursal", new SucursalesEntity());
+        model.addAttribute("tipocomercio",tipocomerciorepository.findAll());
+        return "registro/comercios";
+    }
+
     @GetMapping("/listacomercio")
     public String listarComercio(Model model, Authentication auth){
         metodosextra.obtUsuario(model, auth);
@@ -45,6 +53,54 @@ public class ComercioController {
         model.addAttribute("comercios", comerciorepository.findAll());
         model.addAttribute("sucursales", sucursalrepository.findAll());
         return "listar/comercio";
+    }
+    @PostMapping("/registrocomerciodesdeindex")
+    public String registrarComerciodesdeindex(@Validated ComerciosEntity comercio, @Validated SucursalesEntity sucursal, Model model, Authentication auth){
+        if (userrepository.findByUsername(comercio.getEmail()).isEmpty()) {
+            try{
+                comercio.setEstatus(true);
+                comerciorepository.save(comercio);
+            }catch(Exception e){
+                model.addAttribute("error", true);
+                return "registro/comercios";
+            }
+            try{
+                sucursal.setEstatus(true);
+                sucursal.setComercio(comercio);
+                sucursalrepository.save(sucursal);
+            }catch(Exception e){
+                comerciorepository.delete(comercio);
+                model.addAttribute("error", true);
+                return "registro/comercios";
+            }
+            Passgenerator ps = new Passgenerator();
+            String generada = metodosextra.aleatorio();
+            try {
+                String password = ps.getPassword(generada);
+                System.out.println(generada);
+                User user = new User();
+                user.setUsername(comercio.getEmail());
+                user.setEnabled(true);
+                user.setPassword(password);
+                user.setAuthority(authorityrepository.findByAuthority("ROL_COMERCIO"));
+                userrepository.save(user);
+            } catch (Exception e) {
+                sucursalrepository.delete(sucursal);
+                comerciorepository.delete(comercio);
+                model.addAttribute("error", true);
+                return "registro/comercios";
+            }
+            metodosextra.generarQR(comercio.getNombre());
+            metodosextra.sendEmailNuevoComercio(comercio.getEmail(), generada);
+        }else{
+            model.addAttribute("repetido", true);
+            model.addAttribute("comercio", comercio);
+            model.addAttribute("sucursal", sucursal);
+            model.addAttribute("tipocomercio",tipocomerciorepository.findAll());
+            return "registro/comercios";
+        }
+        model.addAttribute("registro", true);
+        return "registro/exitoso";
     }
     @PostMapping("/registrocomercio")
     public String registrarComercio(@Validated ComerciosEntity comercio, @Validated SucursalesEntity sucursal, Model model, Authentication auth){

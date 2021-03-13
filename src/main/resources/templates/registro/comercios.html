@@ -19,7 +19,7 @@
                         <div class="card card-rotating text-center">
                                 <section class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto connectedSortable">
                                     <div class="tab-content p-0">
-                                        <form class="form-signin" th:action="@{/registrocomercio}" method="post" novalidate>
+                                        <form class="form-signin" th:action="@{/registrocomerciodesdeindex}" method="post" novalidate>
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 mx-auto">
@@ -28,6 +28,7 @@
                                                         </div>
                                                         <div th:object="${comercio}">
                                                             <div class="form-group">
+                                                                <div th:if="${error}" class="alert alert-danger" role="alert">Sucedió un error, intente nuevamente</div>
                                                                 <input th:field="*{nombre}" type="text" class="form-control validate" placeholder="Nombre del comercio" required>
                                                             </div>
                                                             <div class="form-group">
@@ -35,22 +36,12 @@
                                                                 <input th:field="*{email}" type="email" class="form-control validate" id="exampleInputEmail1" placeholder="Correo electronico del comercio" required>
                                                             </div>
                                                             <div class="form-group">
-                                                                <select th:field="*{tipoComercio}" data-placeholder="Selecciona rol" class="form-control validate">
+                                                                <select th:field="*{tipocomercio}" data-placeholder="Selecciona rol" class="form-control validate">
                                                                     <option th:each="tipo :${tipocomercio}" th:value="${tipo.id}" th:text="${tipo.nombre}"></option>
                                                                 </select>
                                                             </div>
                                                         </div>
                                                         <div th:object="${sucursal}">
-                                                            <div class="form-group">
-                                                                <div class="row">
-                                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
-                                                                        <input th:field="*{calle}" type="text" name="calle" id="calle" class="form-control validate" placeholder="Calle" required>
-                                                                    </div>
-                                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
-                                                                        <input th:field="*{numero}" type="number" name="numero" id="numero" class="form-control validate" placeholder="Numero" min="0" max="9000" required>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
                                                             <div class="form-group">
                                                                 <div th:if="${codigopostalmal}" class="alert alert-danger" role="alert">Por el momento no estamos trabajando en esta colonia.</div>
                                                                 <div class="row">
@@ -59,6 +50,16 @@
                                                                     </div>
                                                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
                                                                         <input th:field="*{colonia}" type="text" name="colonia" id="colonia" class="form-control validate" placeholder="Colonia" required>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="row">
+                                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                                                        <input th:field="*{calle}" type="text" name="calle" id="calle" class="form-control validate" placeholder="Calle" required>
+                                                                    </div>
+                                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                                                        <input th:field="*{numero}" type="number" name="numero" id="numero" class="form-control validate" placeholder="Numero" min="0" max="9000" required>
                                                                     </div>
                                                                 </div>
                                                             </div>
