@@ -56,12 +56,15 @@ public class ComercioController {
     }
     @PostMapping("/registrocomerciodesdeindex")
     public String registrarComerciodesdeindex(@Validated ComerciosEntity comercio, @Validated SucursalesEntity sucursal, Model model, Authentication auth){
-        if (userrepository.findByUsername(comercio.getEmail()).isEmpty()) {
+        if (!userrepository.findByUsername(comercio.getEmail()).isPresent()) {
             try{
                 comercio.setEstatus(true);
                 comerciorepository.save(comercio);
             }catch(Exception e){
                 model.addAttribute("error", true);
+                model.addAttribute("comercio", new ComerciosEntity());
+                model.addAttribute("sucursal", sucursal);
+                model.addAttribute("tipocomercio",tipocomerciorepository.findAll());
                 return "registro/comercios";
             }
             try{
@@ -71,6 +74,9 @@ public class ComercioController {
             }catch(Exception e){
                 comerciorepository.delete(comercio);
                 model.addAttribute("error", true);
+                model.addAttribute("comercio", new ComerciosEntity());
+                model.addAttribute("sucursal", sucursal);
+                model.addAttribute("tipocomercio",tipocomerciorepository.findAll());
                 return "registro/comercios";
             }
             Passgenerator ps = new Passgenerator();
@@ -88,6 +94,9 @@ public class ComercioController {
                 sucursalrepository.delete(sucursal);
                 comerciorepository.delete(comercio);
                 model.addAttribute("error", true);
+                model.addAttribute("comercio", new ComerciosEntity());
+                model.addAttribute("sucursal", sucursal);
+                model.addAttribute("tipocomercio",tipocomerciorepository.findAll());
                 return "registro/comercios";
             }
             metodosextra.generarQR(comercio.getNombre());
