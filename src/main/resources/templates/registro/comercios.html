@@ -2,6 +2,7 @@
 <div th:replace="includes/head::head3"></div>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
 <link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css">
+<link rel="stylesheet" href="plugins/toastr/toastr.min.css">
 <div id="intro" class="content">
     <div class="mask rgba-black-strong h-100">
         <section class="content-header">
@@ -46,7 +47,11 @@
                                                                 <div th:if="${codigopostalmal}" class="alert alert-danger" role="alert">Por el momento no estamos trabajando en esta colonia.</div>
                                                                 <div class="row">
                                                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
-                                                                        <input th:field="*{codigopostal}" type="number" name="cp" id="cp" class="form-control validate" placeholder="Codigo postal" min="67000" max="80000" required>
+                                                                        <!-- <input th:field="*{codigopostal}" type="number" name="cp" id="cp" class="form-control validate" placeholder="Codigo postal" min="67000" max="80000" required> -->
+                                                                        <!-- <select data-placeholder="Selecciona cp" class="form-control validate" id="cp"> -->
+                                                                        <select data-placeholder="Selecciona cp" class="form-control validate" id="cp" onchange="ShowSelected();">
+                                                                            <option>Codigo postal</option>
+                                                                        </select>
                                                                     </div>
                                                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
                                                                         <input th:field="*{colonia}" type="text" name="colonia" id="colonia" class="form-control validate" placeholder="Colonia" required>
@@ -111,4 +116,58 @@
     }, false);
     })();
 </script>
-  
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="plugins/toastr/toastr.min.js"></script>
+<script>
+    var codigopostal = document.getElementById('cp');
+    var bandera = false;
+    codigopostal.addEventListener('click', function() {
+        if (!bandera) {
+            axios.get('https://api-sepomex.hckdrk.mx/query/get_cp_por_estado/Oaxaca?token=944b1ec1-1d9a-4a49-8c47-971f864e6619').then(function(res) {
+                if(res.status==200) {
+                    codigopostal.innerHTML = '';
+                    console.log(res);
+                    bandera = true;
+                    // res.data.zip_codes.map(item => {
+                    //     const opcion1 = document.createElement("option");
+                    //     opcion1.value = item.d_codigo;
+                    //     opcion1.text = item.d_codigo;
+                    //     codigopostal.appendChild(opcion1);
+                    //     return item;
+                    // });
+                    console.log(codigopostal.value);
+                }
+            })
+            .catch(function(err) {
+                Swal.fire('Sucedió un error!', '', 'error')
+            // mensaje.innerText = 'Error de conexión ' + err;
+            })
+            .then(function() {
+            // loading.style.display = 'none';
+            });
+        }
+    });
+</script>
+<script type="text/javascript">
+    function ShowSelected(){
+
+        var cod = document.getElementById("cp").value;
+        
+        console.log(cod);
+
+        axios.get('https://api-sepomex.hckdrk.mx/query/info_cp/'+cod+'?token=944b1ec1-1d9a-4a49-8c47-971f864e6619').then(function(res) {
+                if(res.status==200) {
+                    console.log(res);
+                }
+            })
+            .catch(function(err) {
+                // Swal.fire('Sucedió un error!', '', 'error')
+            // mensaje.innerText = 'Error de conexión ' + err;
+            })
+            .then(function() {
+            // loading.style.display = 'none';
+            });
+
+        // document.getElementById("cp").value = cod;
+    }
+</script>
