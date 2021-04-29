@@ -54,7 +54,20 @@
                                                                         </select>
                                                                     </div>
                                                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
-                                                                        <input th:field="*{colonia}" type="text" name="colonia" id="colonia" class="form-control validate" placeholder="Colonia" required>
+                                                                        <!-- <input th:field="*{colonia}" type="text" name="colonia" id="colonia" class="form-control validate" placeholder="Colonia" required> -->
+                                                                        <select data-placeholder="Selecciona colonia" class="form-control validate" id="colonia">
+                                                                            <option>Colonia</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="row">
+                                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                                                        <input type="text" name="municipio" id="municipio" class="form-control validate" placeholder="Municipio" required>
+                                                                    </div>
+                                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mx-auto">
+                                                                        <input type="text" name="ciudad" id="ciudad" class="form-control validate" placeholder="Ciudad" required>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -126,20 +139,19 @@
             axios.get('https://api-sepomex.hckdrk.mx/query/get_cp_por_estado/Oaxaca?token=944b1ec1-1d9a-4a49-8c47-971f864e6619').then(function(res) {
                 if(res.status==200) {
                     codigopostal.innerHTML = '';
-                    console.log(res);
                     bandera = true;
-                    // res.data.zip_codes.map(item => {
-                    //     const opcion1 = document.createElement("option");
-                    //     opcion1.value = item.d_codigo;
-                    //     opcion1.text = item.d_codigo;
-                    //     codigopostal.appendChild(opcion1);
-                    //     return item;
-                    // });
-                    console.log(codigopostal.value);
+                    res.data.response.cp.map(item => {
+                        const opcion1 = document.createElement("option");
+                        opcion1.value = item;
+                        opcion1.text = item;
+                        codigopostal.appendChild(opcion1);
+                        return item;
+                    });
                 }
             })
             .catch(function(err) {
-                Swal.fire('Sucedió un error!', '', 'error')
+                console.log('ALGO SALIÓ MAL');
+                // Swal.fire('Sucedió un error!', '', 'error')
             // mensaje.innerText = 'Error de conexión ' + err;
             })
             .then(function() {
@@ -152,12 +164,24 @@
     function ShowSelected(){
 
         var cod = document.getElementById("cp").value;
+        var col = document.getElementById("colonia");
+        var mun = document.getElementById("municipio");
+        var ciu = document.getElementById("ciudad");
         
         console.log(cod);
 
         axios.get('https://api-sepomex.hckdrk.mx/query/info_cp/'+cod+'?token=944b1ec1-1d9a-4a49-8c47-971f864e6619').then(function(res) {
                 if(res.status==200) {
-                    console.log(res);
+                    col.innerHTML = '';
+                    res.data.map(item => {
+                        const opcion1 = document.createElement("option");
+                        opcion1.value = item.response.asentamiento;
+                        opcion1.text = item.response.asentamiento;
+                        mun.value = item.response.municipio;
+                        col.appendChild(opcion1);
+                        return item;
+                    });
+                    ciu.value = res.data[0].response.ciudad;
                 }
             })
             .catch(function(err) {
